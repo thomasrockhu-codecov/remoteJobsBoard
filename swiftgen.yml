@@ -1,0 +1,13 @@
+xcassets:
+  - inputs: RemoteJobsBoard/Resources/Colors.xcassets
+    outputs:
+      - templatePath: SwiftGenTemplates/colors.stencil
+        output: RemoteJobsBoard/Utilities/Color.swift
+        params:
+          enumName: Color
+  - inputs: RemoteJobsBoard/Resources/Images.xcassets
+    outputs:
+      - templatePath: SwiftGenTemplates/images.stencil
+        output: RemoteJobsBoard/Utilities/Image.swift
+        params:
+          enumName: Image
