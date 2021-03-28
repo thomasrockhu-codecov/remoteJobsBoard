@@ -35,8 +35,9 @@ private extension SceneDelegate {
 
     static func makeServicesContainer() -> ServicesContainer {
         let logger = LoggerService()
+        let api = APIService()
 
-        return ServicesContainer(logger: logger)
+        return ServicesContainer(logger: logger, api: api)
     }
 
     func makeWindow(with scene: UIScene) -> UIWindow? {

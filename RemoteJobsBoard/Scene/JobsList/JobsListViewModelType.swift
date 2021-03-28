@@ -17,4 +17,10 @@ protocol JobsListViewModelTypeInputs: AnyObject {}
 
 // MARK: - Outputs
 
-protocol JobsListViewModelTypeOutputs: AnyObject {}
+protocol JobsListViewModelTypeOutputs: AnyObject {
+
+    typealias JobsSubject = AnyPublisher<[Job], Never>
+
+    var jobs: JobsSubject { get }
+
+}
