@@ -1,5 +1,5 @@
-import XCTest
 @testable import RemoteJobsBoard
+import XCTest
 
 final class JobsResponseModelTests: XCTestCase {
 

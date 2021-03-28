@@ -48,6 +48,10 @@
 		719FFEA82610F2C3000239E2 /* TestingAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719FFEA72610F2C3000239E2 /* TestingAppDelegate.swift */; };
 		719FFEAC2610F2D4000239E2 /* TestingSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719FFEAB2610F2D4000239E2 /* TestingSceneDelegate.swift */; };
 		719FFEB02610F2E3000239E2 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719FFEAF2610F2E3000239E2 /* main.swift */; };
+		719FFEBA2610F968000239E2 /* CollectionExtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719FFEB92610F968000239E2 /* CollectionExtTests.swift */; };
+		719FFEBE2610F9C6000239E2 /* KeyedDecodingContainerExtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719FFEBD2610F9C5000239E2 /* KeyedDecodingContainerExtTests.swift */; };
+		719FFEC42610FCEB000239E2 /* PublisherExtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719FFEC32610FCEB000239E2 /* PublisherExtTests.swift */; };
+		719FFECC2610FDFE000239E2 /* UIViewExtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719FFECB2610FDFE000239E2 /* UIViewExtTests.swift */; };
 		71C74BEC260CC03D000BF24C /* JobsResponseModel_Full.json in Resources */ = {isa = PBXBuildFile; fileRef = 71C74BEB260CC03D000BF24C /* JobsResponseModel_Full.json */; };
 		71C74BF5260CC077000BF24C /* MockJSONLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C74BF4260CC077000BF24C /* MockJSONLoader.swift */; };
 		71C74C03260CC1D8000BF24C /* Array+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C74C02260CC1D8000BF24C /* Array+Ext.swift */; };
@@ -115,6 +119,10 @@
 		719FFEA72610F2C3000239E2 /* TestingAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingAppDelegate.swift; sourceTree = "<group>"; };
 		719FFEAB2610F2D4000239E2 /* TestingSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingSceneDelegate.swift; sourceTree = "<group>"; };
 		719FFEAF2610F2E3000239E2 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		719FFEB92610F968000239E2 /* CollectionExtTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionExtTests.swift; sourceTree = "<group>"; };
+		719FFEBD2610F9C5000239E2 /* KeyedDecodingContainerExtTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyedDecodingContainerExtTests.swift; sourceTree = "<group>"; };
+		719FFEC32610FCEB000239E2 /* PublisherExtTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherExtTests.swift; sourceTree = "<group>"; };
+		719FFECB2610FDFE000239E2 /* UIViewExtTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtTests.swift; sourceTree = "<group>"; };
 		71C74BEB260CC03D000BF24C /* JobsResponseModel_Full.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = JobsResponseModel_Full.json; sourceTree = "<group>"; };
 		71C74BF4260CC077000BF24C /* MockJSONLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockJSONLoader.swift; sourceTree = "<group>"; };
 		71C74C02260CC1D8000BF24C /* Array+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Ext.swift"; sourceTree = "<group>"; };
@@ -197,7 +205,11 @@
 			isa = PBXGroup;
 			children = (
 				714FCBF1260C9CB00047B1EC /* Info.plist */,
+				719FFEB92610F968000239E2 /* CollectionExtTests.swift */,
 				716EF28B260CBF2600A1F9A2 /* JobsResponseModelTests.swift */,
+				719FFEBD2610F9C5000239E2 /* KeyedDecodingContainerExtTests.swift */,
+				719FFEC32610FCEB000239E2 /* PublisherExtTests.swift */,
+				719FFECB2610FDFE000239E2 /* UIViewExtTests.swift */,
 				71C74BF3260CC071000BF24C /* Helpers */,
 				716EF28F260CBF4800A1F9A2 /* MockJSONs */,
 			);
@@ -578,7 +590,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				719FFEBA2610F968000239E2 /* CollectionExtTests.swift in Sources */,
+				719FFEBE2610F9C6000239E2 /* KeyedDecodingContainerExtTests.swift in Sources */,
 				716EF28C260CBF2600A1F9A2 /* JobsResponseModelTests.swift in Sources */,
+				719FFEC42610FCEB000239E2 /* PublisherExtTests.swift in Sources */,
+				719FFECC2610FDFE000239E2 /* UIViewExtTests.swift in Sources */,
 				71C74BF5260CC077000BF24C /* MockJSONLoader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

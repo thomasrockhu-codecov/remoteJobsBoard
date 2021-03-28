@@ -51,11 +51,7 @@ extension KeyedDecodingContainer {
     }
 
     func decodeDate(forKey key: KeyedDecodingContainer.Key) throws -> Date {
-        guard let dateString = try decodeNotEmptyStringIfPresent(forKey: key) else {
-            let debugDescription = "Expected date string"
-            throw DecodingError.dataCorruptedError(forKey: key, in: self, debugDescription: debugDescription)
-        }
-
+        let dateString = try decodeNotEmptyString(forKey: key)
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
         guard let date = formatter.date(from: dateString) else {
