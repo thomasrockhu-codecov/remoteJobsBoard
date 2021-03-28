@@ -40,7 +40,8 @@
       </CodeCoverageTargets>
       <Testables>
          <TestableReference
-            skipped = "NO">
+            skipped = "NO"
+            testExecutionOrdering = "random">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "714FCBEA260C9CB00047B1EC"
@@ -48,11 +49,6 @@
                BlueprintName = "RemoteJobsBoardTests"
                ReferencedContainer = "container:RemoteJobsBoard.xcodeproj">
             </BuildableReference>
-            <SkippedTests>
-               <Test
-                  Identifier = "BaseResponseModelTests">
-               </Test>
-            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>

@@ -1,7 +1,7 @@
 import XCTest
 @testable import RemoteJobsBoard
 
-final class JobsResponseModelTests: BaseResponseModelTests<APIService.JobsResponseModel> {
+final class JobsResponseModelTests: XCTestCase {
 
     // MARK: - Tests
 
@@ -151,6 +151,17 @@ final class JobsResponseModelTests: BaseResponseModelTests<APIService.JobsRespon
         XCTAssertEqual(jobs[safe: 1]?.salary, Constant.salary)
 
         XCTAssertNil(jobs[safe: 2])
+    }
+
+}
+
+// MARK: - Helpers
+
+private extension JobsResponseModelTests {
+
+    func response(fromMockJSON name: String) throws -> APIService.JobsResponseModel {
+        let jsonData = try MockJSONLoader.loadJSON(named: name)
+        return try JSONDecoder().decode(APIService.JobsResponseModel.self, from: jsonData)
     }
 
 }
