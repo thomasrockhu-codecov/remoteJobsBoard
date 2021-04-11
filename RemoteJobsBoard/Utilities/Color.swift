@@ -1,15 +1,24 @@
 // Generated using SwiftGen — https://github.com/SwiftGen/SwiftGen
 import UIKit
 
-// swiftlint:disable let_var_whitespace superfluous_disable_command
+// swiftlint:disable let_var_whitespace superfluous_disable_command type_contents_order
 enum Color {
 
     static var accentColor: UIColor { Asset(name: "AccentColor").color }
+    enum JobsList {
+        static var background: UIColor { Asset(name: "JobsList/background").color }
+    }
+    enum RecentJobCell {
+        static var background: UIColor { Asset(name: "RecentJobCell/background").color }
+        static var companyNameTextColor: UIColor { Asset(name: "RecentJobCell/companyNameTextColor").color }
+        static var jobTitleTextColor: UIColor { Asset(name: "RecentJobCell/jobTitleTextColor").color }
+        static var publicationDateTextColor: UIColor { Asset(name: "RecentJobCell/publicationDateTextColor").color }
+    }
 
     static var onError: ((Error) -> Void)?
 
 }
-// swiftlint:enable let_var_whitespace superfluous_disable_command
+// swiftlint:enable let_var_whitespace superfluous_disable_command type_contents_order
 
 // MARK: - Color Asset
 

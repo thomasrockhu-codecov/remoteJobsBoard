@@ -46,3 +46,29 @@ struct Job: Hashable {
     }
 
 }
+
+// MARK: - JobsListRecentJobCellModel
+
+extension Job: JobsListRecentJobCellModel {
+
+    private static let publicationDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.doesRelativeDateFormatting = true
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        return formatter
+    }()
+
+    var recentJobCellJobTitle: String {
+        title
+    }
+
+    var recentJobCellCompanyName: String {
+        companyName
+    }
+
+    var recentJobCellPublicationDate: String {
+        Self.publicationDateFormatter.string(from: publicationDate)
+    }
+
+}

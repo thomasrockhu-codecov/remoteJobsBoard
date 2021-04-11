@@ -3,7 +3,7 @@
 {% set enumName %}{{param.enumName|default:"Asset"}}{% endset %}
 import UIKit
 
-// swiftlint:disable let_var_whitespace superfluous_disable_command
+// swiftlint:disable let_var_whitespace superfluous_disable_command type_contents_order
 {% macro enumBlock assets %}
   {% call casesBlock assets %}
 {% endmacro %}
@@ -47,7 +47,7 @@ enum {{enumName}} {
     static var onError: ((Error) -> Void)?
 
 }
-// swiftlint:enable let_var_whitespace superfluous_disable_command
+// swiftlint:enable let_var_whitespace superfluous_disable_command type_contents_order
 
 // MARK: - Color Asset
 

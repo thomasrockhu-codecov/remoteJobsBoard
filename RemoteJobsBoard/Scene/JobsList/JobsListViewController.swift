@@ -9,7 +9,21 @@ final class JobsListViewController: BaseCollectionViewController {
 
     private let viewModel: JobsListViewModelType
 
-    private lazy var webView = WKWebView()
+    private lazy var dataSource = JobsListDataSource(viewModel: viewModel, collectionView: collectionView, services: services)
+
+    // MARK: - Properties - Views
+
+    private lazy var activityIndicator = UIActivityIndicatorView(style: .large)
+
+    // MARK: - Properties - Base Class
+
+    override var backgroundColor: UIColor? {
+        Color.JobsList.background
+    }
+
+    override var navigationItemTitle: String? {
+        LocalizedString.NavigationTitle.jobsList
+    }
 
     // MARK: - Initialization
 
@@ -24,24 +38,23 @@ final class JobsListViewController: BaseCollectionViewController {
     override func bind() {
         super.bind()
 
+        dataSource.bind()
         viewModel.bind()
 
         viewModel.outputs.jobs
-            .map { $0[safe: 1]?.description ?? "" }
+            .map { $0.isEmpty }
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] in self?.webView.loadHTMLString($0, baseURL: nil) }
+            .sink { [weak activityIndicator] in
+                $0 ? activityIndicator?.startAnimating() : activityIndicator?.stopAnimating()
+            }
             .store(in: &subscriptionsStore)
     }
 
     override func configureSubviews() {
         super.configureSubviews()
 
-        webView.add(to: view) {
-            [$0.leadingAnchor.constraint(equalTo: $1.leadingSafeAnchor),
-             $0.topAnchor.constraint(equalTo: $1.topSafeAnchor),
-             $1.trailingSafeAnchor.constraint(equalTo: $0.trailingAnchor),
-             $1.bottomSafeAnchor.constraint(equalTo: $0.bottomAnchor)]
-        }
+        activityIndicator.hidesWhenStopped = true
+        collectionView.backgroundView = activityIndicator
     }
 
 }

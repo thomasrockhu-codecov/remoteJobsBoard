@@ -8,7 +8,7 @@ final class JobsListCoordinator: BaseNavigationCoordinator<JobsListCoordinator.R
     init(services: ServicesContainer) {
         super.init(services: services,
                    initialRoute: .initial,
-                   rootViewController: UINavigationController())
+                   rootViewController: JobsListNavigationController())
     }
 
     // MARK: - Base Class
