@@ -113,11 +113,10 @@ private extension JobsListDataSource {
 
     enum Constant {
 
-        static var approximateItemWidth: CGFloat { 740 }
+        static let approximateItemWidth: CGFloat = 740
 
-        static var jobCellHeight: CGFloat { 100 }
-
-        static var jobCellEdgeInsets: CGFloat { 4 }
+        static let jobCellHeight: CGFloat = 100
+        static let jobCellEdgeInsets: CGFloat = 4
 
     }
 

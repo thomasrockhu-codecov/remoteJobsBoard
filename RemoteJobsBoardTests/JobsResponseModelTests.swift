@@ -6,7 +6,7 @@ final class JobsResponseModelTests: XCTestCase {
     // MARK: - Tests
 
     func test_decoding_full() throws {
-        let jobs = try self.response(fromMockJSON: "JobsResponseModel_Full").jobs
+        let jobs = try response(from: .full).jobs
 
         XCTAssertEqual(jobs[safe: 0]?.category, Constant.category1)
         XCTAssertEqual(jobs[safe: 0]?.companyName, Constant.companyName1)
@@ -28,7 +28,7 @@ final class JobsResponseModelTests: XCTestCase {
     }
 
     func test_decoding_emptyTitle() throws {
-        let jobs = try self.response(fromMockJSON: "JobsResponseModel_EmptyTitle").jobs
+        let jobs = try response(from: .emptyTitle).jobs
 
         XCTAssertEqual(jobs[safe: 0]?.category, Constant.category1)
         XCTAssertEqual(jobs[safe: 0]?.companyName, Constant.companyName1)
@@ -46,7 +46,7 @@ final class JobsResponseModelTests: XCTestCase {
     }
 
     func test_decoding_noTitle() throws {
-        let jobs = try self.response(fromMockJSON: "JobsResponseModel_NoTitle").jobs
+        let jobs = try response(from: .noTitle).jobs
 
         XCTAssertEqual(jobs[safe: 0]?.category, Constant.category1)
         XCTAssertEqual(jobs[safe: 0]?.companyName, Constant.companyName1)
@@ -64,7 +64,7 @@ final class JobsResponseModelTests: XCTestCase {
     }
 
     func test_decoding_badTitle() throws {
-        let jobs = try self.response(fromMockJSON: "JobsResponseModel_BadTitle").jobs
+        let jobs = try response(from: .badTitle).jobs
 
         XCTAssertEqual(jobs[safe: 0]?.category, Constant.category2)
         XCTAssertEqual(jobs[safe: 0]?.companyName, Constant.companyName2)
@@ -82,7 +82,7 @@ final class JobsResponseModelTests: XCTestCase {
     }
 
     func test_decoding_emptyURL() throws {
-        let jobs = try self.response(fromMockJSON: "JobsResponseModel_EmptyURL").jobs
+        let jobs = try response(from: .emptyURL).jobs
 
         XCTAssertEqual(jobs[safe: 0]?.category, Constant.category1)
         XCTAssertEqual(jobs[safe: 0]?.companyName, Constant.companyName1)
@@ -100,7 +100,7 @@ final class JobsResponseModelTests: XCTestCase {
     }
 
     func test_decoding_noURL() throws {
-        let jobs = try self.response(fromMockJSON: "JobsResponseModel_NoURL").jobs
+        let jobs = try response(from: .noURL).jobs
 
         XCTAssertEqual(jobs[safe: 0]?.category, Constant.category2)
         XCTAssertEqual(jobs[safe: 0]?.companyName, Constant.companyName2)
@@ -118,7 +118,7 @@ final class JobsResponseModelTests: XCTestCase {
     }
 
     func test_decoding_badURL_1() throws {
-        let jobs = try self.response(fromMockJSON: "JobsResponseModel_BadURL_1").jobs
+        let jobs = try response(from: .badURL1).jobs
 
         XCTAssertEqual(jobs[safe: 0]?.category, Constant.category2)
         XCTAssertEqual(jobs[safe: 0]?.companyName, Constant.companyName2)
@@ -136,7 +136,7 @@ final class JobsResponseModelTests: XCTestCase {
     }
 
     func test_decoding_badURL_2() throws {
-        let jobs = try self.response(fromMockJSON: "JobsResponseModel_BadURL_2").jobs
+        let jobs = try response(from: .badURL2).jobs
 
         XCTAssertEqual(jobs[safe: 0]?.category, Constant.category2)
         XCTAssertEqual(jobs[safe: 0]?.companyName, Constant.companyName2)
@@ -159,8 +159,8 @@ final class JobsResponseModelTests: XCTestCase {
 
 private extension JobsResponseModelTests {
 
-    func response(fromMockJSON name: String) throws -> APIService.JobsResponseModel {
-        let jsonData = try MockJSONLoader.loadJSON(named: name)
+    func response(from json: MockJSON) throws -> APIService.JobsResponseModel {
+        let jsonData = try MockJSONLoader.loadJSON(named: json.fileName)
         return try JSONDecoder().decode(APIService.JobsResponseModel.self, from: jsonData)
     }
 
@@ -189,6 +189,46 @@ private extension JobsResponseModelTests {
         static let url3 = "https://remotive.io/remote-jobs/qa/qa-engineer-515938"
 
         static let salary = "140,000-150,000 per year"
+
+    }
+
+}
+
+// MARK: - JSON Name
+
+private extension JobsResponseModelTests {
+
+    enum MockJSON {
+
+        case full
+        case emptyTitle
+        case noTitle
+        case badTitle
+        case emptyURL
+        case noURL
+        case badURL1
+        case badURL2
+
+        var fileName: String {
+            switch self {
+            case .badTitle:
+                return "JobsResponseModel_BadTitle"
+            case .badURL1:
+                return "JobsResponseModel_BadURL_1"
+            case .badURL2:
+                return "JobsResponseModel_BadURL_2"
+            case .emptyTitle:
+                return "JobsResponseModel_EmptyTitle"
+            case .emptyURL:
+                return "JobsResponseModel_EmptyURL"
+            case .full:
+                return "JobsResponseModel_Full"
+            case .noTitle:
+                return "JobsResponseModel_NoTitle"
+            case .noURL:
+                return "JobsResponseModel_NoURL"
+            }
+        }
 
     }
 

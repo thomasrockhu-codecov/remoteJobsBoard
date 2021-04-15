@@ -80,13 +80,13 @@ private extension JobsListRecentJobCell {
 
     enum Constant {
 
-        static var verticalEdgeOffset: CGFloat { 12 }
-        static var horizontalEdgeOffset: CGFloat { 12 }
+        static let verticalEdgeOffset: CGFloat = 12
+        static let horizontalEdgeOffset: CGFloat = 12
 
-        static var horizontalSpacing: CGFloat { 24 }
-        static var verticalSpacing: CGFloat { 8 }
+        static let horizontalSpacing: CGFloat = 24
+        static let verticalSpacing: CGFloat = 8
 
-        static var cornerRadius: CGFloat { 8 }
+        static let cornerRadius: CGFloat = 8
 
     }
 
