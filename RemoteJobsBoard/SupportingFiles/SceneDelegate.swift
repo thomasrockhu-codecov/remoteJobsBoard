@@ -7,7 +7,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
     private lazy var services = Self.makeServicesContainer()
-    private lazy var coordinator = JobsListCoordinator(services: services)
+    private lazy var coordinator = RootCoordinator(services: services)
 
     // MARK: - UIWindowSceneDelegate
 
@@ -46,7 +46,9 @@ private extension SceneDelegate {
             return nil
         }
 
-        return UIWindow(windowScene: scene)
+        let window = UIWindow(windowScene: scene)
+        window.backgroundColor = Color.JobsList.background
+        return window
     }
 
 }

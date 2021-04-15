@@ -6,13 +6,15 @@ final class JobsListDataSource: BaseCollectionViewDataSource<JobsListSections> {
 
     private let viewModel: JobsListViewModelType
 
+    // MARK: - Initialization
+
     init(viewModel: JobsListViewModelType, collectionView: UICollectionView, services: ServicesContainer) {
         self.viewModel = viewModel
 
-        super.init(collectionView: collectionView, services: services) { collectionView, indexPath, item in
-            switch item {
+        super.init(collectionView: collectionView, services: services) {
+            switch $2 {
             case .job(let job):
-                let cell: JobsListRecentJobCell = try collectionView.dequeueReusableCell(for: indexPath)
+                let cell: JobsListRecentJobCell = try $0.dequeueReusableCell(for: $1)
                 cell.configure(with: job)
                 return cell
             }
@@ -34,7 +36,8 @@ final class JobsListDataSource: BaseCollectionViewDataSource<JobsListSections> {
         super.configureCollectionView(collectionView)
 
         collectionView.register(cellClass: JobsListRecentJobCell.self)
-        collectionView.register(cellClass: UICollectionViewCell.self)
+
+        collectionView.delegate = self
     }
 
     override func bind() {
@@ -74,7 +77,7 @@ private extension JobsListDataSource {
     func layoutItemHeightDimension(for section: Int) -> NSCollectionLayoutDimension {
         switch itemIdentifier(for: section) {
         case .none:
-            return .absolute(0)
+            return .absolute(40)
         case .job:
             return .absolute(Constant.jobCellHeight)
         }
@@ -103,6 +106,21 @@ private extension JobsListDataSource {
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsetsReference = .layoutMargins
         return section
+    }
+
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension JobsListDataSource: UICollectionViewDelegate {
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch itemIdentifier(for: indexPath) {
+        case .none:
+            logger.log(error: CommonError.unexpectedItemIdentifier)
+        case .job(let job):
+            viewModel.inputs.showJobDetails.accept(job)
+        }
     }
 
 }

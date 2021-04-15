@@ -9,7 +9,7 @@ extension UICollectionView {
     func dequeueReusableCell<Cell: UICollectionViewCell>(for indexPath: IndexPath) throws -> Cell {
         let identifier = String(describing: Cell.self)
         guard let cell = dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as? Cell else {
-            throw ViewInitError.collectionViewCell(identifier: identifier)
+            throw CommonError.collectionViewCellDequeue(identifier: identifier)
         }
         return cell
     }
@@ -64,7 +64,7 @@ extension UICollectionView {
         let identifier = String(describing: ReusableView.self)
         // swiftlint:disable:next line_length
         guard let view = dequeueReusableSupplementaryView(ofKind: kind.rawValue, withReuseIdentifier: identifier, for: indexPath) as? ReusableView else {
-            throw ViewInitError.collectionViewSupplementaryView(identifier: identifier)
+            throw CommonError.collectionViewSupplementaryViewDequeue(identifier: identifier)
         }
         return view
     }

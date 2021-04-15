@@ -1,7 +1,7 @@
 import UIKit
 import XCoordinator
 
-final class JobsListCoordinator: BaseNavigationCoordinator<JobsListCoordinator.RouteModel> {
+final class RootCoordinator: BaseNavigationCoordinator<RootCoordinator.RouteModel> {
 
     // MARK: - Initialization
 
@@ -19,6 +19,10 @@ final class JobsListCoordinator: BaseNavigationCoordinator<JobsListCoordinator.R
             let viewModel = JobsListViewModel(router: weakRouter, services: services)
             let controller = JobsListViewController(services: services, viewModel: viewModel)
             return .push(controller, animation: nil)
+        case .showJobDetails(let job):
+            let viewModel = JobDetailViewModel(job: job, router: weakRouter, services: services)
+            let controller = JobDetailsViewController(viewModel: viewModel, services: services)
+            return .push(controller)
         }
     }
 
@@ -26,11 +30,12 @@ final class JobsListCoordinator: BaseNavigationCoordinator<JobsListCoordinator.R
 
 // MARK: - RouteModel
 
-extension JobsListCoordinator {
+extension RootCoordinator {
 
     enum RouteModel: Route {
 
         case initial
+        case showJobDetails(Job)
 
     }
 

@@ -59,16 +59,22 @@ extension Job: JobsListRecentJobCellModel {
         return formatter
     }()
 
-    var recentJobCellJobTitle: String {
-        title
-    }
-
-    var recentJobCellCompanyName: String {
-        companyName
-    }
+    var recentJobCellJobTitle: String { title }
+    var recentJobCellCompanyName: String { companyName }
 
     var recentJobCellPublicationDate: String {
         Self.publicationDateFormatter.string(from: publicationDate)
     }
+
+}
+
+// MARK: - JobDetailsCellsModel
+
+extension Job: JobDetailsCellsModel {
+
+    var jobDetailCellJobTitle: String { title }
+    var jobDetailCellLocation: String? { location }
+    var jobDetailCellSalary: String? { salary }
+    var jobDetailCellDescription: String { description }
 
 }

@@ -7,6 +7,10 @@ enum Color {
     static var accentColor: UIColor { Asset(name: "AccentColor").color }
     enum JobsList {
         static var background: UIColor { Asset(name: "JobsList/background").color }
+        static var navigationBarTintColor: UIColor { Asset(name: "JobsList/navigationBarTintColor").color }
+    }
+    enum LocationSalaryCell {
+        static var textColor: UIColor { Asset(name: "LocationSalaryCell/textColor").color }
     }
     enum RecentJobCell {
         static var background: UIColor { Asset(name: "RecentJobCell/background").color }

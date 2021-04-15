@@ -178,9 +178,9 @@ private final class MockViewController: UICollectionViewController, UICollection
         do {
             let cell: MockCollectionViewCell = try collectionView.dequeueReusableCell(for: indexPath)
             return cell
-        } catch let dequeueError as ViewInitError {
+        } catch let dequeueError as CommonError {
             switch dequeueError {
-            case .collectionViewCell(identifier: let identifier):
+            case .collectionViewCellDequeue(identifier: let identifier):
                 self.error = .dequeueError(identifier)
             default:
                 self.error = .unknown(dequeueError)
@@ -205,9 +205,9 @@ private final class MockViewController: UICollectionViewController, UICollection
                 self.error = .unexpectedIdentifier(kind)
                 return MockCollectionReusableView()
             }
-        } catch let dequeueError as ViewInitError {
+        } catch let dequeueError as CommonError {
             switch dequeueError {
-            case .collectionViewSupplementaryView(identifier: let identifier):
+            case .collectionViewSupplementaryViewDequeue(identifier: let identifier):
                 self.error = .dequeueError(identifier)
             default:
                 self.error = .unknown(dequeueError)

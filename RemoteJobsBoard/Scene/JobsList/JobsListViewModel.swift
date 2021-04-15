@@ -1,7 +1,7 @@
 import Combine
 import Foundation
 
-final class JobsListViewModel: BaseViewModel<JobsListCoordinator.RouteModel> {
+final class JobsListViewModel: BaseViewModel<RootCoordinator.RouteModel> {
 
     // MARK: - Properties
 
@@ -26,6 +26,15 @@ final class JobsListViewModel: BaseViewModel<JobsListCoordinator.RouteModel> {
         api.getJobs()
             .catch(errorHandler: errorHandler)
             .subscribe(outputsRelay.jobsRelay)
+            .store(in: &subscriptionsStore)
+    }
+
+    override func bindRoutes() {
+        super.bindRoutes()
+
+        inputsRelay.showJobDetails
+            .map { RouteModel.showJobDetails($0) }
+            .sink { [weak self] in self?.trigger($0) }
             .store(in: &subscriptionsStore)
     }
 

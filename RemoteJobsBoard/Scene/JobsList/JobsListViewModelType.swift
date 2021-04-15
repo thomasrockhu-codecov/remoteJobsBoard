@@ -13,7 +13,13 @@ protocol JobsListViewModelType: AnyObject {
 
 // MARK: - Inputs
 
-protocol JobsListViewModelTypeInputs: AnyObject {}
+protocol JobsListViewModelTypeInputs: AnyObject {
+
+    typealias ShowJobDetailsSubject = PassthroughRelay<Job>
+
+    var showJobDetails: ShowJobDetailsSubject { get }
+
+}
 
 // MARK: - Outputs
 
