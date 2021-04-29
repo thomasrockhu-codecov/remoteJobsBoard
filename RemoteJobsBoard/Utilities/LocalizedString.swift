@@ -20,4 +20,30 @@ extension LocalizedString {
     }
 
 }
+
+// MARK: - Job Type
+
+extension LocalizedString {
+
+    enum JobType {
+
+        /// Localized string with a key equal to `JobType.fullTime`
+        /// and value equal to `Full-Time`.
+        static var fullTime: String {
+            NSLocalizedString("JobType.fullTime",
+                              value: "Full-Time",
+                              comment: "Title for Full-Time job type.")
+        }
+
+        /// Localized string with a key equal to `JobType.contract`
+        /// and value equal to `Contract`.
+        static var contract: String {
+            NSLocalizedString("JobType.contract",
+                              value: "Contract",
+                              comment: "Title for Contract job type.")
+        }
+
+    }
+
+}
 // swiftlint:enable line_length superfluous_disable_command

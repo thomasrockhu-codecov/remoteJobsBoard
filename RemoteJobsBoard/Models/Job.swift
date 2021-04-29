@@ -23,7 +23,7 @@ struct Job: Hashable {
     let description: String
 
     /// Job type.
-    let type: String?
+    let type: JobType?
 
     /// Salary description, usually a yearly salary range, in USD.
     let salary: String?
@@ -40,7 +40,7 @@ struct Job: Hashable {
         companyName = apiModel.companyName
         publicationDate = apiModel.publicationDate
         description = apiModel.description
-        type = apiModel.type
+        type = JobType(rawValue: apiModel.type)
         salary = apiModel.salary
         location = apiModel.location
     }
@@ -78,5 +78,38 @@ extension Job: JobDetailsCellsModel {
     var jobDetailCellDescription: String { description }
     var jobDetailCellCompanyName: String { companyName }
     var jobDetailCellCategory: String { category }
+
+}
+
+// MARK: - Job Type
+
+extension Job {
+
+    enum JobType {
+
+        case fullTime
+        case contract
+
+        var localizedTitle: String {
+            switch self {
+            case .contract:
+                return LocalizedString.JobType.contract
+            case .fullTime:
+                return LocalizedString.JobType.fullTime
+            }
+        }
+
+        init?(rawValue: String?) {
+            switch rawValue {
+            case "full_time":
+                self = .fullTime
+            case "contract":
+                self = .contract
+            default:
+                return nil
+            }
+        }
+
+    }
 
 }
