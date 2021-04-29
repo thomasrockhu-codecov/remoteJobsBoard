@@ -4,11 +4,11 @@ final class JobDetailsDataSource: BaseTableViewDataSource<JobDetailsSections> {
 
     // MARK: - Properties
 
-    private let viewModel: JobDetailViewModelType
+    private let viewModel: JobDetailsViewModelType
 
     // MARK: - Initialization
 
-    init(viewModel: JobDetailViewModelType, tableView: UITableView, services: ServicesContainer) {
+    init(viewModel: JobDetailsViewModelType, tableView: UITableView, services: ServicesContainer) {
         self.viewModel = viewModel
 
         super.init(tableView: tableView, services: services) {

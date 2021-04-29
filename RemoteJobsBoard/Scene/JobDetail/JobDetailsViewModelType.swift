@@ -2,7 +2,7 @@ import Combine
 import CombineExt
 import Foundation
 
-protocol JobDetailViewModelType: AnyObject {
+protocol JobDetailsViewModelType: AnyObject {
 
     var inputs: JobDetailViewModelTypeInputs { get }
     var outputs: JobDetailViewModelTypeOutputs { get }

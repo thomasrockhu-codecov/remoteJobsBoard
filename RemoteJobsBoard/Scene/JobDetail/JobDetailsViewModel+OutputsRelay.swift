@@ -2,7 +2,7 @@ import Combine
 import CombineExt
 import Foundation
 
-extension JobDetailViewModel {
+extension JobDetailsViewModel {
 
     final class OutputsRelay {
 
@@ -18,7 +18,7 @@ extension JobDetailViewModel {
 
 // MARK: - JobDetailViewModelTypeOutputs
 
-extension JobDetailViewModel.OutputsRelay: JobDetailViewModelTypeOutputs {
+extension JobDetailsViewModel.OutputsRelay: JobDetailViewModelTypeOutputs {
 
     var job: JobSubject { jobRelay.eraseToAnyPublisher() }
 

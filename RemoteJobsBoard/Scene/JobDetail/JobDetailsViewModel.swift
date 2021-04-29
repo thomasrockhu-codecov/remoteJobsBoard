@@ -1,7 +1,7 @@
 import Combine
 import Foundation
 
-final class JobDetailViewModel: BaseViewModel<RootCoordinator.RouteModel> {
+final class JobDetailsViewModel: BaseViewModel<JobDetailsCoordinator.RouteModel> {
 
     // MARK: - Properties
 
@@ -19,7 +19,7 @@ final class JobDetailViewModel: BaseViewModel<RootCoordinator.RouteModel> {
 
 // MARK: - JobsListViewModelType
 
-extension JobDetailViewModel: JobDetailViewModelType, JobDetailViewModelTypeInputs {
+extension JobDetailsViewModel: JobDetailsViewModelType, JobDetailViewModelTypeInputs {
 
     var inputs: JobDetailViewModelTypeInputs { self }
     var outputs: JobDetailViewModelTypeOutputs { outputsRelay }

@@ -4,7 +4,7 @@ final class JobDetailsViewController: BaseTableViewController {
 
     // MARK: - Properties
 
-    private let viewModel: JobDetailViewModelType
+    private let viewModel: JobDetailsViewModelType
 
     private lazy var dataSource = JobDetailsDataSource(viewModel: viewModel, tableView: tableView, services: services)
 
@@ -16,7 +16,7 @@ final class JobDetailsViewController: BaseTableViewController {
 
     // MARK: - Initialization
 
-    init(viewModel: JobDetailViewModelType, services: ServicesContainer) {
+    init(viewModel: JobDetailsViewModelType, services: ServicesContainer) {
         self.viewModel = viewModel
 
         super.init(style: .grouped, services: services)
