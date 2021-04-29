@@ -1,14 +1,14 @@
 import UIKit
 
-final class JobDetailsTitleCell: BaseJobDetailsCell {
+final class JobDetailsCategoryCell: BaseJobDetailsCell {
 
     // MARK: - Typealiases
 
-    private typealias Color = RemoteJobsBoard.Color.JobTitleCell
+    private typealias Color = RemoteJobsBoard.Color.CategoryCell
 
     // MARK: - Properties
 
-    private lazy var jobTitleLabel = UILabel()
+    private lazy var categoryLabel = UILabel()
 
     // MARK: - Base Class
 
@@ -16,11 +16,11 @@ final class JobDetailsTitleCell: BaseJobDetailsCell {
         super.configureSubviews()
 
         // Job Title Label.
-        jobTitleLabel.textColor = Color.jobTitleTextColor
-        jobTitleLabel.font = .preferredFont(forTextStyle: .title1)
-        jobTitleLabel.numberOfLines = 0
+        categoryLabel.textColor = Color.categoryTextColor
+        categoryLabel.font = .preferredFont(forTextStyle: .footnote)
+        categoryLabel.numberOfLines = 0
 
-        jobTitleLabel.add(to: contentView) {
+        categoryLabel.add(to: contentView) {
             [$0.leadingAnchor.constraint(equalTo: $1.leadingMarginAnchor),
              $0.topAnchor.constraint(equalTo: $1.topMarginAnchor),
              $1.trailingMarginAnchor.constraint(equalTo: $0.trailingAnchor),
@@ -32,10 +32,10 @@ final class JobDetailsTitleCell: BaseJobDetailsCell {
 
 // MARK: - Public Methods
 
-extension JobDetailsTitleCell {
+extension JobDetailsCategoryCell {
 
-    func configure(with jobTitle: String) {
-        jobTitleLabel.text = jobTitle
+    func configure(with categoryName: String) {
+        categoryLabel.text = categoryName
     }
 
 }

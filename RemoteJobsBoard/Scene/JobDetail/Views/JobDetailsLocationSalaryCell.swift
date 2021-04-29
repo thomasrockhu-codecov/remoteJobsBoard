@@ -10,6 +10,7 @@ final class JobDetailsLocationSalaryCell: BaseJobDetailsCell {
 
     private lazy var locationTitleLabel = UILabel()
     private lazy var salaryLabel = UILabel()
+    private lazy var salaryLabelBackgroundView = UIVisualEffectView(effect: UIBlurEffect(style: .systemThinMaterialDark))
 
     // MARK: - Base Class
 
@@ -19,7 +20,7 @@ final class JobDetailsLocationSalaryCell: BaseJobDetailsCell {
         // Stack View.
         let stackView = UIStackView()
         stackView.spacing = Constant.horizontalSpacing
-        stackView.alignment = .top
+        stackView.alignment = .center
 
         stackView.add(to: contentView) {
             [$0.leadingAnchor.constraint(equalTo: $1.leadingMarginAnchor),
@@ -29,7 +30,7 @@ final class JobDetailsLocationSalaryCell: BaseJobDetailsCell {
         }
 
         // Location Title Label.
-        locationTitleLabel.textColor = Color.textColor
+        locationTitleLabel.textColor = Color.locationTextColor
         locationTitleLabel.font = .preferredFont(forTextStyle: .subheadline)
         locationTitleLabel.numberOfLines = 0
 
@@ -37,15 +38,28 @@ final class JobDetailsLocationSalaryCell: BaseJobDetailsCell {
         locationTitleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         locationTitleLabel.addAsArrangedSubview(to: stackView)
 
+        // Salary Label Background.
+        salaryLabelBackgroundView.clipsToBounds = true
+        salaryLabelBackgroundView.layer.cornerRadius = Constant.salaryCornerRadius
+
+        salaryLabelBackgroundView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        salaryLabelBackgroundView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        salaryLabelBackgroundView.addAsArrangedSubview(to: stackView)
+
         // Salary Label.
-        salaryLabel.textColor = Color.textColor
+        salaryLabel.textColor = Color.salaryTextColor
         salaryLabel.font = .preferredFont(forTextStyle: .subheadline)
         salaryLabel.numberOfLines = 0
-        salaryLabel.textAlignment = .right
+        salaryLabel.textAlignment = .center
 
         salaryLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         salaryLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        salaryLabel.addAsArrangedSubview(to: stackView)
+        salaryLabel.add(to: salaryLabelBackgroundView.contentView) {
+            [$0.leadingAnchor.constraint(equalTo: $1.leadingMarginAnchor),
+             $0.topAnchor.constraint(equalTo: $1.topMarginAnchor),
+             $1.trailingMarginAnchor.constraint(equalTo: $0.trailingAnchor),
+             $1.bottomMarginAnchor.constraint(equalTo: $0.bottomAnchor)]
+        }
     }
 
 }
@@ -56,6 +70,8 @@ extension JobDetailsLocationSalaryCell {
 
     func configure(location: String?, salary: String?) {
         locationTitleLabel.text = location
+
+        salaryLabelBackgroundView.isHidden = salary == nil
         salaryLabel.text = salary
     }
 
@@ -68,6 +84,7 @@ private extension JobDetailsLocationSalaryCell {
     enum Constant {
 
         static let horizontalSpacing: CGFloat = 16
+        static let salaryCornerRadius: CGFloat = 8
 
     }
 

@@ -5,12 +5,22 @@ import UIKit
 enum Color {
 
     static var accentColor: UIColor { Asset(name: "AccentColor").color }
+    enum CategoryCell {
+        static var categoryTextColor: UIColor { Asset(name: "CategoryCell/categoryTextColor").color }
+    }
+    enum CompanyNameCell {
+        static var companyNameTextColor: UIColor { Asset(name: "CompanyNameCell/companyNameTextColor").color }
+    }
+    enum JobTitleCell {
+        static var jobTitleTextColor: UIColor { Asset(name: "JobTitleCell/jobTitleTextColor").color }
+    }
     enum JobsList {
         static var background: UIColor { Asset(name: "JobsList/background").color }
         static var navigationBarTintColor: UIColor { Asset(name: "JobsList/navigationBarTintColor").color }
     }
     enum LocationSalaryCell {
-        static var textColor: UIColor { Asset(name: "LocationSalaryCell/textColor").color }
+        static var locationTextColor: UIColor { Asset(name: "LocationSalaryCell/locationTextColor").color }
+        static var salaryTextColor: UIColor { Asset(name: "LocationSalaryCell/salaryTextColor").color }
     }
     enum RecentJobCell {
         static var background: UIColor { Asset(name: "RecentJobCell/background").color }

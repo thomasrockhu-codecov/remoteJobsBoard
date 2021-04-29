@@ -76,5 +76,7 @@ extension Job: JobDetailsCellsModel {
     var jobDetailCellLocation: String? { location }
     var jobDetailCellSalary: String? { salary }
     var jobDetailCellDescription: String { description }
+    var jobDetailCellCompanyName: String { companyName }
+    var jobDetailCellCategory: String { category }
 
 }

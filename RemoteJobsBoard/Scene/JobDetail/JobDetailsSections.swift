@@ -18,8 +18,10 @@ struct JobDetailsSections: DataSourceSections {
     // MARK: - Public Methods
 
     static func headlineSection(job: JobDetailsCellsModel) -> Section {
-        let items = [
-            SectionItem.jobTitle(job.jobDetailCellJobTitle),
+        let items: [SectionItem] = [
+            .category(job.jobDetailCellCategory),
+            .jobTitle(job.jobDetailCellJobTitle),
+            .companyName(job.jobDetailCellCompanyName),
             locationSalaryItem(job: job)
         ]
         .compactMap { $0 }
@@ -68,10 +70,12 @@ extension JobDetailsSections {
         case jobTitle(String)
         case locationSalary(location: String?, salary: String?)
         case description(String)
+        case companyName(String)
+        case category(String)
 
         var section: SectionModel {
             switch self {
-            case .jobTitle, .locationSalary:
+            case .jobTitle, .locationSalary, .companyName, .category:
                 return .headline
             case .description:
                 return .description

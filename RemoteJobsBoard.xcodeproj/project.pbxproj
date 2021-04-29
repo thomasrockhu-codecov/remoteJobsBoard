@@ -16,6 +16,7 @@
 		7104258C262319A00003D5DF /* NSDirectionalEdgeInsetsExtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7104258B262319A00003D5DF /* NSDirectionalEdgeInsetsExtTests.swift */; };
 		7104259226231A260003D5DF /* UICollectionViewExtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7104259126231A260003D5DF /* UICollectionViewExtTests.swift */; };
 		7104259626231A610003D5DF /* CommonError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7104259526231A610003D5DF /* CommonError.swift */; };
+		711D9967263AE5DC00EF691E /* JobDetailsCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711D9966263AE5DC00EF691E /* JobDetailsCategoryCell.swift */; };
 		712E9CDD2628871500D260C2 /* JobDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712E9CDC2628871500D260C2 /* JobDetailsViewController.swift */; };
 		7135A3A2260CA3A200D736BB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7135A3A4260CA3A200D736BB /* Localizable.strings */; };
 		7135A3AC260CA42E00D736BB /* LocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7135A3AB260CA42E00D736BB /* LocalizedString.swift */; };
@@ -67,6 +68,7 @@
 		71B05E25263AC62F00BE299B /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B05E24263AC62F00BE299B /* RootCoordinator.swift */; };
 		71B05E27263AC65B00BE299B /* JobDetailsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B05E26263AC65B00BE299B /* JobDetailsCoordinator.swift */; };
 		71B05E29263AC6B500BE299B /* JobDetailsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B05E28263AC6B500BE299B /* JobDetailsNavigationController.swift */; };
+		71B05E2B263ACAEB00BE299B /* JobDetailsCompanyNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B05E2A263ACAEB00BE299B /* JobDetailsCompanyNameCell.swift */; };
 		71C74BEC260CC03D000BF24C /* JobsResponseModel_Full.json in Resources */ = {isa = PBXBuildFile; fileRef = 71C74BEB260CC03D000BF24C /* JobsResponseModel_Full.json */; };
 		71C74BF5260CC077000BF24C /* MockJSONLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C74BF4260CC077000BF24C /* MockJSONLoader.swift */; };
 		71C74C03260CC1D8000BF24C /* Array+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C74C02260CC1D8000BF24C /* Array+Ext.swift */; };
@@ -112,6 +114,7 @@
 		7104258B262319A00003D5DF /* NSDirectionalEdgeInsetsExtTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSDirectionalEdgeInsetsExtTests.swift; sourceTree = "<group>"; };
 		7104259126231A260003D5DF /* UICollectionViewExtTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewExtTests.swift; sourceTree = "<group>"; };
 		7104259526231A610003D5DF /* CommonError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonError.swift; sourceTree = "<group>"; };
+		711D9966263AE5DC00EF691E /* JobDetailsCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDetailsCategoryCell.swift; sourceTree = "<group>"; };
 		712E9CDC2628871500D260C2 /* JobDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDetailsViewController.swift; sourceTree = "<group>"; };
 		7135A3A3260CA3A200D736BB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7135A3AB260CA42E00D736BB /* LocalizedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedString.swift; sourceTree = "<group>"; };
@@ -166,6 +169,7 @@
 		71B05E24263AC62F00BE299B /* RootCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinator.swift; sourceTree = "<group>"; };
 		71B05E26263AC65B00BE299B /* JobDetailsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDetailsCoordinator.swift; sourceTree = "<group>"; };
 		71B05E28263AC6B500BE299B /* JobDetailsNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDetailsNavigationController.swift; sourceTree = "<group>"; };
+		71B05E2A263ACAEB00BE299B /* JobDetailsCompanyNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDetailsCompanyNameCell.swift; sourceTree = "<group>"; };
 		71C74BEB260CC03D000BF24C /* JobsResponseModel_Full.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = JobsResponseModel_Full.json; sourceTree = "<group>"; };
 		71C74BF4260CC077000BF24C /* MockJSONLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockJSONLoader.swift; sourceTree = "<group>"; };
 		71C74C02260CC1D8000BF24C /* Array+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Ext.swift"; sourceTree = "<group>"; };
@@ -472,9 +476,11 @@
 			children = (
 				71FC38C926289DD200AE364D /* BaseJobDetailsCell.swift */,
 				71FC38B32628975600AE364D /* JobDetailsCellsModel.swift */,
+				71B05E2A263ACAEB00BE299B /* JobDetailsCompanyNameCell.swift */,
 				71FC38DB2628A69A00AE364D /* JobDetailsDescriptionCell.swift */,
 				71FC38D126289FB600AE364D /* JobDetailsLocationSalaryCell.swift */,
 				71FC38AF262895EC00AE364D /* JobDetailsTitleCell.swift */,
+				711D9966263AE5DC00EF691E /* JobDetailsCategoryCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -684,6 +690,7 @@
 				71B05E25263AC62F00BE299B /* RootCoordinator.swift in Sources */,
 				714FCBDB260C9CAE0047B1EC /* SceneDelegate.swift in Sources */,
 				71FC388B262888FE00AE364D /* JobDetailsViewModelType.swift in Sources */,
+				71B05E2B263ACAEB00BE299B /* JobDetailsCompanyNameCell.swift in Sources */,
 				71B05E29263AC6B500BE299B /* JobDetailsNavigationController.swift in Sources */,
 				71FC38D226289FB600AE364D /* JobDetailsLocationSalaryCell.swift in Sources */,
 				716EF1EE260CA89E00A1F9A2 /* ServicesContainer.swift in Sources */,
@@ -699,6 +706,7 @@
 				71FC388C262888FE00AE364D /* JobDetailsViewModel.swift in Sources */,
 				716EF242260CB03600A1F9A2 /* JobsListViewModelType.swift in Sources */,
 				716EF23A260CB02600A1F9A2 /* JobsListViewController.swift in Sources */,
+				711D9967263AE5DC00EF691E /* JobDetailsCategoryCell.swift in Sources */,
 				71C74C03260CC1D8000BF24C /* Array+Ext.swift in Sources */,
 				7135A3BB260CA62600D736BB /* Color.swift in Sources */,
 				716EF1FF260CAA8C00A1F9A2 /* Typealiases.swift in Sources */,
