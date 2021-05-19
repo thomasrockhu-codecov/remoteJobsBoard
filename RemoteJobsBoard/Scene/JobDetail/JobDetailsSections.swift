@@ -18,13 +18,13 @@ struct JobDetailsSections: DataSourceSections {
     // MARK: - Public Methods
 
     static func headlineSection(job: JobDetailsCellsModel) -> Section {
-        let items: [SectionItem] = [
-            .publicationDate(job.jobDetailCellPublicationDate),
-            .category(job.jobDetailCellCategory),
-            .jobTitle(job.jobDetailCellJobTitle),
-            .companyName(job.jobDetailCellCompanyName),
-            locationItem(job: job),
-            termsItem(job: job)
+        let items = [
+            SectionItem(publicationDate: job.jobDetailCellPublicationDate),
+            SectionItem(category: job.jobDetailCellCategory),
+            SectionItem(jobTitle: job.jobDetailCellJobTitle),
+            SectionItem(companyName: job.jobDetailCellCompanyName),
+            SectionItem(location: job.jobDetailCellLocation),
+            SectionItem(salary: job.jobDetailCellSalary, jobType: job.jobDetailCellJobType)
         ]
         .compactMap { $0 }
         return (.headline, items)
@@ -33,22 +33,6 @@ struct JobDetailsSections: DataSourceSections {
     static func descriptionSection(job: JobDetailsCellsModel) -> Section {
         let items = [SectionItem.description(job.jobDetailCellDescription)]
         return (.description, items)
-    }
-
-}
-
-// MARK: - Private Methods
-
-private extension JobDetailsSections {
-
-    static func termsItem(job: JobDetailsCellsModel) -> SectionItem? {
-        if job.jobDetailCellJobType == nil, job.jobDetailCellLocation == nil { return nil }
-        return .terms(salary: job.jobDetailCellSalary, jobType: job.jobDetailCellJobType)
-    }
-
-    static func locationItem(job: JobDetailsCellsModel) -> SectionItem? {
-        guard let location = job.jobDetailCellLocation else { return nil }
-        return .location(location)
     }
 
 }
@@ -79,6 +63,36 @@ extension JobDetailsSections {
         case companyName(String)
         case category(String)
         case publicationDate(String)
+
+        init(jobTitle: String) {
+            self = .jobTitle(jobTitle)
+        }
+
+        init(description: String) {
+            self = .description(description)
+        }
+
+        init(companyName: String) {
+            self = .companyName(companyName)
+        }
+
+        init(category: String) {
+            self = .category(category)
+        }
+
+        init(publicationDate: String) {
+            self = .publicationDate(publicationDate)
+        }
+
+        init?(location: String?) {
+            guard let location = location else { return nil }
+            self =  .location(location)
+        }
+
+        init?(salary: String?, jobType: String?) {
+            if jobType == nil, salary == nil { return nil }
+            self = .terms(salary: salary, jobType: jobType)
+        }
 
         var section: SectionModel {
             switch self {
