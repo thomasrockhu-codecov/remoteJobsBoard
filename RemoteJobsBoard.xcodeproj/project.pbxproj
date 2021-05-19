@@ -82,6 +82,7 @@
 		71C74C29260CCA98000BF24C /* JobsResponseModel_BadURL_2.json in Resources */ = {isa = PBXBuildFile; fileRef = 71C74C26260CCA98000BF24C /* JobsResponseModel_BadURL_2.json */; };
 		71C74C2A260CCA98000BF24C /* JobsResponseModel_BadTitle.json in Resources */ = {isa = PBXBuildFile; fileRef = 71C74C27260CCA98000BF24C /* JobsResponseModel_BadTitle.json */; };
 		71C74C2B260CCA98000BF24C /* JobsResponseModel_BadURL_1.json in Resources */ = {isa = PBXBuildFile; fileRef = 71C74C28260CCA98000BF24C /* JobsResponseModel_BadURL_1.json */; };
+		71DA71A426556D1D00460F20 /* Atributika in Frameworks */ = {isa = PBXBuildFile; productRef = 71DA71A326556D1D00460F20 /* Atributika */; };
 		71FC388B262888FE00AE364D /* JobDetailsViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FC3889262888FE00AE364D /* JobDetailsViewModelType.swift */; };
 		71FC388C262888FE00AE364D /* JobDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FC388A262888FE00AE364D /* JobDetailsViewModel.swift */; };
 		71FC389D26288E5F00AE364D /* JobDetailsViewModel+OutputsRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FC389C26288E5F00AE364D /* JobDetailsViewModel+OutputsRelay.swift */; };
@@ -208,6 +209,7 @@
 			files = (
 				7135A3C9260CA76400D736BB /* CombineExt in Frameworks */,
 				7135A3C2260CA72000D736BB /* XCoordinator in Frameworks */,
+				71DA71A426556D1D00460F20 /* Atributika in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -516,6 +518,7 @@
 			packageProductDependencies = (
 				7135A3C1260CA72000D736BB /* XCoordinator */,
 				7135A3C8260CA76400D736BB /* CombineExt */,
+				71DA71A326556D1D00460F20 /* Atributika */,
 			);
 			productName = RemoteJobsBoard;
 			productReference = 714FCBD5260C9CAE0047B1EC /* RemoteJobsBoard.app */;
@@ -569,6 +572,7 @@
 			packageReferences = (
 				7135A3C0260CA72000D736BB /* XCRemoteSwiftPackageReference "XCoordinator" */,
 				7135A3C7260CA76400D736BB /* XCRemoteSwiftPackageReference "CombineExt" */,
+				71DA71A226556D1D00460F20 /* XCRemoteSwiftPackageReference "Atributika" */,
 			);
 			productRefGroup = 714FCBD6260C9CAE0047B1EC /* Products */;
 			projectDirPath = "";
@@ -1048,6 +1052,14 @@
 				minimumVersion = 1.3.0;
 			};
 		};
+		71DA71A226556D1D00460F20 /* XCRemoteSwiftPackageReference "Atributika" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/psharanda/Atributika";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 4.10.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1060,6 +1072,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7135A3C7260CA76400D736BB /* XCRemoteSwiftPackageReference "CombineExt" */;
 			productName = CombineExt;
+		};
+		71DA71A326556D1D00460F20 /* Atributika */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 71DA71A226556D1D00460F20 /* XCRemoteSwiftPackageReference "Atributika" */;
+			productName = Atributika;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -24,10 +24,6 @@ final class JobDetailsDataSource: BaseTableViewDataSource<JobDetailsSections> {
             case .description(let description):
                 let cell: JobDetailsDescriptionCell = try $0.dequeueReusableCell(for: $1)
                 cell.configure(with: description)
-                cell.onWebViewContentHeightChange = { [weak tableView] in
-                    tableView?.beginUpdates()
-                    tableView?.endUpdates()
-                }
                 return cell
             case .companyName(let companyName):
                 let cell: JobDetailsCompanyNameCell = try $0.dequeueReusableCell(for: $1)
@@ -63,7 +59,6 @@ final class JobDetailsDataSource: BaseTableViewDataSource<JobDetailsSections> {
         tableView.register(cellClass: JobDetailsPublicationDateCell.self)
 
         tableView.separatorStyle = .none
-        tableView.delegate = self
     }
 
     override func bind() {
@@ -75,16 +70,6 @@ final class JobDetailsDataSource: BaseTableViewDataSource<JobDetailsSections> {
             .receive(on: snapshotQueue)
             .sink { [weak self] in self?.apply($0, animatingDifferences: false) }
             .store(in: &subscriptionsStore)
-    }
-
-}
-
-// MARK: - UITableViewDelegate
-
-extension JobDetailsDataSource: UITableViewDelegate {
-
-    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        (cell as? JobDetailsDescriptionCell)?.didEndDisplaying()
     }
 
 }

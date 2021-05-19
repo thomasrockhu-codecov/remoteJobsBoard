@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "Atributika",
+        "repositoryURL": "https://github.com/psharanda/Atributika",
+        "state": {
+          "branch": null,
+          "revision": "d018897afbd55d9065ef859650585bac890ada7e",
+          "version": "4.10.1"
+        }
+      },
+      {
         "package": "combine-schedulers",
         "repositoryURL": "https://github.com/pointfreeco/combine-schedulers",
         "state": {

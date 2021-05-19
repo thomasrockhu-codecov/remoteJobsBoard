@@ -1,3 +1,6 @@
+import Atributika
+import Combine
+import CombineExt
 import UIKit
 import WebKit
 
@@ -5,60 +8,48 @@ final class JobDetailsDescriptionCell: BaseJobDetailsCell {
 
     // MARK: - Typealiases
 
-    typealias WebViewContentHeightChangeHandler = () -> Void
+    private typealias ColorAsset = RemoteJobsBoard.Color.DescriptionCell
 
     // MARK: - Properties
 
-    var onWebViewContentHeightChange: WebViewContentHeightChangeHandler?
+    private(set) lazy var selectedLink = PassthroughRelay<URL>()
+    private(set) lazy var selectedPhoneNumber = PassthroughRelay<String>()
 
-    private var descriptionWebViewHeightConstraint: NSLayoutConstraint?
-
-    private lazy var descriptionWebView = makeDescriptionWebView()
-    private lazy var descriptionWebViewContentController = WKUserContentController()
+    private lazy var descriptionLabel = AttributedLabel()
 
     // MARK: - Base Class
 
     override func configureSubviews() {
         super.configureSubviews()
 
-        // Description Web View.
-        descriptionWebView.scrollView.isScrollEnabled = false
-        descriptionWebView.isOpaque = false
+        // Description Label.
+        descriptionLabel.numberOfLines = 0
 
-        let descriptionWebViewHeightConstraint = descriptionWebView.heightAnchor.constraint(greaterThanOrEqualToConstant: Constant.heightAnchor)
-        self.descriptionWebViewHeightConstraint = descriptionWebViewHeightConstraint
-        descriptionWebView.add(to: contentView) {
+        descriptionLabel.onClick = { [weak self] _, detection in
+            switch detection.type {
+            case .link(let link):
+                self?.selectedLink.accept(link)
+            case .phoneNumber(let phoneNumber):
+                self?.selectedPhoneNumber.accept(phoneNumber)
+            case .tag(let tag) where tag.name == "a":
+                guard
+                    let href = tag.attributes["href"],
+                    let url = URL(string: href)
+                else {
+                    break
+                }
+                self?.selectedLink.accept(url)
+            default:
+                break
+            }
+        }
+
+        descriptionLabel.add(to: contentView) {
             [$0.leadingAnchor.constraint(equalTo: $1.leadingMarginAnchor),
              $0.topAnchor.constraint(equalTo: $1.topMarginAnchor),
              $1.trailingMarginAnchor.constraint(equalTo: $0.trailingAnchor),
-             $1.bottomMarginAnchor.constraint(equalTo: $0.bottomAnchor),
-             descriptionWebViewHeightConstraint]
+             $1.bottomMarginAnchor.constraint(equalTo: $0.bottomAnchor)]
         }
-    }
-
-}
-
-// MARK: - WKScriptMessageHandler
-
-extension JobDetailsDescriptionCell: WKScriptMessageHandler {
-
-    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        guard
-            let responseDict = message.body as? [String: Any],
-            responseDict["justLoaded"] != nil,
-            let responseHeight = responseDict["height"] as? Float
-        else {
-            return
-        }
-
-        let height = CGFloat(responseHeight)
-
-        guard self.descriptionWebViewHeightConstraint?.constant != height else { return }
-
-        let scale = UIScreen.main.scale - 0.25
-        self.descriptionWebViewHeightConstraint?.constant = height / scale
-
-        self.onWebViewContentHeightChange?()
     }
 
 }
@@ -68,35 +59,10 @@ extension JobDetailsDescriptionCell: WKScriptMessageHandler {
 extension JobDetailsDescriptionCell {
 
     func configure(with description: String) {
-        descriptionWebViewContentController.add(self, name: Constant.sizeNotificationName)
-
-        let description = "<font size=30>" + description + "</font>"
-        DispatchQueue.main.async { [weak descriptionWebView] in
-            descriptionWebView?.loadHTMLString(description, baseURL: nil)
-        }
-    }
-
-    func didEndDisplaying() {
-        descriptionWebViewContentController.removeScriptMessageHandler(forName: Constant.sizeNotificationName)
-    }
-
-}
-
-// MARK: - Private Methods
-
-private extension JobDetailsDescriptionCell {
-
-    func makeDescriptionWebView() -> WKWebView {
-        let script = WKUserScript(source: Constant.scriptSource1, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
-        let script2 = WKUserScript(source: Constant.scriptSource2, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
-
-        descriptionWebViewContentController.addUserScript(script)
-        descriptionWebViewContentController.addUserScript(script2)
-
-        let configuration = WKWebViewConfiguration()
-        configuration.userContentController = descriptionWebViewContentController
-
-        return WKWebView(frame: CGRect.zero, configuration: configuration)
+        descriptionLabel.attributedText = description
+            .style(tags: Constant.tagStyles)
+            .stylePhoneNumbers(Constant.linkStyle)
+            .styleAll(Constant.bodyStyle)
     }
 
 }
@@ -107,13 +73,23 @@ private extension JobDetailsDescriptionCell {
 
     enum Constant {
 
-        static let heightAnchor: CGFloat = 500
-        static let sizeNotificationName = "sizeNotification"
+        static var tagStyles: [Style] {
+            [strongStyle, boldStyle, italicStyle, linkStyle]
+        }
 
-        // swiftlint:disable line_length
-        static let scriptSource1 = "window.onload=function () {window.webkit.messageHandlers.sizeNotification.postMessage({justLoaded:true,height: document.body.scrollHeight});};"
-        static let scriptSource2 = "document.body.addEventListener( 'resize', incrementCounter); function incrementCounter() {window.webkit.messageHandlers.sizeNotification.postMessage({height: document.body.scrollHeight});};"
-        // swiftlint:enable line_length
+        static let bodyStyle = Style.font(font)
+        static let strongStyle = Style("strong").font(boldFont)
+        static let boldStyle = Style("b").font(boldFont)
+        static let italicStyle = Style("i").font(italicFont)
+
+        static let linkStyle = Style("a")
+            .font(font)
+            .foregroundColor(ColorAsset.descriptionLinkColor, .normal)
+            .foregroundColor(.brown, .highlighted)
+
+        private static let font = UIFont.preferredFont(forTextStyle: .body)
+        private static let boldFont = UIFont.boldSystemFont(ofSize: font.pointSize)
+        private static let italicFont = UIFont.italicSystemFont(ofSize: font.pointSize)
 
     }
 

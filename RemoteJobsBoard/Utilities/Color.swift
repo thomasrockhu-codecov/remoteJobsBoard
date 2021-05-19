@@ -11,6 +11,9 @@ enum Color {
     enum CompanyNameCell {
         static var companyNameTextColor: UIColor { Asset(name: "CompanyNameCell/companyNameTextColor").color }
     }
+    enum DescriptionCell {
+        static var descriptionLinkColor: UIColor { Asset(name: "DescriptionCell/descriptionLinkColor").color }
+    }
     enum JobTitleCell {
         static var jobTitleTextColor: UIColor { Asset(name: "JobTitleCell/jobTitleTextColor").color }
     }
