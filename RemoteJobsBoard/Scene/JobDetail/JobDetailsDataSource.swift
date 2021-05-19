@@ -17,9 +17,9 @@ final class JobDetailsDataSource: BaseTableViewDataSource<JobDetailsSections> {
                 let cell: JobDetailsTitleCell = try $0.dequeueReusableCell(for: $1)
                 cell.configure(with: jobTitle)
                 return cell
-            case let .locationSalary(location: location, salary: salary):
-                let cell: JobDetailsLocationSalaryCell = try $0.dequeueReusableCell(for: $1)
-                cell.configure(location: location, salary: salary)
+            case .location(let location):
+                let cell: JobDetailsLocationCell = try $0.dequeueReusableCell(for: $1)
+                cell.configure(location: location)
                 return cell
             case .description(let description):
                 let cell: JobDetailsDescriptionCell = try $0.dequeueReusableCell(for: $1)
@@ -37,6 +37,14 @@ final class JobDetailsDataSource: BaseTableViewDataSource<JobDetailsSections> {
                 let cell: JobDetailsCategoryCell = try $0.dequeueReusableCell(for: $1)
                 cell.configure(with: categoryName)
                 return cell
+            case let .terms(salary: salary, jobType: jobType):
+                let cell: JobDetailsTermsCell = try $0.dequeueReusableCell(for: $1)
+                cell.configure(jobType: jobType, salary: salary)
+                return cell
+            case .publicationDate(let publicationDate):
+                let cell: JobDetailsPublicationDateCell = try $0.dequeueReusableCell(for: $1)
+                cell.configure(with: publicationDate)
+                return cell
             }
         }
     }
@@ -47,10 +55,12 @@ final class JobDetailsDataSource: BaseTableViewDataSource<JobDetailsSections> {
         super.configureTableView(tableView)
 
         tableView.register(cellClass: JobDetailsTitleCell.self)
-        tableView.register(cellClass: JobDetailsLocationSalaryCell.self)
+        tableView.register(cellClass: JobDetailsTermsCell.self)
         tableView.register(cellClass: JobDetailsDescriptionCell.self)
         tableView.register(cellClass: JobDetailsCompanyNameCell.self)
         tableView.register(cellClass: JobDetailsCategoryCell.self)
+        tableView.register(cellClass: JobDetailsLocationCell.self)
+        tableView.register(cellClass: JobDetailsPublicationDateCell.self)
 
         tableView.separatorStyle = .none
         tableView.delegate = self

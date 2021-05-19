@@ -19,10 +19,12 @@ struct JobDetailsSections: DataSourceSections {
 
     static func headlineSection(job: JobDetailsCellsModel) -> Section {
         let items: [SectionItem] = [
+            .publicationDate(job.jobDetailCellPublicationDate),
             .category(job.jobDetailCellCategory),
             .jobTitle(job.jobDetailCellJobTitle),
             .companyName(job.jobDetailCellCompanyName),
-            locationSalaryItem(job: job)
+            locationItem(job: job),
+            termsItem(job: job)
         ]
         .compactMap { $0 }
         return (.headline, items)
@@ -39,11 +41,14 @@ struct JobDetailsSections: DataSourceSections {
 
 private extension JobDetailsSections {
 
-    static func locationSalaryItem(job: JobDetailsCellsModel) -> SectionItem? {
-        if job.jobDetailCellLocation == nil && job.jobDetailCellSalary == nil {
-            return nil
-        }
-        return .locationSalary(location: job.jobDetailCellLocation, salary: job.jobDetailCellSalary)
+    static func termsItem(job: JobDetailsCellsModel) -> SectionItem? {
+        if job.jobDetailCellJobType == nil, job.jobDetailCellLocation == nil { return nil }
+        return .terms(salary: job.jobDetailCellSalary, jobType: job.jobDetailCellJobType)
+    }
+
+    static func locationItem(job: JobDetailsCellsModel) -> SectionItem? {
+        guard let location = job.jobDetailCellLocation else { return nil }
+        return .location(location)
     }
 
 }
@@ -68,17 +73,19 @@ extension JobDetailsSections {
     enum SectionItem: DataSourceSectionItem {
 
         case jobTitle(String)
-        case locationSalary(location: String?, salary: String?)
+        case terms(salary: String?, jobType: String?)
+        case location(String)
         case description(String)
         case companyName(String)
         case category(String)
+        case publicationDate(String)
 
         var section: SectionModel {
             switch self {
-            case .jobTitle, .locationSalary, .companyName, .category:
-                return .headline
             case .description:
                 return .description
+            default:
+                return .headline
             }
         }
 

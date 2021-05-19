@@ -4,6 +4,14 @@ struct Job: Hashable {
 
     // MARK: - Properties
 
+    private static let publicationDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.doesRelativeDateFormatting = true
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        return formatter
+    }()
+
     /// Job category.
     let category: String
 
@@ -51,14 +59,6 @@ struct Job: Hashable {
 
 extension Job: JobsListRecentJobCellModel {
 
-    private static let publicationDateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.doesRelativeDateFormatting = true
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .none
-        return formatter
-    }()
-
     var recentJobCellJobTitle: String { title }
     var recentJobCellCompanyName: String { companyName }
 
@@ -73,11 +73,13 @@ extension Job: JobsListRecentJobCellModel {
 extension Job: JobDetailsCellsModel {
 
     var jobDetailCellJobTitle: String { title }
-    var jobDetailCellLocation: String? { location }
-    var jobDetailCellSalary: String? { salary }
     var jobDetailCellDescription: String { description }
     var jobDetailCellCompanyName: String { companyName }
     var jobDetailCellCategory: String { category }
+    var jobDetailCellPublicationDate: String { Self.publicationDateFormatter.string(from: publicationDate) }
+    var jobDetailCellJobType: String? { type?.localizedTitle }
+    var jobDetailCellLocation: String? { location }
+    var jobDetailCellSalary: String? { salary }
 
 }
 
