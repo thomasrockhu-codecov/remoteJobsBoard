@@ -7,6 +7,8 @@ final class JobDetailsViewModel: BaseViewModel<JobDetailsCoordinator.RouteModel>
 
     private let outputsRelay: OutputsRelay
 
+    private let inputsRelay = InputsRelay()
+
     // MARK: - Initialization
 
     init(job: Job, router: Router, services: ServicesContainer) {
@@ -15,13 +17,28 @@ final class JobDetailsViewModel: BaseViewModel<JobDetailsCoordinator.RouteModel>
         super.init(router: router, services: services)
     }
 
+    // MARK: - Base Class
+
+    override func bindRoutes() {
+        super.bindRoutes()
+
+        let selectedLink = inputs.selectedLink
+            .map { RouteModel.webPage($0) }
+        let selectedPhoneNumber = inputs.selectedPhoneNumber
+            .map { RouteModel.phoneNumber($0) }
+
+        Publishers.Merge(selectedLink, selectedPhoneNumber)
+            .sink { [weak self] in self?.trigger($0) }
+            .store(in: &subscriptionsStore)
+    }
+
 }
 
 // MARK: - JobsListViewModelType
 
-extension JobDetailsViewModel: JobDetailsViewModelType, JobDetailViewModelTypeInputs {
+extension JobDetailsViewModel: JobDetailsViewModelType {
 
-    var inputs: JobDetailViewModelTypeInputs { self }
+    var inputs: JobDetailViewModelTypeInputs { inputsRelay }
     var outputs: JobDetailViewModelTypeOutputs { outputsRelay }
 
 }

@@ -65,6 +65,15 @@ extension JobDetailsDescriptionCell {
             .styleAll(Constant.bodyStyle)
     }
 
+    func bind(to viewModel: JobDetailsViewModelType) {
+        selectedLink
+            .subscribe(viewModel.inputs.selectedLink)
+            .store(in: &reusablesubscriptionsStore)
+        selectedPhoneNumber
+            .subscribe(viewModel.inputs.selectedPhoneNumber)
+            .store(in: &reusablesubscriptionsStore)
+    }
+
 }
 
 // MARK: - Constants

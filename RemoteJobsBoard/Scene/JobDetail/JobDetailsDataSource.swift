@@ -24,6 +24,7 @@ final class JobDetailsDataSource: BaseTableViewDataSource<JobDetailsSections> {
             case .description(let description):
                 let cell: JobDetailsDescriptionCell = try $0.dequeueReusableCell(for: $1)
                 cell.configure(with: description)
+                cell.bind(to: viewModel)
                 return cell
             case .companyName(let companyName):
                 let cell: JobDetailsCompanyNameCell = try $0.dequeueReusableCell(for: $1)

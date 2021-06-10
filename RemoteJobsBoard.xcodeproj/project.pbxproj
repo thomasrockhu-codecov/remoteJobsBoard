@@ -24,6 +24,7 @@
 		7135A3BB260CA62600D736BB /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7135A3B9260CA62600D736BB /* Color.swift */; };
 		7135A3C2260CA72000D736BB /* XCoordinator in Frameworks */ = {isa = PBXBuildFile; productRef = 7135A3C1260CA72000D736BB /* XCoordinator */; };
 		7135A3C9260CA76400D736BB /* CombineExt in Frameworks */ = {isa = PBXBuildFile; productRef = 7135A3C8260CA76400D736BB /* CombineExt */; };
+		71406F7E2671FE4500ED3FCC /* JobDetailsViewModel+InputsRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71406F7D2671FE4500ED3FCC /* JobDetailsViewModel+InputsRelay.swift */; };
 		7141421A26555C7400DDE987 /* JobDetailsPublicationDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141421926555C7400DDE987 /* JobDetailsPublicationDateCell.swift */; };
 		7141421C2655612F00DDE987 /* JobDetailsSectionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141421B2655612F00DDE987 /* JobDetailsSectionsTests.swift */; };
 		714FCBD9260C9CAE0047B1EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714FCBD8260C9CAE0047B1EC /* AppDelegate.swift */; };
@@ -124,6 +125,7 @@
 		7135A3AB260CA42E00D736BB /* LocalizedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedString.swift; sourceTree = "<group>"; };
 		7135A3B8260CA62600D736BB /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		7135A3B9260CA62600D736BB /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		71406F7D2671FE4500ED3FCC /* JobDetailsViewModel+InputsRelay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JobDetailsViewModel+InputsRelay.swift"; sourceTree = "<group>"; };
 		7141421926555C7400DDE987 /* JobDetailsPublicationDateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDetailsPublicationDateCell.swift; sourceTree = "<group>"; };
 		7141421B2655612F00DDE987 /* JobDetailsSectionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDetailsSectionsTests.swift; sourceTree = "<group>"; };
 		714FCBD5260C9CAE0047B1EC /* RemoteJobsBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RemoteJobsBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -240,6 +242,7 @@
 				71FC38BD262898D700AE364D /* JobDetailsSections.swift */,
 				712E9CDC2628871500D260C2 /* JobDetailsViewController.swift */,
 				71FC388A262888FE00AE364D /* JobDetailsViewModel.swift */,
+				71406F7D2671FE4500ED3FCC /* JobDetailsViewModel+InputsRelay.swift */,
 				71FC389C26288E5F00AE364D /* JobDetailsViewModel+OutputsRelay.swift */,
 				71FC3889262888FE00AE364D /* JobDetailsViewModelType.swift */,
 				71FC38AE262895B800AE364D /* Views */,
@@ -676,6 +679,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				719FFE9F2610EAB3000239E2 /* UIView+Ext.swift in Sources */,
+				71406F7E2671FE4500ED3FCC /* JobDetailsViewModel+InputsRelay.swift in Sources */,
 				719FFEB02610F2E3000239E2 /* main.swift in Sources */,
 				71042586262318B70003D5DF /* NSDirectionalEdgeInsets+Ext.swift in Sources */,
 				714FCBD9260C9CAE0047B1EC /* AppDelegate.swift in Sources */,

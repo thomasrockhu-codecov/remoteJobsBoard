@@ -13,7 +13,15 @@ protocol JobDetailsViewModelType: AnyObject {
 
 // MARK: - Inputs
 
-protocol JobDetailViewModelTypeInputs: AnyObject {}
+protocol JobDetailViewModelTypeInputs: AnyObject {
+
+    typealias SelectedLinkSubject = PassthroughRelay<URL>
+    typealias SelectedPhoneNumberSubject = PassthroughRelay<String>
+
+    var selectedLink: SelectedLinkSubject { get }
+    var selectedPhoneNumber: SelectedPhoneNumberSubject { get }
+
+}
 
 // MARK: - Outputs
 
