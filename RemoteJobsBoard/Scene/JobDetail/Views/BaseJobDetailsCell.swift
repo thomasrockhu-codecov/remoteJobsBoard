@@ -1,13 +1,12 @@
 import UIKit
 
-class BaseJobDetailsCell: BaseTableViewCell {
+class BaseJobDetailsCell: BaseCollectionViewCell {
 
     // MARK: - Base Class
 
     override func configureSubviews() {
         super.configureSubviews()
 
-        selectionStyle = .none
         backgroundColor = Color.JobsList.background
     }
 

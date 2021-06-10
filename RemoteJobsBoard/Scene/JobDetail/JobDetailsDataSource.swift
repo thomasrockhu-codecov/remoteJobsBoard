@@ -1,6 +1,6 @@
 import UIKit
 
-final class JobDetailsDataSource: BaseTableViewDataSource<JobDetailsSections> {
+final class JobDetailsDataSource: BaseCollectionViewDataSource<JobDetailsSections> {
 
     // MARK: - Properties
 
@@ -8,10 +8,10 @@ final class JobDetailsDataSource: BaseTableViewDataSource<JobDetailsSections> {
 
     // MARK: - Initialization
 
-    init(viewModel: JobDetailsViewModelType, tableView: UITableView, services: ServicesContainer) {
+    init(viewModel: JobDetailsViewModelType, collectionView: UICollectionView, services: ServicesContainer) {
         self.viewModel = viewModel
 
-        super.init(tableView: tableView, services: services) {
+        super.init(collectionView: collectionView, services: services) {
             switch $2 {
             case .jobTitle(let jobTitle):
                 let cell: JobDetailsTitleCell = try $0.dequeueReusableCell(for: $1)
@@ -48,18 +48,25 @@ final class JobDetailsDataSource: BaseTableViewDataSource<JobDetailsSections> {
 
     // MARK: - Base Class
 
-    override func configureTableView(_ tableView: UITableView) {
-        super.configureTableView(tableView)
+    override func makeCollectionViewLayout() -> UICollectionViewLayout {
+        UICollectionViewCompositionalLayout { [weak self] index, environment in
+            guard let self = self else { return nil }
+            let item = self.layoutItem(for: environment, section: index)
+            let group = Self.layoutGroup(with: item)
+            return self.layoutSection(with: group, index: index)
+        }
+    }
 
-        tableView.register(cellClass: JobDetailsTitleCell.self)
-        tableView.register(cellClass: JobDetailsTermsCell.self)
-        tableView.register(cellClass: JobDetailsDescriptionCell.self)
-        tableView.register(cellClass: JobDetailsCompanyNameCell.self)
-        tableView.register(cellClass: JobDetailsCategoryCell.self)
-        tableView.register(cellClass: JobDetailsLocationCell.self)
-        tableView.register(cellClass: JobDetailsPublicationDateCell.self)
+    override func configureCollectionView(_ collectionView: UICollectionView) {
+        super.configureCollectionView(collectionView)
 
-        tableView.separatorStyle = .none
+        collectionView.register(cellClass: JobDetailsTitleCell.self)
+        collectionView.register(cellClass: JobDetailsTermsCell.self)
+        collectionView.register(cellClass: JobDetailsDescriptionCell.self)
+        collectionView.register(cellClass: JobDetailsCompanyNameCell.self)
+        collectionView.register(cellClass: JobDetailsCategoryCell.self)
+        collectionView.register(cellClass: JobDetailsLocationCell.self)
+        collectionView.register(cellClass: JobDetailsPublicationDateCell.self)
     }
 
     override func bind() {
@@ -71,6 +78,28 @@ final class JobDetailsDataSource: BaseTableViewDataSource<JobDetailsSections> {
             .receive(on: snapshotQueue)
             .sink { [weak self] in self?.apply($0, animatingDifferences: false) }
             .store(in: &subscriptionsStore)
+    }
+
+}
+
+// MARK: - Private Methods - Layout
+
+private extension JobDetailsDataSource {
+
+    static func layoutGroup(with item: NSCollectionLayoutItem) -> NSCollectionLayoutGroup {
+        let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(100))
+        return .horizontal(layoutSize: size, subitems: [item])
+    }
+
+    func layoutItem(for environment: NSCollectionLayoutEnvironment, section: Int) -> NSCollectionLayoutItem {
+        let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(100))
+        return NSCollectionLayoutItem(layoutSize: size)
+    }
+
+    func layoutSection(with group: NSCollectionLayoutGroup, index: Int) -> NSCollectionLayoutSection {
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsetsReference = .layoutMargins
+        return section
     }
 
 }
