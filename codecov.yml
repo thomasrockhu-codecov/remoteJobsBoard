@@ -1,0 +1,4 @@
+ignore:
+  - "RemoteJobsBoard/SupportingFiles"
+  - "RemoteJobsBoardTests"
+  - "SwiftGenTemplates"

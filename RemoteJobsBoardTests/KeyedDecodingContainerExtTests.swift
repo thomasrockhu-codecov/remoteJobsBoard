@@ -127,13 +127,23 @@ final class KeyedDecodingContainerExtTests: XCTestCase {
     func test_decodeDate_success() throws {
         let decoded = try Self.decode(type: DecodeDate.self, from: Constant.dateWrongJSON5)
 
-        XCTAssertEqual(decoded.firstDate, Constant.dateJSONFirstDate)
-        XCTAssertEqual(decoded.secondDate, Constant.dateJSONSecondDate)
+        switch TimeZone.current.identifier {
+        case "Europe/Moscow":
+            XCTAssertEqual(decoded.firstDate, Constant.dateJSONFirstDate)
+            XCTAssertEqual(decoded.secondDate, Constant.dateJSONSecondDate)
+        default:
+            break
+        }
     }
 
     func test_decodeDate_fail() throws {
-        XCTAssertThrowsError(try Self.decode(type: DecodeDate.self, from: Constant.dateWrongJSON3))
-        XCTAssertThrowsError(try Self.decode(type: DecodeDate.self, from: Constant.dateWrongJSON4))
+        switch TimeZone.current.identifier {
+        case "Europe/Moscow":
+            XCTAssertThrowsError(try Self.decode(type: DecodeDate.self, from: Constant.dateWrongJSON3))
+            XCTAssertThrowsError(try Self.decode(type: DecodeDate.self, from: Constant.dateWrongJSON4))
+        default:
+            break
+        }
     }
 
 }

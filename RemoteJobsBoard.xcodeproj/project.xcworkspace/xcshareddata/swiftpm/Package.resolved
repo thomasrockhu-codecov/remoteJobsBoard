@@ -21,7 +21,7 @@
       },
       {
         "package": "CombineExt",
-        "repositoryURL": "git@github.com:CombineCommunity/CombineExt.git",
+        "repositoryURL": "https://github.com/CombineCommunity/CombineExt",
         "state": {
           "branch": null,
           "revision": "5b8a0c0f178527f9204200505c5fefa6847e528f",
@@ -39,7 +39,7 @@
       },
       {
         "package": "XCoordinator",
-        "repositoryURL": "git@github.com:quickbirdstudios/XCoordinator.git",
+        "repositoryURL": "https://github.com/quickbirdstudios/XCoordinator",
         "state": {
           "branch": null,
           "revision": "4b6fc6f7359078c322e3b354854ed4ac5c12c5e1",
