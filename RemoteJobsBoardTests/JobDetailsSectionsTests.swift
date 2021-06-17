@@ -16,14 +16,21 @@ final class JobDetailsSectionsTests: XCTestCase {
         XCTAssertEqual(items[safe: 0], .description(Constant.description))
     }
 
+    func test_headlineSection() {
+        let job = MockJob()
+        let items = JobDetailsSections.headlineSection(job: job).items
+        XCTAssertEqual(items.count, 3)
+        XCTAssertEqual(items[safe: 0], .category(Constant.category))
+        XCTAssertEqual(items[safe: 1], .jobTitle(Constant.jobTitle))
+        XCTAssertEqual(items[safe: 2], .companyName(Constant.companyName))
+    }
+
     func test_sectionItem_section() {
         XCTAssertEqual(SectionItem.category(Constant.category).section, .headline)
         XCTAssertEqual(SectionItem.companyName(Constant.companyName).section, .headline)
         XCTAssertEqual(SectionItem.description(Constant.description).section, .description)
         XCTAssertEqual(SectionItem.jobTitle(Constant.jobTitle).section, .headline)
-        XCTAssertEqual(SectionItem.location(Constant.location).section, .headline)
-        XCTAssertEqual(SectionItem.publicationDate(Constant.publicationDate).section, .headline)
-        XCTAssertEqual(SectionItem.terms(salary: Constant.salary, jobType: Constant.jobType).section, .headline)
+        XCTAssertEqual(SectionItem.tag(Constant.jobType).section, .tags)
     }
 
     func test_sectionItem_init() {
@@ -44,97 +51,53 @@ final class JobDetailsSectionsTests: XCTestCase {
             .jobTitle(Constant.jobTitle)
         )
         XCTAssertEqual(
-            SectionItem(location: Constant.location),
-            .location(Constant.location)
+            SectionItem(tag: Constant.jobType),
+            .tag(Constant.jobType)
         )
-        XCTAssertEqual(
-            SectionItem(publicationDate: Constant.publicationDate),
-            .publicationDate(Constant.publicationDate)
-        )
-        XCTAssertEqual(
-            SectionItem(salary: Constant.salary, jobType: Constant.jobType),
-            .terms(salary: Constant.salary, jobType: Constant.jobType)
-        )
-        XCTAssertEqual(
-            SectionItem(salary: Constant.salary, jobType: nil),
-            .terms(salary: Constant.salary, jobType: nil)
-        )
-        XCTAssertEqual(
-            SectionItem(salary: nil, jobType: Constant.jobType),
-            .terms(salary: nil, jobType: Constant.jobType)
-        )
-        XCTAssertNil(SectionItem(salary: nil, jobType: nil))
-        XCTAssertNil(SectionItem(location: nil))
     }
 
-    // MARK: - Tests - Headline Section
+    // MARK: - Tests - Tags Section
 
-    func test_headlineSection_full() {
+    func test_tagsSection_full() {
         let job = MockJob()
-        let items = JobDetailsSections.headlineSection(job: job).items
-        XCTAssertEqual(items.count, 6)
-        XCTAssertEqual(items[safe: 0], .publicationDate(Constant.publicationDate))
-        XCTAssertEqual(items[safe: 1], .category(Constant.category))
-        XCTAssertEqual(items[safe: 2], .jobTitle(Constant.jobTitle))
-        XCTAssertEqual(items[safe: 3], .companyName(Constant.companyName))
-        XCTAssertEqual(items[safe: 4], .location(Constant.location))
-        XCTAssertEqual(items[safe: 5], .terms(salary: Constant.salary, jobType: Constant.jobType))
+        let items = JobDetailsSections.tagsSection(job: job)?.items
+        XCTAssertEqual(items?.count, 4)
+        XCTAssertEqual(items?[safe: 0], .tag(Constant.jobType))
+        XCTAssertEqual(items?[safe: 1], .tag(Constant.salary))
+        XCTAssertEqual(items?[safe: 2], .tag(Constant.location))
+        XCTAssertEqual(items?[safe: 3], .tag(Constant.publicationDate))
     }
 
-    func test_headlineSection_nilLocation() {
-        let job = MockJob(location: nil)
-        let items = JobDetailsSections.headlineSection(job: job).items
-        XCTAssertEqual(items.count, 5)
-        XCTAssertEqual(items[safe: 0], .publicationDate(Constant.publicationDate))
-        XCTAssertEqual(items[safe: 1], .category(Constant.category))
-        XCTAssertEqual(items[safe: 2], .jobTitle(Constant.jobTitle))
-        XCTAssertEqual(items[safe: 3], .companyName(Constant.companyName))
-        XCTAssertEqual(items[safe: 4], .terms(salary: Constant.salary, jobType: Constant.jobType))
-    }
-
-    func test_headlineSection_nilType() {
+    func test_tagsSection_nilJobType() {
         let job = MockJob(jobType: nil)
-        let items = JobDetailsSections.headlineSection(job: job).items
-        XCTAssertEqual(items.count, 6)
-        XCTAssertEqual(items[safe: 0], .publicationDate(Constant.publicationDate))
-        XCTAssertEqual(items[safe: 1], .category(Constant.category))
-        XCTAssertEqual(items[safe: 2], .jobTitle(Constant.jobTitle))
-        XCTAssertEqual(items[safe: 3], .companyName(Constant.companyName))
-        XCTAssertEqual(items[safe: 4], .location(Constant.location))
-        XCTAssertEqual(items[safe: 5], .terms(salary: Constant.salary, jobType: nil))
+        let items = JobDetailsSections.tagsSection(job: job)?.items
+        XCTAssertEqual(items?.count, 3)
+        XCTAssertEqual(items?[safe: 0], .tag(Constant.salary))
+        XCTAssertEqual(items?[safe: 1], .tag(Constant.location))
+        XCTAssertEqual(items?[safe: 2], .tag(Constant.publicationDate))
     }
 
-    func test_headlineSection_nilSalary() {
+    func test_tagsSection_nilSalary() {
         let job = MockJob(salary: nil)
-        let items = JobDetailsSections.headlineSection(job: job).items
-        XCTAssertEqual(items.count, 6)
-        XCTAssertEqual(items[safe: 0], .publicationDate(Constant.publicationDate))
-        XCTAssertEqual(items[safe: 1], .category(Constant.category))
-        XCTAssertEqual(items[safe: 2], .jobTitle(Constant.jobTitle))
-        XCTAssertEqual(items[safe: 3], .companyName(Constant.companyName))
-        XCTAssertEqual(items[safe: 4], .location(Constant.location))
-        XCTAssertEqual(items[safe: 5], .terms(salary: nil, jobType: Constant.jobType))
+        let items = JobDetailsSections.tagsSection(job: job)?.items
+        XCTAssertEqual(items?.count, 3)
+        XCTAssertEqual(items?[safe: 0], .tag(Constant.jobType))
+        XCTAssertEqual(items?[safe: 1], .tag(Constant.location))
+        XCTAssertEqual(items?[safe: 2], .tag(Constant.publicationDate))
     }
 
-    func test_headlineSection_nilTypeSalary() {
-        let job = MockJob(jobType: nil, salary: nil)
-        let items = JobDetailsSections.headlineSection(job: job).items
-        XCTAssertEqual(items.count, 5)
-        XCTAssertEqual(items[safe: 0], .publicationDate(Constant.publicationDate))
-        XCTAssertEqual(items[safe: 1], .category(Constant.category))
-        XCTAssertEqual(items[safe: 2], .jobTitle(Constant.jobTitle))
-        XCTAssertEqual(items[safe: 3], .companyName(Constant.companyName))
-        XCTAssertEqual(items[safe: 4], .location(Constant.location))
+    func test_tagsSection_nilLocation() {
+        let job = MockJob(location: nil)
+        let items = JobDetailsSections.tagsSection(job: job)?.items
+        XCTAssertEqual(items?.count, 3)
+        XCTAssertEqual(items?[safe: 0], .tag(Constant.jobType))
+        XCTAssertEqual(items?[safe: 1], .tag(Constant.salary))
+        XCTAssertEqual(items?[safe: 2], .tag(Constant.publicationDate))
     }
 
-    func test_headlineSection_nilTypeLocationSalary() {
-        let job = MockJob(jobType: nil, location: nil, salary: nil)
-        let items = JobDetailsSections.headlineSection(job: job).items
-        XCTAssertEqual(items.count, 4)
-        XCTAssertEqual(items[safe: 0], .publicationDate(Constant.publicationDate))
-        XCTAssertEqual(items[safe: 1], .category(Constant.category))
-        XCTAssertEqual(items[safe: 2], .jobTitle(Constant.jobTitle))
-        XCTAssertEqual(items[safe: 3], .companyName(Constant.companyName))
+    func test_tagsSection_nilTags() {
+        let job = MockJob2()
+        XCTAssertNil(JobDetailsSections.tagsSection(job: job)?.items)
     }
 
 }
@@ -182,6 +145,27 @@ private extension JobDetailsSectionsTests {
             jobDetailCellLocation = location
             jobDetailCellSalary = salary
         }
+
+    }
+
+}
+
+// MARK: - MockJob2
+
+private extension JobDetailsSectionsTests {
+
+    struct MockJob2: JobDetailsCellsModel {
+
+        let jobDetailCellJobTitle: String = Constant.jobTitle
+        let jobDetailCellDescription: String = Constant.description
+        let jobDetailCellCompanyName: String = Constant.companyName
+        let jobDetailCellCategory: String = Constant.category
+        let jobDetailCellPublicationDate: String = Constant.publicationDate
+        let jobDetailCellJobType: String? = Constant.jobType
+        let jobDetailCellLocation: String? = Constant.location
+        let jobDetailCellSalary: String? = Constant.salary
+
+        let jobDetailCellTags: [String]? = nil
 
     }
 

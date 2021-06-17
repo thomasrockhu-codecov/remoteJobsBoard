@@ -11,23 +11,28 @@ struct JobDetailsSections: DataSourceSections {
     init(job: JobDetailsCellsModel) {
         sections = [
             Self.headlineSection(job: job),
+            Self.tagsSection(job: job),
             Self.descriptionSection(job: job)
         ]
+        .compactMap { $0 }
     }
 
     // MARK: - Public Methods
 
     static func headlineSection(job: JobDetailsCellsModel) -> Section {
         let items = [
-            SectionItem(publicationDate: job.jobDetailCellPublicationDate),
             SectionItem(category: job.jobDetailCellCategory),
             SectionItem(jobTitle: job.jobDetailCellJobTitle),
-            SectionItem(companyName: job.jobDetailCellCompanyName),
-            SectionItem(location: job.jobDetailCellLocation),
-            SectionItem(salary: job.jobDetailCellSalary, jobType: job.jobDetailCellJobType)
+            SectionItem(companyName: job.jobDetailCellCompanyName)
         ]
         .compactMap { $0 }
         return (.headline, items)
+    }
+
+    static func tagsSection(job: JobDetailsCellsModel) -> Section? {
+        guard let tags = job.jobDetailCellTags else { return nil }
+        let items = tags.map { SectionItem.tag($0) }
+        return (.tags, items)
     }
 
     static func descriptionSection(job: JobDetailsCellsModel) -> Section {
@@ -45,6 +50,7 @@ extension JobDetailsSections {
 
         case headline
         case description
+        case tags
 
     }
 
@@ -57,12 +63,14 @@ extension JobDetailsSections {
     enum SectionItem: DataSourceSectionItem {
 
         case jobTitle(String)
-        case terms(salary: String?, jobType: String?)
-        case location(String)
         case description(String)
         case companyName(String)
         case category(String)
-        case publicationDate(String)
+        case tag(String)
+
+        init(tag: String) {
+            self = .tag(tag)
+        }
 
         init(jobTitle: String) {
             self = .jobTitle(jobTitle)
@@ -80,24 +88,12 @@ extension JobDetailsSections {
             self = .category(category)
         }
 
-        init(publicationDate: String) {
-            self = .publicationDate(publicationDate)
-        }
-
-        init?(location: String?) {
-            guard let location = location else { return nil }
-            self =  .location(location)
-        }
-
-        init?(salary: String?, jobType: String?) {
-            if jobType == nil, salary == nil { return nil }
-            self = .terms(salary: salary, jobType: jobType)
-        }
-
         var section: SectionModel {
             switch self {
             case .description:
                 return .description
+            case .tag:
+                return .tags
             default:
                 return .headline
             }
