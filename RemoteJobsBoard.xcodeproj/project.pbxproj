@@ -55,6 +55,11 @@
 		716EF27D260CB9C100A1F9A2 /* KeyedDecodingContainer+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716EF27C260CB9C100A1F9A2 /* KeyedDecodingContainer+Ext.swift */; };
 		716EF283260CBC1300A1F9A2 /* Publisher+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716EF282260CBC1300A1F9A2 /* Publisher+Ext.swift */; };
 		716EF28C260CBF2600A1F9A2 /* JobsResponseModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716EF28B260CBF2600A1F9A2 /* JobsResponseModelTests.swift */; };
+		718E255F26D822B800E2F214 /* JobsListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718E255E26D822B800E2F214 /* JobsListViewModelTests.swift */; };
+		718E256126D8243200E2F214 /* BaseViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718E256026D8243200E2F214 /* BaseViewModelTest.swift */; };
+		718E256326D8248A00E2F214 /* GenericMockLoggerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718E256226D8248A00E2F214 /* GenericMockLoggerService.swift */; };
+		718E256526D8266A00E2F214 /* MockJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718E256426D8266A00E2F214 /* MockJSON.swift */; };
+		718E256726D826AD00E2F214 /* GenericMockAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718E256626D826AD00E2F214 /* GenericMockAPIService.swift */; };
 		719FFE9F2610EAB3000239E2 /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719FFE9E2610EAB3000239E2 /* UIView+Ext.swift */; };
 		719FFEBA2610F968000239E2 /* CollectionExtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719FFEB92610F968000239E2 /* CollectionExtTests.swift */; };
 		719FFEBE2610F9C6000239E2 /* KeyedDecodingContainerExtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719FFEBD2610F9C5000239E2 /* KeyedDecodingContainerExtTests.swift */; };
@@ -158,6 +163,11 @@
 		716EF27C260CB9C100A1F9A2 /* KeyedDecodingContainer+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyedDecodingContainer+Ext.swift"; sourceTree = "<group>"; };
 		716EF282260CBC1300A1F9A2 /* Publisher+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Ext.swift"; sourceTree = "<group>"; };
 		716EF28B260CBF2600A1F9A2 /* JobsResponseModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobsResponseModelTests.swift; sourceTree = "<group>"; };
+		718E255E26D822B800E2F214 /* JobsListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobsListViewModelTests.swift; sourceTree = "<group>"; };
+		718E256026D8243200E2F214 /* BaseViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModelTest.swift; sourceTree = "<group>"; };
+		718E256226D8248A00E2F214 /* GenericMockLoggerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericMockLoggerService.swift; sourceTree = "<group>"; };
+		718E256426D8266A00E2F214 /* MockJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockJSON.swift; sourceTree = "<group>"; };
+		718E256626D826AD00E2F214 /* GenericMockAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericMockAPIService.swift; sourceTree = "<group>"; };
 		719FFE9E2610EAB3000239E2 /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
 		719FFEB92610F968000239E2 /* CollectionExtTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionExtTests.swift; sourceTree = "<group>"; };
 		719FFEBD2610F9C5000239E2 /* KeyedDecodingContainerExtTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyedDecodingContainerExtTests.swift; sourceTree = "<group>"; };
@@ -291,17 +301,12 @@
 			isa = PBXGroup;
 			children = (
 				714FCBF1260C9CB00047B1EC /* Info.plist */,
-				719FFEB92610F968000239E2 /* CollectionExtTests.swift */,
-				7141421B2655612F00DDE987 /* JobDetailsSectionsTests.swift */,
-				716EF28B260CBF2600A1F9A2 /* JobsResponseModelTests.swift */,
-				719FFEBD2610F9C5000239E2 /* KeyedDecodingContainerExtTests.swift */,
-				7104258B262319A00003D5DF /* NSDirectionalEdgeInsetsExtTests.swift */,
-				719FFEC32610FCEB000239E2 /* PublisherExtTests.swift */,
-				7104259126231A260003D5DF /* UICollectionViewExtTests.swift */,
-				71FC38A8262894C000AE364D /* UITableViewExtTests.swift */,
-				719FFECB2610FDFE000239E2 /* UIViewExtTests.swift */,
+				718E255B26D8221C00E2F214 /* DataSourceSections */,
+				718E255A26D821C500E2F214 /* Extensions */,
 				71C74BF3260CC071000BF24C /* Helpers */,
 				716EF28F260CBF4800A1F9A2 /* MockJSONs */,
+				718E255C26D8222700E2F214 /* Model */,
+				718E255D26D8229C00E2F214 /* ViewModels */,
 			);
 			path = RemoteJobsBoardTests;
 			sourceTree = "<group>";
@@ -462,9 +467,51 @@
 			path = MockJSONs;
 			sourceTree = "<group>";
 		};
+		718E255A26D821C500E2F214 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				719FFEB92610F968000239E2 /* CollectionExtTests.swift */,
+				719FFEBD2610F9C5000239E2 /* KeyedDecodingContainerExtTests.swift */,
+				7104258B262319A00003D5DF /* NSDirectionalEdgeInsetsExtTests.swift */,
+				719FFEC32610FCEB000239E2 /* PublisherExtTests.swift */,
+				7104259126231A260003D5DF /* UICollectionViewExtTests.swift */,
+				71FC38A8262894C000AE364D /* UITableViewExtTests.swift */,
+				719FFECB2610FDFE000239E2 /* UIViewExtTests.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		718E255B26D8221C00E2F214 /* DataSourceSections */ = {
+			isa = PBXGroup;
+			children = (
+				7141421B2655612F00DDE987 /* JobDetailsSectionsTests.swift */,
+			);
+			path = DataSourceSections;
+			sourceTree = "<group>";
+		};
+		718E255C26D8222700E2F214 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				716EF28B260CBF2600A1F9A2 /* JobsResponseModelTests.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		718E255D26D8229C00E2F214 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				718E255E26D822B800E2F214 /* JobsListViewModelTests.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		71C74BF3260CC071000BF24C /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				718E256026D8243200E2F214 /* BaseViewModelTest.swift */,
+				718E256626D826AD00E2F214 /* GenericMockAPIService.swift */,
+				718E256226D8248A00E2F214 /* GenericMockLoggerService.swift */,
+				718E256426D8266A00E2F214 /* MockJSON.swift */,
 				71C74BF4260CC077000BF24C /* MockJSONLoader.swift */,
 			);
 			path = Helpers;
@@ -731,14 +778,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				7104258C262319A00003D5DF /* NSDirectionalEdgeInsetsExtTests.swift in Sources */,
+				718E256126D8243200E2F214 /* BaseViewModelTest.swift in Sources */,
 				719FFEBA2610F968000239E2 /* CollectionExtTests.swift in Sources */,
 				71FC38A9262894C000AE364D /* UITableViewExtTests.swift in Sources */,
 				7104259226231A260003D5DF /* UICollectionViewExtTests.swift in Sources */,
+				718E256526D8266A00E2F214 /* MockJSON.swift in Sources */,
+				718E256726D826AD00E2F214 /* GenericMockAPIService.swift in Sources */,
 				7141421C2655612F00DDE987 /* JobDetailsSectionsTests.swift in Sources */,
+				718E255F26D822B800E2F214 /* JobsListViewModelTests.swift in Sources */,
 				719FFEBE2610F9C6000239E2 /* KeyedDecodingContainerExtTests.swift in Sources */,
 				716EF28C260CBF2600A1F9A2 /* JobsResponseModelTests.swift in Sources */,
 				719FFEC42610FCEB000239E2 /* PublisherExtTests.swift in Sources */,
 				719FFECC2610FDFE000239E2 /* UIViewExtTests.swift in Sources */,
+				718E256326D8248A00E2F214 /* GenericMockLoggerService.swift in Sources */,
 				71C74BF5260CC077000BF24C /* MockJSONLoader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
