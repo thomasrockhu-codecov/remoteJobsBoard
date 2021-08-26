@@ -14,6 +14,7 @@ final class JobsListViewController: BaseCollectionViewController {
     // MARK: - Properties - Views
 
     private lazy var activityIndicator = UIActivityIndicatorView(style: .large)
+    private lazy var refreshControl = UIRefreshControl()
 
     // MARK: - Properties - Base Class
 
@@ -48,6 +49,12 @@ final class JobsListViewController: BaseCollectionViewController {
                 $0 ? activityIndicator?.startAnimating() : activityIndicator?.stopAnimating()
             }
             .store(in: &subscriptionsStore)
+        viewModel.outputs.jobsLoadingFinished
+            .receive(on: DispatchQueue.main)
+            .sink { [weak refreshControl] in
+                refreshControl?.endRefreshing()
+            }
+            .store(in: &subscriptionsStore)
     }
 
     override func configureSubviews() {
@@ -55,6 +62,20 @@ final class JobsListViewController: BaseCollectionViewController {
 
         activityIndicator.hidesWhenStopped = true
         collectionView.backgroundView = activityIndicator
+
+        refreshControl.addTarget(self, action: #selector(refreshControlValueChanged), for: .valueChanged)
+        collectionView.refreshControl = refreshControl
+    }
+
+}
+
+// MARK: - Private Methods
+
+private extension JobsListViewController {
+
+    @objc
+    func refreshControlValueChanged() {
+        viewModel.inputs.reloadData()
     }
 
 }

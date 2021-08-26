@@ -9,6 +9,7 @@ final class JobsListViewModel: BaseViewModel<JobsListCoordinator.RouteModel> {
 
     private let inputsRelay = InputsRelay()
     private let outputsRelay = OutputsRelay()
+    private let combineLatestQueue = DispatchQueue(label: "JobsListViewModelCLQueue", qos: .userInitiated)
 
     // MARK: - Initialization
 
@@ -23,8 +24,22 @@ final class JobsListViewModel: BaseViewModel<JobsListCoordinator.RouteModel> {
     override func bind() {
         super.bind()
 
-        api.getJobs()
-            .catch(errorHandler: errorHandler)
+        inputsRelay.reloadDataRelay
+            .prepend(())
+            .flatMap { [weak self] in
+                self?.api.getJobs().catch(errorHandler: self?.errorHandler) ?? Empty().eraseToAnyPublisher()
+            }
+            .sink { [weak self] jobs in
+                guard let self = self else { return }
+                self.outputsRelay.jobsLoadingFinishedRelay.accept()
+                self.inputsRelay.currentPageRelay.accept(1)
+                self.outputsRelay.allJobs.accept(jobs)
+            }
+            .store(in: &subscriptionsStore)
+
+        Publishers.CombineLatest(inputsRelay.currentPageRelay, outputsRelay.allJobs)
+            .debounce(for: 0.1, scheduler: combineLatestQueue)
+            .map { Array($1.prefix($0 * Constant.itemsPerPage)) }
             .subscribe(outputsRelay.jobsRelay)
             .store(in: &subscriptionsStore)
     }
@@ -46,5 +61,16 @@ extension JobsListViewModel: JobsListViewModelType {
 
     var inputs: JobsListViewModelTypeInputs { inputsRelay }
     var outputs: JobsListViewModelTypeOutputs { outputsRelay }
+
+}
+
+// MARK: - Constants
+
+private extension JobsListViewModel {
+
+    enum Constant {
+
+        static let itemsPerPage = 20
+    }
 
 }

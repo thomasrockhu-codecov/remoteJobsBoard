@@ -123,6 +123,11 @@ extension JobsListDataSource: UICollectionViewDelegate {
         }
     }
 
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard indexPath.row == collectionView.numberOfItems(inSection: 0) - Constant.itemPaginationOffset else { return }
+        viewModel.inputs.increasePage()
+    }
+
 }
 
 // MARK: - Constants
@@ -135,6 +140,7 @@ private extension JobsListDataSource {
 
         static let jobCellHeight: CGFloat = 100
         static let jobCellEdgeInsets: CGFloat = 4
+        static let itemPaginationOffset = 1
 
     }
 

@@ -19,6 +19,9 @@ protocol JobsListViewModelTypeInputs: AnyObject {
 
     var showJobDetails: ShowJobDetailsSubject { get }
 
+    func increasePage()
+    func reloadData()
+
 }
 
 // MARK: - Outputs
@@ -26,7 +29,9 @@ protocol JobsListViewModelTypeInputs: AnyObject {
 protocol JobsListViewModelTypeOutputs: AnyObject {
 
     typealias JobsSubject = AnyPublisher<[Job], Never>
+    typealias JobsLoadingFinishedSubject = AnyPublisher<Void, Never>
 
     var jobs: JobsSubject { get }
+    var jobsLoadingFinished: JobsLoadingFinishedSubject { get }
 
 }
