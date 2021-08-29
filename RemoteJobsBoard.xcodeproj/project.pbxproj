@@ -60,6 +60,7 @@
 		718E256326D8248A00E2F214 /* GenericMockLoggerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718E256226D8248A00E2F214 /* GenericMockLoggerService.swift */; };
 		718E256526D8266A00E2F214 /* MockJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718E256426D8266A00E2F214 /* MockJSON.swift */; };
 		718E256726D826AD00E2F214 /* GenericMockAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718E256626D826AD00E2F214 /* GenericMockAPIService.swift */; };
+		7193A1F726DBF11700FEAF7B /* JobDetailsApplyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7193A1F626DBF11700FEAF7B /* JobDetailsApplyButton.swift */; };
 		719FFE9F2610EAB3000239E2 /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719FFE9E2610EAB3000239E2 /* UIView+Ext.swift */; };
 		719FFEBA2610F968000239E2 /* CollectionExtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719FFEB92610F968000239E2 /* CollectionExtTests.swift */; };
 		719FFEBE2610F9C6000239E2 /* KeyedDecodingContainerExtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719FFEBD2610F9C5000239E2 /* KeyedDecodingContainerExtTests.swift */; };
@@ -168,6 +169,7 @@
 		718E256226D8248A00E2F214 /* GenericMockLoggerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericMockLoggerService.swift; sourceTree = "<group>"; };
 		718E256426D8266A00E2F214 /* MockJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockJSON.swift; sourceTree = "<group>"; };
 		718E256626D826AD00E2F214 /* GenericMockAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericMockAPIService.swift; sourceTree = "<group>"; };
+		7193A1F626DBF11700FEAF7B /* JobDetailsApplyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDetailsApplyButton.swift; sourceTree = "<group>"; };
 		719FFE9E2610EAB3000239E2 /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
 		719FFEB92610F968000239E2 /* CollectionExtTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionExtTests.swift; sourceTree = "<group>"; };
 		719FFEBD2610F9C5000239E2 /* KeyedDecodingContainerExtTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyedDecodingContainerExtTests.swift; sourceTree = "<group>"; };
@@ -521,6 +523,7 @@
 			isa = PBXGroup;
 			children = (
 				71FC38C926289DD200AE364D /* BaseJobDetailsCell.swift */,
+				7193A1F626DBF11700FEAF7B /* JobDetailsApplyButton.swift */,
 				711D9966263AE5DC00EF691E /* JobDetailsCategoryCell.swift */,
 				71FC38B32628975600AE364D /* JobDetailsCellsModel.swift */,
 				71B05E2A263ACAEB00BE299B /* JobDetailsCompanyNameCell.swift */,
@@ -767,6 +770,7 @@
 				712E9CDD2628871500D260C2 /* JobDetailsViewController.swift in Sources */,
 				716EF1F6260CA8DB00A1F9A2 /* LoggerServiceType.swift in Sources */,
 				716EF21D260CAE2600A1F9A2 /* BaseCollectionViewDataSource.swift in Sources */,
+				7193A1F726DBF11700FEAF7B /* JobDetailsApplyButton.swift in Sources */,
 				71FC38B42628975600AE364D /* JobDetailsCellsModel.swift in Sources */,
 				716EF27D260CB9C100A1F9A2 /* KeyedDecodingContainer+Ext.swift in Sources */,
 				716EF1F7260CA8DB00A1F9A2 /* LoggerService.swift in Sources */,

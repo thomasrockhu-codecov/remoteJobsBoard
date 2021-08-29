@@ -60,9 +60,11 @@ final class JobsListViewController: BaseCollectionViewController {
     override func configureSubviews() {
         super.configureSubviews()
 
+        // Activity Indicator.
         activityIndicator.hidesWhenStopped = true
         collectionView.backgroundView = activityIndicator
 
+        // Refresh Control.
         refreshControl.addTarget(self, action: #selector(refreshControlValueChanged), for: .valueChanged)
         collectionView.refreshControl = refreshControl
     }

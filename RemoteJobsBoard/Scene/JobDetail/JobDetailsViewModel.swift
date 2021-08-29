@@ -26,8 +26,12 @@ final class JobDetailsViewModel: BaseViewModel<JobDetailsCoordinator.RouteModel>
             .map { RouteModel.webPage($0) }
         let selectedPhoneNumber = inputs.selectedPhoneNumber
             .map { RouteModel.phoneNumber($0) }
+        let applyToJob = inputsRelay.applyToJob
+            .withLatestFrom(outputsRelay.job) {
+                RouteModel.webPage($1.url)
+            }
 
-        Publishers.Merge(selectedLink, selectedPhoneNumber)
+        Publishers.Merge3(selectedLink, selectedPhoneNumber, applyToJob)
             .sink { [weak self] in self?.trigger($0) }
             .store(in: &subscriptionsStore)
     }

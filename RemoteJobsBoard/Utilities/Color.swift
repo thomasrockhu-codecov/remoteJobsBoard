@@ -5,6 +5,10 @@ import UIKit
 enum Color {
 
     static var accentColor: UIColor { Asset(name: "AccentColor").color }
+    enum ApplyButton {
+        static var backgroundColor: UIColor { Asset(name: "ApplyButton/backgroundColor").color }
+        static var tintColor: UIColor { Asset(name: "ApplyButton/tintColor").color }
+    }
     enum CategoryCell {
         static var categoryTextColor: UIColor { Asset(name: "CategoryCell/categoryTextColor").color }
     }

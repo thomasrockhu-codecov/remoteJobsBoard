@@ -17,9 +17,11 @@ protocol JobDetailViewModelTypeInputs: AnyObject {
 
     typealias SelectedLinkSubject = PassthroughRelay<URL>
     typealias SelectedPhoneNumberSubject = PassthroughRelay<String>
+    typealias ApplyToJobSubject = PassthroughRelay<Void>
 
     var selectedLink: SelectedLinkSubject { get }
     var selectedPhoneNumber: SelectedPhoneNumberSubject { get }
+    var applyToJob: ApplyToJobSubject { get }
 
 }
 

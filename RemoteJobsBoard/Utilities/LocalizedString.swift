@@ -46,4 +46,22 @@ extension LocalizedString {
     }
 
 }
+
+// MARK: - Job Details
+
+extension LocalizedString {
+
+    enum JobDetails {
+
+        /// Localized string with a key equal to `JobDetails.applyButtonTitle`
+        /// and value equal to `Apply`.
+        static var applyButtonTitle: String {
+            NSLocalizedString("JobDetails.applyButtonTitle",
+                              value: "Apply",
+                              comment: "Title of 'Apply to job' button.")
+        }
+        
+    }
+
+}
 // swiftlint:enable line_length superfluous_disable_command
