@@ -89,6 +89,7 @@
 		71D48B0E267BBCAC00BD118D /* CombineExt in Frameworks */ = {isa = PBXBuildFile; productRef = 71D48B0D267BBCAC00BD118D /* CombineExt */; };
 		71D48B11267BBCF700BD118D /* XCoordinator in Frameworks */ = {isa = PBXBuildFile; productRef = 71D48B10267BBCF700BD118D /* XCoordinator */; };
 		71DA71A426556D1D00460F20 /* Atributika in Frameworks */ = {isa = PBXBuildFile; productRef = 71DA71A326556D1D00460F20 /* Atributika */; };
+		71DF069D26DC16660096EA84 /* LocalizedStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DF069C26DC16660096EA84 /* LocalizedStringTests.swift */; };
 		71FC388B262888FE00AE364D /* JobDetailsViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FC3889262888FE00AE364D /* JobDetailsViewModelType.swift */; };
 		71FC388C262888FE00AE364D /* JobDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FC388A262888FE00AE364D /* JobDetailsViewModel.swift */; };
 		71FC389D26288E5F00AE364D /* JobDetailsViewModel+OutputsRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FC389C26288E5F00AE364D /* JobDetailsViewModel+OutputsRelay.swift */; };
@@ -198,6 +199,7 @@
 		71C74C27260CCA98000BF24C /* JobsResponseModel_BadTitle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = JobsResponseModel_BadTitle.json; sourceTree = "<group>"; };
 		71C74C28260CCA98000BF24C /* JobsResponseModel_BadURL_1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = JobsResponseModel_BadURL_1.json; sourceTree = "<group>"; };
 		71D48B0A267BAC8D00BD118D /* JobDetailsTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDetailsTagCell.swift; sourceTree = "<group>"; };
+		71DF069C26DC16660096EA84 /* LocalizedStringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedStringTests.swift; sourceTree = "<group>"; };
 		71FC3889262888FE00AE364D /* JobDetailsViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDetailsViewModelType.swift; sourceTree = "<group>"; };
 		71FC388A262888FE00AE364D /* JobDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDetailsViewModel.swift; sourceTree = "<group>"; };
 		71FC389C26288E5F00AE364D /* JobDetailsViewModel+OutputsRelay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JobDetailsViewModel+OutputsRelay.swift"; sourceTree = "<group>"; };
@@ -298,12 +300,13 @@
 		714FCBEE260C9CB00047B1EC /* RemoteJobsBoardTests */ = {
 			isa = PBXGroup;
 			children = (
-				714FCBF1260C9CB00047B1EC /* Info.plist */,
+				71C74BF3260CC071000BF24C /* -Helpers */,
+				716EF28F260CBF4800A1F9A2 /* -MockJSONs */,
 				718E255B26D8221C00E2F214 /* DataSourceSections */,
 				718E255A26D821C500E2F214 /* Extensions */,
-				71C74BF3260CC071000BF24C /* Helpers */,
-				716EF28F260CBF4800A1F9A2 /* MockJSONs */,
-				718E255C26D8222700E2F214 /* Model */,
+				714FCBF1260C9CB00047B1EC /* Info.plist */,
+				718E255C26D8222700E2F214 /* Models */,
+				71DF069B26DC16550096EA84 /* Utilities */,
 				718E255D26D8229C00E2F214 /* ViewModels */,
 			);
 			path = RemoteJobsBoardTests;
@@ -486,7 +489,7 @@
 			path = ResponseModels;
 			sourceTree = "<group>";
 		};
-		716EF28F260CBF4800A1F9A2 /* MockJSONs */ = {
+		716EF28F260CBF4800A1F9A2 /* -MockJSONs */ = {
 			isa = PBXGroup;
 			children = (
 				71C74C27260CCA98000BF24C /* JobsResponseModel_BadTitle.json */,
@@ -498,7 +501,7 @@
 				71C74C0E260CC6C1000BF24C /* JobsResponseModel_NoTitle.json */,
 				71C74C18260CC86A000BF24C /* JobsResponseModel_NoURL.json */,
 			);
-			path = MockJSONs;
+			path = "-MockJSONs";
 			sourceTree = "<group>";
 		};
 		718E255A26D821C500E2F214 /* Extensions */ = {
@@ -523,12 +526,12 @@
 			path = DataSourceSections;
 			sourceTree = "<group>";
 		};
-		718E255C26D8222700E2F214 /* Model */ = {
+		718E255C26D8222700E2F214 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				716EF28B260CBF2600A1F9A2 /* JobsResponseModelTests.swift */,
 			);
-			path = Model;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		718E255D26D8229C00E2F214 /* ViewModels */ = {
@@ -539,7 +542,7 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
-		71C74BF3260CC071000BF24C /* Helpers */ = {
+		71C74BF3260CC071000BF24C /* -Helpers */ = {
 			isa = PBXGroup;
 			children = (
 				718E256026D8243200E2F214 /* BaseViewModelTest.swift */,
@@ -548,7 +551,15 @@
 				718E256426D8266A00E2F214 /* MockJSON.swift */,
 				71C74BF4260CC077000BF24C /* MockJSONLoader.swift */,
 			);
-			path = Helpers;
+			path = "-Helpers";
+			sourceTree = "<group>";
+		};
+		71DF069B26DC16550096EA84 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				71DF069C26DC16660096EA84 /* LocalizedStringTests.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -807,6 +818,7 @@
 				71FC38A9262894C000AE364D /* UITableViewExtTests.swift in Sources */,
 				7104259226231A260003D5DF /* UICollectionViewExtTests.swift in Sources */,
 				718E256526D8266A00E2F214 /* MockJSON.swift in Sources */,
+				71DF069D26DC16660096EA84 /* LocalizedStringTests.swift in Sources */,
 				718E256726D826AD00E2F214 /* GenericMockAPIService.swift in Sources */,
 				7141421C2655612F00DDE987 /* JobDetailsSectionsTests.swift in Sources */,
 				718E255F26D822B800E2F214 /* JobsListViewModelTests.swift in Sources */,
