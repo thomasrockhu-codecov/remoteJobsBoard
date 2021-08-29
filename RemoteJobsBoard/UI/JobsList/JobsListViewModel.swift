@@ -24,6 +24,9 @@ final class JobsListViewModel: BaseViewModel<JobsListCoordinator.RouteModel> {
     override func bind() {
         super.bind()
 
+        let searchText = inputsRelay.searchText.share(replay: 1)
+        let allJobs = outputsRelay.allJobs.share(replay: 1)
+
         inputsRelay.reloadDataRelay
             .prepend(())
             .flatMap { [weak self] in
@@ -37,7 +40,26 @@ final class JobsListViewModel: BaseViewModel<JobsListCoordinator.RouteModel> {
             }
             .store(in: &subscriptionsStore)
 
-        Publishers.CombineLatest(inputsRelay.currentPageRelay, outputsRelay.allJobs)
+        searchText
+            .map { _ in 1 }
+            .subscribe(inputsRelay.currentSearchPageRelay)
+            .store(in: &subscriptionsStore)
+
+        Publishers.CombineLatest3(searchText, allJobs, inputsRelay.currentSearchPageRelay)
+            .debounce(for: 0.1, scheduler: combineLatestQueue)
+            .map { searchText, allJobs, page -> (Int, [Job]) in
+                guard let searchText = searchText?.orNil else { return (page, allJobs) }
+                let filtered = allJobs.filter {
+                    $0.companyName.localizedCaseInsensitiveContains(searchText)
+                        || $0.title.localizedCaseInsensitiveContains(searchText)
+                }
+                return (page, filtered)
+            }
+            .map { Array($1.prefix($0 * Constant.itemsPerPage)) }
+            .subscribe(outputsRelay.searchResultJobsRelay)
+            .store(in: &subscriptionsStore)
+
+        Publishers.CombineLatest(inputsRelay.currentPageRelay, allJobs)
             .debounce(for: 0.1, scheduler: combineLatestQueue)
             .map { Array($1.prefix($0 * Constant.itemsPerPage)) }
             .subscribe(outputsRelay.jobsRelay)

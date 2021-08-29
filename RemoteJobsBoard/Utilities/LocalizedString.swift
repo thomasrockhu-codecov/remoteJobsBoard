@@ -60,7 +60,7 @@ extension LocalizedString {
                               value: "Apply",
                               comment: "Title of 'Apply to job' button.")
         }
-        
+
     }
 
 }

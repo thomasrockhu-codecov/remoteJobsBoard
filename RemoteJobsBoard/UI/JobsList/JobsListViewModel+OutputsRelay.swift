@@ -8,6 +8,7 @@ extension JobsListViewModel {
 
         let jobsRelay = CurrentValueRelay<[Job]>([])
         let jobsLoadingFinishedRelay = PassthroughRelay<Void>()
+        let searchResultJobsRelay = CurrentValueRelay<[Job]>([])
 
         let allJobs = CurrentValueRelay<[Job]>([])
 
@@ -20,6 +21,7 @@ extension JobsListViewModel {
 extension JobsListViewModel.OutputsRelay: JobsListViewModelTypeOutputs {
 
     var jobs: JobsSubject { jobsRelay.eraseToAnyPublisher() }
+    var searchResultJobs: JobsSubject { searchResultJobsRelay.eraseToAnyPublisher() }
     var jobsLoadingFinished: JobsLoadingFinishedSubject { jobsLoadingFinishedRelay.eraseToAnyPublisher() }
 
 }

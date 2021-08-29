@@ -8,6 +8,7 @@ final class JobsListViewController: BaseCollectionViewController {
     // MARK: - Properties
 
     private let viewModel: JobsListViewModelType
+    private let searchResultsController: UIViewController
 
     private lazy var dataSource = JobsListDataSource(viewModel: viewModel, collectionView: collectionView, services: services)
 
@@ -28,8 +29,9 @@ final class JobsListViewController: BaseCollectionViewController {
 
     // MARK: - Initialization
 
-    init(services: ServicesContainer, viewModel: JobsListViewModelType) {
+    init(services: ServicesContainer, viewModel: JobsListViewModelType, searchResultsController: UIViewController) {
         self.viewModel = viewModel
+        self.searchResultsController = searchResultsController
 
         super.init(services: services)
     }
@@ -42,12 +44,23 @@ final class JobsListViewController: BaseCollectionViewController {
         dataSource.bind()
         viewModel.bind()
 
-        viewModel.outputs.jobs
+        let isJobsEmpty = viewModel.outputs.jobs
             .map { $0.isEmpty }
             .receive(on: DispatchQueue.main)
+            .share(replay: 1)
+        isJobsEmpty
             .sink { [weak activityIndicator] in
                 $0 ? activityIndicator?.startAnimating() : activityIndicator?.stopAnimating()
             }
+            .store(in: &subscriptionsStore)
+        isJobsEmpty
+            .map { [weak searchResultsController] isEmpty -> UISearchController? in
+                guard !isEmpty else { return nil }
+                let searchController = UISearchController(searchResultsController: searchResultsController)
+                searchController.searchResultsUpdater = searchResultsController as? UISearchResultsUpdating
+                return searchController
+            }
+            .assign(to: \.searchController, on: navigationItem, ownership: .weak)
             .store(in: &subscriptionsStore)
         viewModel.outputs.jobsLoadingFinished
             .receive(on: DispatchQueue.main)

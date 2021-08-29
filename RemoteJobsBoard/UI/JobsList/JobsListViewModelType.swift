@@ -16,10 +16,13 @@ protocol JobsListViewModelType: AnyObject {
 protocol JobsListViewModelTypeInputs: AnyObject {
 
     typealias ShowJobDetailsSubject = PassthroughRelay<Job>
+    typealias SearchTextSubject = CurrentValueRelay<String?>
 
     var showJobDetails: ShowJobDetailsSubject { get }
+    var searchText: SearchTextSubject { get }
 
     func increasePage()
+    func increaseSearchPage()
     func reloadData()
 
 }
@@ -32,6 +35,7 @@ protocol JobsListViewModelTypeOutputs: AnyObject {
     typealias JobsLoadingFinishedSubject = AnyPublisher<Void, Never>
 
     var jobs: JobsSubject { get }
+    var searchResultJobs: JobsSubject { get }
     var jobsLoadingFinished: JobsLoadingFinishedSubject { get }
 
 }

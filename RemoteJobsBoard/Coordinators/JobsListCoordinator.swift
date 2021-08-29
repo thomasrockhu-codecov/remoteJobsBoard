@@ -17,7 +17,8 @@ final class JobsListCoordinator: BaseNavigationCoordinator<JobsListCoordinator.R
         switch route {
         case .initial:
             let viewModel = JobsListViewModel(router: weakRouter, services: services)
-            let controller = JobsListViewController(services: services, viewModel: viewModel)
+            let searchResultsController = JobsListSearchResultsController(services: services, viewModel: viewModel)
+            let controller = JobsListViewController(services: services, viewModel: viewModel, searchResultsController: searchResultsController)
             return .push(controller, animation: nil)
         case .showJobDetails(let job):
             let coordinator = JobDetailsCoordinator(job: job, services: services)

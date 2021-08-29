@@ -5,6 +5,14 @@ final class CollectionExtTests: XCTestCase {
 
     // MARK: - Tests
 
+    func test_orNil() {
+        let collection1 = [1, 2, 3]
+        let collection2: [Int] = []
+
+        XCTAssertEqual(collection1, collection1.orNil)
+        XCTAssertNil(collection2.orNil)
+    }
+
     func test_safe() {
         let collection = [1, 2, 3]
 
