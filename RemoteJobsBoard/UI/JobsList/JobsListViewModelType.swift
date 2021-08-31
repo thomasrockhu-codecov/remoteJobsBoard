@@ -17,13 +17,14 @@ protocol JobsListViewModelTypeInputs: AnyObject {
 
     typealias ShowJobDetailsSubject = PassthroughRelay<Job>
     typealias SearchTextSubject = CurrentValueRelay<String?>
+    typealias ReloadDataSubject = PassthroughRelay<Void>
+    typealias NextPageSubject = PassthroughRelay<Void>
 
     var showJobDetails: ShowJobDetailsSubject { get }
     var searchText: SearchTextSubject { get }
-
-    func increasePage()
-    func increaseSearchPage()
-    func reloadData()
+    var reloadData: ReloadDataSubject { get }
+    var showNextPage: NextPageSubject { get }
+    var showNextSearchPage: NextPageSubject { get }
 
 }
 

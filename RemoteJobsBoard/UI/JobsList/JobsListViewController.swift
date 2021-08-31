@@ -1,4 +1,5 @@
 import Combine
+import CombineCocoa
 import CombineExt
 import UIKit
 import WebKit
@@ -68,6 +69,10 @@ final class JobsListViewController: BaseCollectionViewController {
                 refreshControl?.endRefreshing()
             }
             .store(in: &subscriptionsStore)
+
+        refreshControl.controlEventPublisher(for: .valueChanged)
+            .subscribe(viewModel.inputs.reloadData)
+            .store(in: &subscriptionsStore)
     }
 
     override func configureSubviews() {
@@ -78,19 +83,7 @@ final class JobsListViewController: BaseCollectionViewController {
         collectionView.backgroundView = activityIndicator
 
         // Refresh Control.
-        refreshControl.addTarget(self, action: #selector(refreshControlValueChanged), for: .valueChanged)
         collectionView.refreshControl = refreshControl
-    }
-
-}
-
-// MARK: - Private Methods
-
-private extension JobsListViewController {
-
-    @objc
-    func refreshControlValueChanged() {
-        viewModel.inputs.reloadData()
     }
 
 }

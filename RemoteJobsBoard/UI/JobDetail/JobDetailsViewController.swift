@@ -1,3 +1,5 @@
+import Combine
+import CombineCocoa
 import UIKit
 
 final class JobDetailsViewController: BaseCollectionViewController {
@@ -28,44 +30,39 @@ final class JobDetailsViewController: BaseCollectionViewController {
 
     // MARK: - Base Class
 
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
-        collectionView.contentInset.bottom = applyButton.bounds.height
+        navigationItem.largeTitleDisplayMode = .never
     }
 
     override func bind() {
         super.bind()
 
-        navigationItem.largeTitleDisplayMode = .never
-
         dataSource.bind()
         viewModel.bind()
+
+        applyButton.controlEventPublisher(for: .touchUpInside)
+            .subscribe(viewModel.inputs.applyToJob)
+            .store(in: &subscriptionsStore)
+
+        applyButton.publisher(for: \.bounds)
+            .map { $0.height }
+            .removeDuplicates()
+            .assign(to: \.contentInset.bottom, on: collectionView, ownership: .weak)
+            .store(in: &subscriptionsStore)
     }
 
     override func configureSubviews() {
         super.configureSubviews()
 
         // Apply Button.
-        applyButton.addTarget(self, action: #selector(applyButtonTouchUpInside), for: .touchUpInside)
-
         applyButton.add(to: view) {
             [$0.centerXAnchor.constraint(equalTo: $1.centerXSafeAnchor),
              $0.widthAnchor.constraint(greaterThanOrEqualTo: $1.widthAnchor, multiplier: Constant.applyButtonWidthMultiplier),
              $0.heightAnchor.constraint(greaterThanOrEqualToConstant: Constant.applyButtonHeight),
              $1.bottomSafeAnchor.constraint(equalTo: $0.bottomSafeAnchor)]
         }
-    }
-
-}
-
-// MARK: - Actions
-
-private extension JobDetailsViewController {
-
-    @objc
-    func applyButtonTouchUpInside() {
-        viewModel.inputs.applyToJob.accept()
     }
 
 }

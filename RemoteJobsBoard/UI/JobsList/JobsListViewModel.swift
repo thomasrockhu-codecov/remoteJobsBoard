@@ -10,9 +10,11 @@ final class JobsListViewModel: BaseViewModel<JobsListCoordinator.RouteModel> {
 
     private let showJobDetailsRelay = ShowJobDetailsSubject()
     private let searchTextRelay = SearchTextSubject(nil)
+    private let reloadDataRelay = ReloadDataSubject()
+    private let showNextPageRelay = NextPageSubject()
+    private let showNextSearchPageRelay = NextPageSubject()
     private let currentPageRelay = CurrentValueRelay<Int>(1)
     private let currentSearchPageRelay = CurrentValueRelay<Int>(1)
-    private let reloadDataRelay = PassthroughRelay<Void>()
     private let allJobsRelay = CurrentValueRelay<[Job]>([])
     private let jobsLoadingFinishedRelay = PassthroughRelay<Void>()
 
@@ -48,6 +50,15 @@ final class JobsListViewModel: BaseViewModel<JobsListCoordinator.RouteModel> {
             .map { _ in 1 }
             .subscribe(currentSearchPageRelay)
             .store(in: &subscriptionsStore)
+
+        showNextPageRelay
+            .withLatestFrom(currentPageRelay, resultSelector: Self.nextPageMap)
+            .subscribe(currentPageRelay)
+            .store(in: &subscriptionsStore)
+        showNextSearchPageRelay
+            .withLatestFrom(currentSearchPageRelay, resultSelector: Self.nextPageMap)
+            .subscribe(currentSearchPageRelay)
+            .store(in: &subscriptionsStore)
     }
 
     override func bindRoutes() {
@@ -57,6 +68,16 @@ final class JobsListViewModel: BaseViewModel<JobsListCoordinator.RouteModel> {
             .map { RouteModel.showJobDetails($0) }
             .sink { [weak self] in self?.trigger($0) }
             .store(in: &subscriptionsStore)
+    }
+
+}
+
+// MARK: - Private Methods
+
+private extension JobsListViewModel {
+
+    static func nextPageMap(_ trigger: Void, _ currentPage: Int) -> Int {
+        currentPage + 1
     }
 
 }
@@ -76,18 +97,9 @@ extension JobsListViewModel: JobsListViewModelTypeInputs {
 
     var showJobDetails: ShowJobDetailsSubject { showJobDetailsRelay }
     var searchText: SearchTextSubject { searchTextRelay }
-
-    func increasePage() {
-        currentPageRelay.accept(currentPageRelay.value + 1)
-    }
-
-    func increaseSearchPage() {
-        currentSearchPageRelay.accept(currentSearchPageRelay.value + 1)
-    }
-
-    func reloadData() {
-        reloadDataRelay.accept()
-    }
+    var reloadData: ReloadDataSubject { reloadDataRelay }
+    var showNextPage: NextPageSubject { showNextPageRelay }
+    var showNextSearchPage: NextPageSubject { showNextSearchPageRelay }
 
 }
 

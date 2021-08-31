@@ -36,8 +36,6 @@ final class JobsListSearchDataSource: BaseCollectionViewDataSource<JobsListSearc
         super.configureCollectionView(collectionView)
 
         collectionView.register(cellClass: JobsListRecentJobCell.self)
-
-        collectionView.delegate = self
     }
 
     override func bind() {
@@ -48,6 +46,27 @@ final class JobsListSearchDataSource: BaseCollectionViewDataSource<JobsListSearc
             .map { JobsListSearchSections(jobs: $0).snapshot }
             .receive(on: snapshotQueue)
             .sink { [weak self] in self?.apply($0) }
+            .store(in: &subscriptionsStore)
+
+        collectionView?.didSelectItemPublisher
+            .sink { [weak self] indexPath in
+                guard let self = self else { return }
+                switch self.itemIdentifier(for: indexPath) {
+                case .none:
+                    self.logger.log(error: CommonError.unexpectedItemIdentifier)
+                case .job(let job):
+                    self.viewModel.inputs.showJobDetails.accept(job)
+                }
+            }
+            .store(in: &subscriptionsStore)
+
+        collectionView?.willDisplayCellPublisher
+            .compactMap { [weak collectionView] _, indexPath -> Void? in
+                guard let collectionView = collectionView else { return nil }
+                let rowToTrigger = collectionView.numberOfItems(inSection: 0) - Constant.itemPaginationOffset
+                return indexPath.row == rowToTrigger ? () : nil
+            }
+            .subscribe(viewModel.inputs.showNextSearchPage)
             .store(in: &subscriptionsStore)
     }
 
@@ -106,26 +125,6 @@ private extension JobsListSearchDataSource {
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsetsReference = .layoutMargins
         return section
-    }
-
-}
-
-// MARK: - UICollectionViewDelegate
-
-extension JobsListSearchDataSource: UICollectionViewDelegate {
-
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        switch itemIdentifier(for: indexPath) {
-        case .none:
-            logger.log(error: CommonError.unexpectedItemIdentifier)
-        case .job(let job):
-            viewModel.inputs.showJobDetails.accept(job)
-        }
-    }
-
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard indexPath.row == collectionView.numberOfItems(inSection: 0) - Constant.itemPaginationOffset else { return }
-        viewModel.inputs.increaseSearchPage()
     }
 
 }

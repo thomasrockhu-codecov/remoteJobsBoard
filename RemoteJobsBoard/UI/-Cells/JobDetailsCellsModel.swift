@@ -17,9 +17,9 @@ protocol JobDetailsCellsModel {
 extension JobDetailsCellsModel {
 
     var jobDetailCellTags: [String]? {
-        let tags = [jobDetailCellJobType, jobDetailCellSalary, jobDetailCellLocation, jobDetailCellPublicationDate]
+        [jobDetailCellJobType, jobDetailCellSalary, jobDetailCellLocation, jobDetailCellPublicationDate]
             .compactMap { $0 }
-        return tags.isEmpty ? nil : tags
+            .orNil
     }
 
 }

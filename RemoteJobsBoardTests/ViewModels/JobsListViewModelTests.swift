@@ -55,13 +55,13 @@ final class JobsListViewModelTests: BaseViewModelTest {
         viewModel.bind()
         wait(for: [expectations[0], expectations[1]], timeout: Constant.waitTimeout)
 
-        viewModel.inputs.increasePage()
+        viewModel.inputs.showNextPage.accept()
         wait(for: [expectations[2]], timeout: Constant.waitTimeout)
 
-        viewModel.inputs.increasePage()
+        viewModel.inputs.showNextPage.accept()
         wait(for: [expectations[3]], timeout: Constant.waitTimeout)
 
-        viewModel.inputs.reloadData()
+        viewModel.inputs.reloadData.accept()
         wait(for: [expectations[4]], timeout: Constant.waitTimeout)
     }
 
@@ -118,7 +118,7 @@ final class JobsListViewModelTests: BaseViewModelTest {
         viewModel.inputs.searchText.accept(Constant.searchText1)
         wait(for: [expectations[2]], timeout: Constant.waitTimeout)
 
-        viewModel.inputs.increaseSearchPage()
+        viewModel.inputs.showNextSearchPage.accept()
         wait(for: [expectations[3]], timeout: Constant.waitTimeout)
 
         viewModel.inputs.searchText.accept(Constant.searchText2)
