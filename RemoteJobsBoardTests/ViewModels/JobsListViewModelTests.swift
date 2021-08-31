@@ -20,165 +20,118 @@ final class JobsListViewModelTests: BaseViewModelTest {
 
     // MARK: - Tests
 
-    // swiftlint:disable:next function_body_length
     func test_loadingFlow() throws {
         let mockJobs = try getMockJSONFullJobs()
 
-        let sinkExpectation0 = expectation(description: "sinkExpectation0")
-        let sinkExpectation1 = expectation(description: "sinkExpectation1")
-        let sinkExpectation2 = expectation(description: "sinkExpectation2")
-        let sinkExpectation3 = expectation(description: "sinkExpectation3")
-        let sinkExpectation4 = expectation(description: "sinkExpectation4")
-        let sinkExpectation5 = expectation(description: "sinkExpectation5")
+        let expectations = [
+            expectation(description: "sinkExpectation0"),
+            expectation(description: "sinkExpectation1"),
+            expectation(description: "sinkExpectation2"),
+            expectation(description: "sinkExpectation3"),
+            expectation(description: "sinkExpectation4")
+        ]
 
         var counter = 0
-
         viewModel.outputs.jobs
             .sink {
                 switch counter {
                 case 0:
                     XCTAssert($0.isEmpty)
-                    sinkExpectation0.fulfill()
-                case 1:
-                    XCTAssert($0.isEmpty)
-                    sinkExpectation1.fulfill()
-                case 2:
-                    let expected = Array(mockJobs.prefix(20))
+                case 1, 2, 3:
+                    let expected = Array(mockJobs.prefix(20 * counter))
                     XCTAssertEqual($0, expected)
-
-                    sinkExpectation2.fulfill()
-                case 3:
-                    let expected = Array(mockJobs.prefix(40))
-                    XCTAssertEqual($0, expected)
-
-                    sinkExpectation3.fulfill()
                 case 4:
-                    let expected = Array(mockJobs.prefix(60))
-                    XCTAssertEqual($0, expected)
-
-                    sinkExpectation4.fulfill()
-                case 5:
                     let expected = Array(mockJobs.prefix(20))
                     XCTAssertEqual($0, expected)
-
-                    sinkExpectation5.fulfill()
                 default:
                     XCTFail("Unexpected sink index - \(counter)")
                 }
 
+                expectations[safe: counter]?.fulfill()
                 counter += 1
             }
             .store(in: &subscriptionsStore)
 
         viewModel.bind()
-        wait(for: [sinkExpectation0, sinkExpectation1, sinkExpectation2], timeout: Constant.waitTimeout)
+        wait(for: [expectations[0], expectations[1]], timeout: Constant.waitTimeout)
 
         viewModel.inputs.increasePage()
-        wait(for: [sinkExpectation3], timeout: Constant.waitTimeout)
+        wait(for: [expectations[2]], timeout: Constant.waitTimeout)
 
         viewModel.inputs.increasePage()
-        wait(for: [sinkExpectation4], timeout: Constant.waitTimeout)
+        wait(for: [expectations[3]], timeout: Constant.waitTimeout)
 
         viewModel.inputs.reloadData()
-        wait(for: [sinkExpectation5], timeout: Constant.waitTimeout)
+        wait(for: [expectations[4]], timeout: Constant.waitTimeout)
     }
 
     // swiftlint:disable:next function_body_length
     func test_search() throws {
         let mockJobs = try getMockJSONFullJobs()
-        let filteredMockJobs1 = mockJobs
-            .filter {
-                $0.companyName.localizedCaseInsensitiveContains(Constant.searchText1)
-                    || $0.title.localizedCaseInsensitiveContains(Constant.searchText1)
-            }
-        let filteredMockJobs2 = mockJobs
-            .filter {
-                $0.companyName.localizedCaseInsensitiveContains(Constant.searchText2)
-                    || $0.title.localizedCaseInsensitiveContains(Constant.searchText2)
-            }
+        let filteredMockJobs1 = mockJobs.filter { Self.isJobMatched($0, comparedTo: Constant.searchText1) }
+        let filteredMockJobs2 = mockJobs.filter { Self.isJobMatched($0, comparedTo: Constant.searchText2) }
 
-        let sinkExpectation0 = expectation(description: "sinkExpectation0")
-        let sinkExpectation1 = expectation(description: "sinkExpectation1")
-        let sinkExpectation2 = expectation(description: "sinkExpectation2")
-        let sinkExpectation3 = expectation(description: "sinkExpectation3")
-        let sinkExpectation4 = expectation(description: "sinkExpectation4")
-        let sinkExpectation5 = expectation(description: "sinkExpectation5")
-        let sinkExpectation6 = expectation(description: "sinkExpectation6")
-        let sinkExpectation7 = expectation(description: "sinkExpectation7")
-        let sinkExpectation8 = expectation(description: "sinkExpectation8")
+        let expectations = [
+            expectation(description: "sinkExpectation0"),
+            expectation(description: "sinkExpectation1"),
+            expectation(description: "sinkExpectation2"),
+            expectation(description: "sinkExpectation3"),
+            expectation(description: "sinkExpectation4"),
+            expectation(description: "sinkExpectation5"),
+            expectation(description: "sinkExpectation6"),
+            expectation(description: "sinkExpectation7")
+        ]
 
         var counter = 0
-
         viewModel.outputs.searchResultJobs
             .sink {
                 switch counter {
-                case 0:
+                case 0, 5:
                     XCTAssert($0.isEmpty)
-                    sinkExpectation0.fulfill()
-                case 1:
-                    XCTAssert($0.isEmpty)
-                    sinkExpectation1.fulfill()
-                case 2:
+                case 1, 7:
                     let expected = Array(mockJobs.prefix(20))
                     XCTAssertEqual($0, expected)
-
-                    sinkExpectation2.fulfill()
-                case 3:
+                case 2:
                     let expected = Array(filteredMockJobs1.prefix(20))
                     XCTAssertEqual($0, expected)
-
-                    sinkExpectation3.fulfill()
-                case 4:
+                case 3:
                     let expected = Array(filteredMockJobs1.prefix(40))
                     XCTAssertEqual($0, expected)
-
-                    sinkExpectation4.fulfill()
-                case 5:
+                case 4:
                     let expected = Array(filteredMockJobs2.prefix(20))
                     XCTAssertEqual($0, expected)
-
-                    sinkExpectation5.fulfill()
                 case 6:
-                    XCTAssertTrue($0.isEmpty)
-                    sinkExpectation6.fulfill()
-                case 7:
                     let expected = Array(mockJobs.prefix(20))
                     XCTAssertEqual($0, expected)
-
-                    sinkExpectation7.fulfill()
-                case 8:
-                    let expected = Array(mockJobs.prefix(20))
-                    XCTAssertEqual($0, expected)
-
-                    sinkExpectation8.fulfill()
                 default:
                     XCTFail("Unexpected sink index - \(counter)")
                 }
 
+                expectations[safe: counter]?.fulfill()
                 counter += 1
             }
             .store(in: &subscriptionsStore)
 
         viewModel.bind()
-        wait(for: [sinkExpectation0, sinkExpectation1, sinkExpectation2], timeout: Constant.waitTimeout)
+        wait(for: [expectations[0], expectations[1]], timeout: Constant.waitTimeout)
 
         viewModel.inputs.searchText.accept(Constant.searchText1)
-        wait(for: [sinkExpectation3], timeout: Constant.waitTimeout)
+        wait(for: [expectations[2]], timeout: Constant.waitTimeout)
 
         viewModel.inputs.increaseSearchPage()
-        wait(for: [sinkExpectation4], timeout: Constant.waitTimeout)
+        wait(for: [expectations[3]], timeout: Constant.waitTimeout)
 
         viewModel.inputs.searchText.accept(Constant.searchText2)
-        wait(for: [sinkExpectation5], timeout: Constant.waitTimeout)
+        wait(for: [expectations[4]], timeout: Constant.waitTimeout)
 
         viewModel.inputs.searchText.accept(Constant.searchText3)
-        wait(for: [sinkExpectation6], timeout: Constant.waitTimeout)
+        wait(for: [expectations[5]], timeout: Constant.waitTimeout)
 
         viewModel.inputs.searchText.accept("")
-        wait(for: [sinkExpectation7], timeout: Constant.waitTimeout)
+        wait(for: [expectations[6]], timeout: Constant.waitTimeout)
 
         viewModel.inputs.searchText.accept(nil)
-        wait(for: [sinkExpectation8], timeout: Constant.waitTimeout)
+        wait(for: [expectations[7]], timeout: Constant.waitTimeout)
     }
 
     func test_route() throws {
@@ -200,6 +153,11 @@ final class JobsListViewModelTests: BaseViewModelTest {
 // MARK: - Helpers
 
 private extension JobsListViewModelTests {
+
+    static func isJobMatched(_ job: Job, comparedTo searchText: String) -> Bool {
+        job.companyName.localizedCaseInsensitiveContains(searchText)
+            || job.title.localizedCaseInsensitiveContains(searchText)
+    }
 
     func getMockJSONFullJobs() throws -> [Job] {
         let data = try MockJSONLoader.loadJSON(named: MockJSON.full.fileName)

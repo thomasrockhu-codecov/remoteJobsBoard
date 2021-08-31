@@ -50,8 +50,6 @@
 		716EF23E260CB02F00A1F9A2 /* JobsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716EF23D260CB02F00A1F9A2 /* JobsListViewModel.swift */; };
 		716EF242260CB03600A1F9A2 /* JobsListViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716EF241260CB03600A1F9A2 /* JobsListViewModelType.swift */; };
 		716EF246260CB05400A1F9A2 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716EF245260CB05400A1F9A2 /* BaseViewModel.swift */; };
-		716EF250260CB16500A1F9A2 /* JobsListViewModel+InputsRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716EF24F260CB16500A1F9A2 /* JobsListViewModel+InputsRelay.swift */; };
-		716EF254260CB18800A1F9A2 /* JobsListViewModel+OutputsRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716EF253260CB18800A1F9A2 /* JobsListViewModel+OutputsRelay.swift */; };
 		716EF266260CB42F00A1F9A2 /* APIServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716EF264260CB42F00A1F9A2 /* APIServiceType.swift */; };
 		716EF267260CB42F00A1F9A2 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716EF265260CB42F00A1F9A2 /* APIService.swift */; };
 		716EF26E260CB49A00A1F9A2 /* Job.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716EF26D260CB49A00A1F9A2 /* Job.swift */; };
@@ -163,8 +161,6 @@
 		716EF23D260CB02F00A1F9A2 /* JobsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobsListViewModel.swift; sourceTree = "<group>"; };
 		716EF241260CB03600A1F9A2 /* JobsListViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobsListViewModelType.swift; sourceTree = "<group>"; };
 		716EF245260CB05400A1F9A2 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
-		716EF24F260CB16500A1F9A2 /* JobsListViewModel+InputsRelay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JobsListViewModel+InputsRelay.swift"; sourceTree = "<group>"; };
-		716EF253260CB18800A1F9A2 /* JobsListViewModel+OutputsRelay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JobsListViewModel+OutputsRelay.swift"; sourceTree = "<group>"; };
 		716EF264260CB42F00A1F9A2 /* APIServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServiceType.swift; sourceTree = "<group>"; };
 		716EF265260CB42F00A1F9A2 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		716EF26D260CB49A00A1F9A2 /* Job.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Job.swift; sourceTree = "<group>"; };
@@ -442,8 +438,6 @@
 				719FFED92611002B000239E2 /* JobsListSections.swift */,
 				716EF239260CB02600A1F9A2 /* JobsListViewController.swift */,
 				716EF23D260CB02F00A1F9A2 /* JobsListViewModel.swift */,
-				716EF24F260CB16500A1F9A2 /* JobsListViewModel+InputsRelay.swift */,
-				716EF253260CB18800A1F9A2 /* JobsListViewModel+OutputsRelay.swift */,
 				716EF241260CB03600A1F9A2 /* JobsListViewModelType.swift */,
 			);
 			path = JobsList;
@@ -748,13 +742,11 @@
 				716EF266260CB42F00A1F9A2 /* APIServiceType.swift in Sources */,
 				71FC38B0262895EC00AE364D /* JobDetailsTitleCell.swift in Sources */,
 				71042580262314990003D5DF /* JobsListNavigationController.swift in Sources */,
-				716EF254260CB18800A1F9A2 /* JobsListViewModel+OutputsRelay.swift in Sources */,
 				71FC38A52628946000AE364D /* UITableView+Ext.swift in Sources */,
 				716EF246260CB05400A1F9A2 /* BaseViewModel.swift in Sources */,
 				716EF207260CAB1800A1F9A2 /* BaseNavigationCoordinator.swift in Sources */,
 				71FC38B8262897B800AE364D /* JobDetailsDataSource.swift in Sources */,
 				71FC38CA26289DD200AE364D /* BaseJobDetailsCell.swift in Sources */,
-				716EF250260CB16500A1F9A2 /* JobsListViewModel+InputsRelay.swift in Sources */,
 				7104255D2622F6F50003D5DF /* BaseTableViewCell.swift in Sources */,
 				71FC38DC2628A69A00AE364D /* JobDetailsDescriptionCell.swift in Sources */,
 				716EF226260CAE7300A1F9A2 /* DataSourceSectionItem.swift in Sources */,
