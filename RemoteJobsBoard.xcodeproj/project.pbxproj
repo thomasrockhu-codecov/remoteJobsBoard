@@ -30,6 +30,7 @@
 		714FCBE2260C9CB00047B1EC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 714FCBE1260C9CB00047B1EC /* Images.xcassets */; };
 		714FCBE5260C9CB00047B1EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 714FCBE3260C9CB00047B1EC /* LaunchScreen.storyboard */; };
 		714FCC24260CA04A0047B1EC /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 714FCC23260CA04A0047B1EC /* Colors.xcassets */; };
+		7167DAAE26DED14E00F0F205 /* JobsResponseModel_Huge.json in Resources */ = {isa = PBXBuildFile; fileRef = 7167DAAD26DED14E00F0F205 /* JobsResponseModel_Huge.json */; };
 		716ADC1626DC094D0097DE0B /* Collection+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716ADC1526DC094D0097DE0B /* Collection+Ext.swift */; };
 		716ADC1926DC09F90097DE0B /* JobsListSearchResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716ADC1826DC09F90097DE0B /* JobsListSearchResultsController.swift */; };
 		716ADC1B26DC0A1B0097DE0B /* JobsListSearchSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716ADC1A26DC0A1B0097DE0B /* JobsListSearchSections.swift */; };
@@ -141,6 +142,7 @@
 		714FCBF1260C9CB00047B1EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		714FCC0E260C9D180047B1EC /* RemoteJobsBoard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RemoteJobsBoard.entitlements; sourceTree = "<group>"; };
 		714FCC23260CA04A0047B1EC /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		7167DAAD26DED14E00F0F205 /* JobsResponseModel_Huge.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = JobsResponseModel_Huge.json; sourceTree = "<group>"; };
 		716ADC1526DC094D0097DE0B /* Collection+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Ext.swift"; sourceTree = "<group>"; };
 		716ADC1826DC09F90097DE0B /* JobsListSearchResultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobsListSearchResultsController.swift; sourceTree = "<group>"; };
 		716ADC1A26DC0A1B0097DE0B /* JobsListSearchSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobsListSearchSections.swift; sourceTree = "<group>"; };
@@ -494,6 +496,7 @@
 				71C74C0F260CC6C1000BF24C /* JobsResponseModel_EmptyTitle.json */,
 				71C74C1E260CC8C6000BF24C /* JobsResponseModel_EmptyURL.json */,
 				71C74BEB260CC03D000BF24C /* JobsResponseModel_Full.json */,
+				7167DAAD26DED14E00F0F205 /* JobsResponseModel_Huge.json */,
 				71C74C0E260CC6C1000BF24C /* JobsResponseModel_NoTitle.json */,
 				71C74C18260CC86A000BF24C /* JobsResponseModel_NoURL.json */,
 			);
@@ -671,6 +674,7 @@
 				71C74C11260CC6C1000BF24C /* JobsResponseModel_EmptyTitle.json in Resources */,
 				71C74C1F260CC8C6000BF24C /* JobsResponseModel_EmptyURL.json in Resources */,
 				71C74C2B260CCA98000BF24C /* JobsResponseModel_BadURL_1.json in Resources */,
+				7167DAAE26DED14E00F0F205 /* JobsResponseModel_Huge.json in Resources */,
 				71C74BEC260CC03D000BF24C /* JobsResponseModel_Full.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

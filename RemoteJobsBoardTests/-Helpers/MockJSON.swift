@@ -10,6 +10,7 @@ enum MockJSON {
     case noURL
     case badURL1
     case badURL2
+    case huge
 
     var fileName: String {
         switch self {
@@ -29,6 +30,8 @@ enum MockJSON {
             return "JobsResponseModel_NoTitle"
         case .noURL:
             return "JobsResponseModel_NoURL"
+        case .huge:
+            return "JobsResponseModel_Huge"
         }
     }
 

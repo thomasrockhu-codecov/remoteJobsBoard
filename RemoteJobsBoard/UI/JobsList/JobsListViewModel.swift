@@ -113,23 +113,24 @@ extension JobsListViewModel: JobsListViewModelTypeOutputs {
 
     var jobs: JobsSubject {
         Publishers.CombineLatest(
-            currentPageRelay.removeDuplicates(),
-            allJobsRelay.removeDuplicates()
+            currentPageRelay,
+            allJobsRelay
         )
         .debounce(for: 0.1, scheduler: bindQueue)
         .map { Array($1.prefix($0 * Constant.itemsPerPage)) }
+        .removeDuplicates()
         .eraseToAnyPublisher()
     }
 
     var searchResultJobs: JobsSubject {
         Publishers.CombineLatest3(
-            searchText.removeDuplicates(),
-            allJobsRelay.removeDuplicates(),
-            currentSearchPageRelay.removeDuplicates()
+            searchText,
+            allJobsRelay,
+            currentSearchPageRelay
         )
         .debounce(for: 0.1, scheduler: bindQueue)
         .map { searchText, allJobs, page -> [Job] in
-            guard let searchText = searchText?.orNil else { return allJobs }
+            guard let searchText = searchText?.orNil else { return [] }
             let filtered = allJobs
                 .filter {
                     $0.companyName.localizedCaseInsensitiveContains(searchText)
@@ -138,6 +139,7 @@ extension JobsListViewModel: JobsListViewModelTypeOutputs {
                 .prefix(page * Constant.itemsPerPage)
             return Array(filtered)
         }
+        .removeDuplicates()
         .eraseToAnyPublisher()
     }
 

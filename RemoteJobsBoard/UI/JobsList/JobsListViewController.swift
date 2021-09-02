@@ -47,6 +47,7 @@ final class JobsListViewController: BaseCollectionViewController {
 
         let isJobsEmpty = viewModel.outputs.jobs
             .map { $0.isEmpty }
+            .removeDuplicates()
             .receive(on: DispatchQueue.main)
             .share(replay: 1)
         isJobsEmpty
