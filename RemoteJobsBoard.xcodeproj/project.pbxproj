@@ -17,6 +17,7 @@
 		7104259226231A260003D5DF /* UICollectionViewExtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7104259126231A260003D5DF /* UICollectionViewExtTests.swift */; };
 		7104259626231A610003D5DF /* CommonError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7104259526231A610003D5DF /* CommonError.swift */; };
 		711D9967263AE5DC00EF691E /* JobDetailsCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711D9966263AE5DC00EF691E /* JobDetailsCategoryCell.swift */; };
+		7120A35C26E1588C008706EE /* MockCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7120A35B26E1588C008706EE /* MockCoordinator.swift */; };
 		712B755A26DE9C60003FF04B /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 712B755926DE9C60003FF04B /* CombineCocoa */; };
 		712E9CDD2628871500D260C2 /* JobDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712E9CDC2628871500D260C2 /* JobDetailsViewController.swift */; };
 		7135A3A2260CA3A200D736BB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7135A3A4260CA3A200D736BB /* Localizable.strings */; };
@@ -40,7 +41,7 @@
 		716EF1F7260CA8DB00A1F9A2 /* LoggerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716EF1F5260CA8DB00A1F9A2 /* LoggerService.swift */; };
 		716EF1FF260CAA8C00A1F9A2 /* Typealiases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716EF1FE260CAA8C00A1F9A2 /* Typealiases.swift */; };
 		716EF207260CAB1800A1F9A2 /* BaseNavigationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716EF206260CAB1800A1F9A2 /* BaseNavigationCoordinator.swift */; };
-		716EF20D260CAB6700A1F9A2 /* JobsListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716EF20C260CAB6700A1F9A2 /* JobsListCoordinator.swift */; };
+		716EF20D260CAB6700A1F9A2 /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716EF20C260CAB6700A1F9A2 /* RootCoordinator.swift */; };
 		716EF211260CAD1500A1F9A2 /* BaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716EF210260CAD1500A1F9A2 /* BaseTableViewController.swift */; };
 		716EF217260CADB800A1F9A2 /* BaseCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716EF216260CADB800A1F9A2 /* BaseCollectionViewController.swift */; };
 		716EF21D260CAE2600A1F9A2 /* BaseCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716EF21C260CAE2600A1F9A2 /* BaseCollectionViewDataSource.swift */; };
@@ -61,9 +62,9 @@
 		716EF28C260CBF2600A1F9A2 /* JobsResponseModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716EF28B260CBF2600A1F9A2 /* JobsResponseModelTests.swift */; };
 		718E255F26D822B800E2F214 /* JobsListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718E255E26D822B800E2F214 /* JobsListViewModelTests.swift */; };
 		718E256126D8243200E2F214 /* BaseViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718E256026D8243200E2F214 /* BaseViewModelTest.swift */; };
-		718E256326D8248A00E2F214 /* GenericMockLoggerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718E256226D8248A00E2F214 /* GenericMockLoggerService.swift */; };
+		718E256326D8248A00E2F214 /* MockLoggerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718E256226D8248A00E2F214 /* MockLoggerService.swift */; };
 		718E256526D8266A00E2F214 /* MockJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718E256426D8266A00E2F214 /* MockJSON.swift */; };
-		718E256726D826AD00E2F214 /* GenericMockAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718E256626D826AD00E2F214 /* GenericMockAPIService.swift */; };
+		718E256726D826AD00E2F214 /* MockAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718E256626D826AD00E2F214 /* MockAPIService.swift */; };
 		7193A1F726DBF11700FEAF7B /* JobDetailsApplyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7193A1F626DBF11700FEAF7B /* JobDetailsApplyButton.swift */; };
 		719FFE9F2610EAB3000239E2 /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719FFE9E2610EAB3000239E2 /* UIView+Ext.swift */; };
 		719FFEBA2610F968000239E2 /* CollectionExtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719FFEB92610F968000239E2 /* CollectionExtTests.swift */; };
@@ -72,8 +73,6 @@
 		719FFECC2610FDFE000239E2 /* UIViewExtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719FFECB2610FDFE000239E2 /* UIViewExtTests.swift */; };
 		719FFED42610FEF3000239E2 /* JobsListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719FFED32610FEF3000239E2 /* JobsListDataSource.swift */; };
 		719FFEDA2611002B000239E2 /* JobsListSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719FFED92611002B000239E2 /* JobsListSections.swift */; };
-		71B05E25263AC62F00BE299B /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B05E24263AC62F00BE299B /* RootCoordinator.swift */; };
-		71B05E27263AC65B00BE299B /* JobDetailsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B05E26263AC65B00BE299B /* JobDetailsCoordinator.swift */; };
 		71B05E29263AC6B500BE299B /* JobDetailsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B05E28263AC6B500BE299B /* JobDetailsNavigationController.swift */; };
 		71B05E2B263ACAEB00BE299B /* JobDetailsCompanyNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B05E2A263ACAEB00BE299B /* JobDetailsCompanyNameCell.swift */; };
 		71C74BEC260CC03D000BF24C /* JobsResponseModel_Full.json in Resources */ = {isa = PBXBuildFile; fileRef = 71C74BEB260CC03D000BF24C /* JobsResponseModel_Full.json */; };
@@ -125,6 +124,7 @@
 		7104259126231A260003D5DF /* UICollectionViewExtTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewExtTests.swift; sourceTree = "<group>"; };
 		7104259526231A610003D5DF /* CommonError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonError.swift; sourceTree = "<group>"; };
 		711D9966263AE5DC00EF691E /* JobDetailsCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDetailsCategoryCell.swift; sourceTree = "<group>"; };
+		7120A35B26E1588C008706EE /* MockCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCoordinator.swift; sourceTree = "<group>"; };
 		712E9CDC2628871500D260C2 /* JobDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDetailsViewController.swift; sourceTree = "<group>"; };
 		7135A3A3260CA3A200D736BB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7135A3AB260CA42E00D736BB /* LocalizedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedString.swift; sourceTree = "<group>"; };
@@ -152,7 +152,7 @@
 		716EF1F5260CA8DB00A1F9A2 /* LoggerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerService.swift; sourceTree = "<group>"; };
 		716EF1FE260CAA8C00A1F9A2 /* Typealiases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typealiases.swift; sourceTree = "<group>"; };
 		716EF206260CAB1800A1F9A2 /* BaseNavigationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationCoordinator.swift; sourceTree = "<group>"; };
-		716EF20C260CAB6700A1F9A2 /* JobsListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobsListCoordinator.swift; sourceTree = "<group>"; };
+		716EF20C260CAB6700A1F9A2 /* RootCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinator.swift; sourceTree = "<group>"; };
 		716EF210260CAD1500A1F9A2 /* BaseTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewController.swift; sourceTree = "<group>"; };
 		716EF216260CADB800A1F9A2 /* BaseCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewController.swift; sourceTree = "<group>"; };
 		716EF21C260CAE2600A1F9A2 /* BaseCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewDataSource.swift; sourceTree = "<group>"; };
@@ -173,9 +173,9 @@
 		716EF28B260CBF2600A1F9A2 /* JobsResponseModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobsResponseModelTests.swift; sourceTree = "<group>"; };
 		718E255E26D822B800E2F214 /* JobsListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobsListViewModelTests.swift; sourceTree = "<group>"; };
 		718E256026D8243200E2F214 /* BaseViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModelTest.swift; sourceTree = "<group>"; };
-		718E256226D8248A00E2F214 /* GenericMockLoggerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericMockLoggerService.swift; sourceTree = "<group>"; };
+		718E256226D8248A00E2F214 /* MockLoggerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLoggerService.swift; sourceTree = "<group>"; };
 		718E256426D8266A00E2F214 /* MockJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockJSON.swift; sourceTree = "<group>"; };
-		718E256626D826AD00E2F214 /* GenericMockAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericMockAPIService.swift; sourceTree = "<group>"; };
+		718E256626D826AD00E2F214 /* MockAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAPIService.swift; sourceTree = "<group>"; };
 		7193A1F626DBF11700FEAF7B /* JobDetailsApplyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDetailsApplyButton.swift; sourceTree = "<group>"; };
 		719FFE9E2610EAB3000239E2 /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
 		719FFEB92610F968000239E2 /* CollectionExtTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionExtTests.swift; sourceTree = "<group>"; };
@@ -184,8 +184,6 @@
 		719FFECB2610FDFE000239E2 /* UIViewExtTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtTests.swift; sourceTree = "<group>"; };
 		719FFED32610FEF3000239E2 /* JobsListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobsListDataSource.swift; sourceTree = "<group>"; };
 		719FFED92611002B000239E2 /* JobsListSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobsListSections.swift; sourceTree = "<group>"; };
-		71B05E24263AC62F00BE299B /* RootCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinator.swift; sourceTree = "<group>"; };
-		71B05E26263AC65B00BE299B /* JobDetailsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDetailsCoordinator.swift; sourceTree = "<group>"; };
 		71B05E28263AC6B500BE299B /* JobDetailsNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDetailsNavigationController.swift; sourceTree = "<group>"; };
 		71B05E2A263ACAEB00BE299B /* JobDetailsCompanyNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDetailsCompanyNameCell.swift; sourceTree = "<group>"; };
 		71C74BEB260CC03D000BF24C /* JobsResponseModel_Full.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = JobsResponseModel_Full.json; sourceTree = "<group>"; };
@@ -300,11 +298,11 @@
 		714FCBEE260C9CB00047B1EC /* RemoteJobsBoardTests */ = {
 			isa = PBXGroup;
 			children = (
+				714FCBF1260C9CB00047B1EC /* Info.plist */,
 				71C74BF3260CC071000BF24C /* -Helpers */,
 				716EF28F260CBF4800A1F9A2 /* -MockJSONs */,
 				718E255B26D8221C00E2F214 /* DataSourceSections */,
 				718E255A26D821C500E2F214 /* Extensions */,
-				714FCBF1260C9CB00047B1EC /* Info.plist */,
 				718E255C26D8222700E2F214 /* Models */,
 				71DF069B26DC16550096EA84 /* Utilities */,
 				718E255D26D8229C00E2F214 /* ViewModels */,
@@ -390,9 +388,7 @@
 		716EF204260CAAD000A1F9A2 /* Coordinators */ = {
 			isa = PBXGroup;
 			children = (
-				71B05E26263AC65B00BE299B /* JobDetailsCoordinator.swift */,
-				716EF20C260CAB6700A1F9A2 /* JobsListCoordinator.swift */,
-				71B05E24263AC62F00BE299B /* RootCoordinator.swift */,
+				716EF20C260CAB6700A1F9A2 /* RootCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -499,6 +495,8 @@
 				7167DAAD26DED14E00F0F205 /* JobsResponseModel_Huge.json */,
 				71C74C0E260CC6C1000BF24C /* JobsResponseModel_NoTitle.json */,
 				71C74C18260CC86A000BF24C /* JobsResponseModel_NoURL.json */,
+				718E256426D8266A00E2F214 /* MockJSON.swift */,
+				71C74BF4260CC077000BF24C /* MockJSONLoader.swift */,
 			);
 			path = "-MockJSONs";
 			sourceTree = "<group>";
@@ -536,6 +534,7 @@
 		718E255D26D8229C00E2F214 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				718E256026D8243200E2F214 /* BaseViewModelTest.swift */,
 				718E255E26D822B800E2F214 /* JobsListViewModelTests.swift */,
 			);
 			path = ViewModels;
@@ -544,11 +543,9 @@
 		71C74BF3260CC071000BF24C /* -Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				718E256026D8243200E2F214 /* BaseViewModelTest.swift */,
-				718E256626D826AD00E2F214 /* GenericMockAPIService.swift */,
-				718E256226D8248A00E2F214 /* GenericMockLoggerService.swift */,
-				718E256426D8266A00E2F214 /* MockJSON.swift */,
-				71C74BF4260CC077000BF24C /* MockJSONLoader.swift */,
+				718E256626D826AD00E2F214 /* MockAPIService.swift */,
+				7120A35B26E1588C008706EE /* MockCoordinator.swift */,
+				718E256226D8248A00E2F214 /* MockLoggerService.swift */,
 			);
 			path = "-Helpers";
 			sourceTree = "<group>";
@@ -761,19 +758,17 @@
 				716EF22C260CAF1300A1F9A2 /* BaseTableViewDataSource.swift in Sources */,
 				710425642622F7850003D5DF /* JobsListRecentJobCell.swift in Sources */,
 				71D48B0B267BAC8D00BD118D /* JobDetailsTagCell.swift in Sources */,
-				71B05E27263AC65B00BE299B /* JobDetailsCoordinator.swift in Sources */,
 				71FC38BE262898D700AE364D /* JobDetailsSections.swift in Sources */,
 				710425592622F6E00003D5DF /* BaseCollectionViewCell.swift in Sources */,
 				719FFED42610FEF3000239E2 /* JobsListDataSource.swift in Sources */,
 				7135A3BA260CA62600D736BB /* Image.swift in Sources */,
-				71B05E25263AC62F00BE299B /* RootCoordinator.swift in Sources */,
 				714FCBDB260C9CAE0047B1EC /* SceneDelegate.swift in Sources */,
 				71FC388B262888FE00AE364D /* JobDetailsViewModelType.swift in Sources */,
 				71B05E2B263ACAEB00BE299B /* JobDetailsCompanyNameCell.swift in Sources */,
 				71B05E29263AC6B500BE299B /* JobDetailsNavigationController.swift in Sources */,
 				716ADC1926DC09F90097DE0B /* JobsListSearchResultsController.swift in Sources */,
 				716EF1EE260CA89E00A1F9A2 /* ServicesContainer.swift in Sources */,
-				716EF20D260CAB6700A1F9A2 /* JobsListCoordinator.swift in Sources */,
+				716EF20D260CAB6700A1F9A2 /* RootCoordinator.swift in Sources */,
 				71FED83826110127002E20FF /* UICollectionView+Ext.swift in Sources */,
 				716EF23E260CB02F00A1F9A2 /* JobsListViewModel.swift in Sources */,
 				716EF278260CB90F00A1F9A2 /* APIService+JobsResponseModel.swift in Sources */,
@@ -814,19 +809,20 @@
 			files = (
 				7104258C262319A00003D5DF /* NSDirectionalEdgeInsetsExtTests.swift in Sources */,
 				718E256126D8243200E2F214 /* BaseViewModelTest.swift in Sources */,
+				7120A35C26E1588C008706EE /* MockCoordinator.swift in Sources */,
 				719FFEBA2610F968000239E2 /* CollectionExtTests.swift in Sources */,
 				71FC38A9262894C000AE364D /* UITableViewExtTests.swift in Sources */,
 				7104259226231A260003D5DF /* UICollectionViewExtTests.swift in Sources */,
 				718E256526D8266A00E2F214 /* MockJSON.swift in Sources */,
 				71DF069D26DC16660096EA84 /* LocalizedStringTests.swift in Sources */,
-				718E256726D826AD00E2F214 /* GenericMockAPIService.swift in Sources */,
+				718E256726D826AD00E2F214 /* MockAPIService.swift in Sources */,
 				7141421C2655612F00DDE987 /* JobDetailsSectionsTests.swift in Sources */,
 				718E255F26D822B800E2F214 /* JobsListViewModelTests.swift in Sources */,
 				719FFEBE2610F9C6000239E2 /* KeyedDecodingContainerExtTests.swift in Sources */,
 				716EF28C260CBF2600A1F9A2 /* JobsResponseModelTests.swift in Sources */,
 				719FFEC42610FCEB000239E2 /* PublisherExtTests.swift in Sources */,
 				719FFECC2610FDFE000239E2 /* UIViewExtTests.swift in Sources */,
-				718E256326D8248A00E2F214 /* GenericMockLoggerService.swift in Sources */,
+				718E256326D8248A00E2F214 /* MockLoggerService.swift in Sources */,
 				71C74BF5260CC077000BF24C /* MockJSONLoader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

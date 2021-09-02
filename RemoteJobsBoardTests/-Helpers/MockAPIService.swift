@@ -3,7 +3,7 @@ import CombineExt
 import Foundation
 @testable import RemoteJobsBoard
 
-final class GenericMockAPIService: APIServiceType {
+final class MockAPIService: APIServiceType {
 
     func getJobs() -> JobsPublisher {
         do {

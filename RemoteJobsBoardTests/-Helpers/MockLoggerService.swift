@@ -1,7 +1,7 @@
 import Foundation
 @testable import RemoteJobsBoard
 
-final class GenericMockLoggerService: LoggerServiceType {
+final class MockLoggerService: LoggerServiceType {
 
     // MARK: - Properties
 

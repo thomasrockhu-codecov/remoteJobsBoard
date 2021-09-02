@@ -21,8 +21,8 @@ class BaseViewModelTest: XCTestCase {
 
         subscriptionsStore = SubscriptionsStore()
         services = ServicesContainer(
-            logger: GenericMockLoggerService(),
-            api: GenericMockAPIService()
+            logger: MockLoggerService(),
+            api: MockAPIService()
         )
     }
 

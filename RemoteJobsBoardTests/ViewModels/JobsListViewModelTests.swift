@@ -128,7 +128,16 @@ final class JobsListViewModelTests: BaseViewModelTest {
         viewModel.bind()
 
         let showJobDetailsExpectation = expectation(description: "showJobDetailsExpectation")
+
+        let webPageExpectation = expectation(description: "webPageExpectation")
+        webPageExpectation.isInverted = true
+
+        let phoneNumberExpectation = expectation(description: "phoneNumberExpectation")
+        phoneNumberExpectation.isInverted = true
+
         coordinator.showJobDetailsExpectation = showJobDetailsExpectation
+        coordinator.webPageExpectation = webPageExpectation
+        coordinator.phoneNumberExpectation = phoneNumberExpectation
 
         XCTAssertEqual(coordinator.latestRoute, .initial)
 
@@ -136,6 +145,8 @@ final class JobsListViewModelTests: BaseViewModelTest {
         viewModel.inputs.showJobDetails.accept(job)
         wait(for: [showJobDetailsExpectation], timeout: Constant.waitTimeout)
         XCTAssertEqual(coordinator.latestRoute, .showJobDetails(job))
+
+        wait(for: [webPageExpectation, phoneNumberExpectation], timeout: Constant.waitTimeout)
     }
 
 }
@@ -164,55 +175,11 @@ private extension JobsListViewModelTests {
     enum Constant {
 
         static let itemsPerPage = 20
-        static let waitTimeout: TimeInterval = 5
+        static let waitTimeout: TimeInterval = 1
         static let searchText1 = "QA"
         static let searchText2 = "Software"
         static let searchText3 = "No results search text 🤔"
 
-    }
-
-}
-
-// MARK: - MockCoordinator
-
-private class MockCoordinator: NavigationCoordinator<JobsListCoordinator.RouteModel> {
-
-    var latestRoute: JobsListCoordinator.RouteModel?
-
-    var showJobDetailsExpectation: XCTestExpectation?
-
-    init() {
-        super.init(rootViewController: UINavigationController(), initialRoute: .initial)
-    }
-
-    override func prepareTransition(for route: JobsListCoordinator.RouteModel) -> NavigationTransition {
-        latestRoute = route
-
-        switch route {
-        case .initial:
-            break
-        case .showJobDetails:
-            showJobDetailsExpectation?.fulfill()
-        }
-
-        return .none()
-    }
-
-}
-
-// MARK: - JobsListCoordinator.RouteModel Equatable
-
-extension JobsListCoordinator.RouteModel: Equatable {
-
-    public static func == (lhs: JobsListCoordinator.RouteModel, rhs: JobsListCoordinator.RouteModel) -> Bool {
-        switch (lhs, rhs) {
-        case (.initial, .initial):
-            return true
-        case (.showJobDetails(let lhsJob), .showJobDetails(let rhsJob)):
-            return lhsJob == rhsJob
-        default:
-            return false
-        }
     }
 
 }

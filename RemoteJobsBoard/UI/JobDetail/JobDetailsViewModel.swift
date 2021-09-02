@@ -1,7 +1,7 @@
 import Combine
 import Foundation
 
-final class JobDetailsViewModel: BaseViewModel<JobDetailsCoordinator.RouteModel> {
+final class JobDetailsViewModel: BaseViewModel<RootCoordinator.RouteModel> {
 
     // MARK: - Properties
 
