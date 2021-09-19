@@ -20,6 +20,7 @@
 		7120A35C26E1588C008706EE /* MockCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7120A35B26E1588C008706EE /* MockCoordinator.swift */; };
 		712B755A26DE9C60003FF04B /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 712B755926DE9C60003FF04B /* CombineCocoa */; };
 		712E9CDD2628871500D260C2 /* JobDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712E9CDC2628871500D260C2 /* JobDetailsViewController.swift */; };
+		713378E926F5476D00643709 /* APIService+ServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713378E826F5476D00643709 /* APIService+ServiceError.swift */; };
 		7135A3A2260CA3A200D736BB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7135A3A4260CA3A200D736BB /* Localizable.strings */; };
 		7135A3AC260CA42E00D736BB /* LocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7135A3AB260CA42E00D736BB /* LocalizedString.swift */; };
 		7135A3BA260CA62600D736BB /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7135A3B8260CA62600D736BB /* Image.swift */; };
@@ -126,6 +127,7 @@
 		711D9966263AE5DC00EF691E /* JobDetailsCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDetailsCategoryCell.swift; sourceTree = "<group>"; };
 		7120A35B26E1588C008706EE /* MockCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCoordinator.swift; sourceTree = "<group>"; };
 		712E9CDC2628871500D260C2 /* JobDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDetailsViewController.swift; sourceTree = "<group>"; };
+		713378E826F5476D00643709 /* APIService+ServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIService+ServiceError.swift"; sourceTree = "<group>"; };
 		7135A3A3260CA3A200D736BB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7135A3AB260CA42E00D736BB /* LocalizedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedString.swift; sourceTree = "<group>"; };
 		7135A3B8260CA62600D736BB /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
@@ -447,6 +449,7 @@
 			isa = PBXGroup;
 			children = (
 				716EF265260CB42F00A1F9A2 /* APIService.swift */,
+				713378E826F5476D00643709 /* APIService+ServiceError.swift */,
 				716EF264260CB42F00A1F9A2 /* APIServiceType.swift */,
 				716EF288260CBE9300A1F9A2 /* ResponseModels */,
 			);
@@ -778,6 +781,7 @@
 				716EF211260CAD1500A1F9A2 /* BaseTableViewController.swift in Sources */,
 				716EF224260CAE7300A1F9A2 /* DataSourceSectionModel.swift in Sources */,
 				71FC388C262888FE00AE364D /* JobDetailsViewModel.swift in Sources */,
+				713378E926F5476D00643709 /* APIService+ServiceError.swift in Sources */,
 				716EF242260CB03600A1F9A2 /* JobsListViewModelType.swift in Sources */,
 				716EF23A260CB02600A1F9A2 /* JobsListViewController.swift in Sources */,
 				711D9967263AE5DC00EF691E /* JobDetailsCategoryCell.swift in Sources */,
