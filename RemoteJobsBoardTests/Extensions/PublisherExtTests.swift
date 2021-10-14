@@ -1,6 +1,6 @@
 @testable import RemoteJobsBoard
 import Combine
-import CombineExt
+import CombineExtensions
 import XCTest
 
 final class PublisherExtTests: XCTestCase {
@@ -13,7 +13,7 @@ final class PublisherExtTests: XCTestCase {
     // MARK: - Properties
 
     private var source: PassthroughSubject<Int, TestError>!
-    private var subscriptions = SubscriptionsStore()
+    private var subscriptions = CombineCancellable()
     private var value: Int?
     private var error: TestError?
     private var finished: Bool?
@@ -39,99 +39,19 @@ final class PublisherExtTests: XCTestCase {
 
         source = PassthroughSubject<Int, TestError>()
         value = nil
-        subscriptions = SubscriptionsStore()
+        subscriptions = CombineCancellable()
         error = nil
         finished = nil
     }
 
     // MARK: - Tests
 
-    func test_sinkReceiveValue() {
-        source
-            .sink(receiveValue: valueHandler)
-            .store(in: &subscriptions)
-
-        let testValue = 10
-        source.send(testValue)
-
-        XCTAssertEqual(value, testValue)
-
-        source.send(completion: .finished)
-
-        XCTAssertEqual(value, testValue)
-    }
-
-    func test_sinkReceiveCompletion_finished() {
-        source
-            .sink(receiveCompletion: completionHandler)
-            .store(in: &subscriptions)
-
-        source.send(completion: .finished)
-
-        XCTAssertNil(value)
-        XCTAssertNil(error)
-        XCTAssertEqual(finished, true)
-    }
-
-    func test_sinkReceiveCompletion_failure() {
-        source
-            .sink(receiveCompletion: completionHandler)
-            .store(in: &subscriptions)
-
-        let testValue = TestError.test
-        source.send(completion: .failure(testValue))
-
-        XCTAssertNil(value)
-        XCTAssertNil(finished)
-        XCTAssertEqual(testValue, error)
-    }
-
-    func test_sinkReceiveCompletion_value() {
-        source
-            .sink(receiveCompletion: completionHandler)
-            .store(in: &subscriptions)
-
-        source.send(10)
-
-        XCTAssertNil(value)
-        XCTAssertNil(finished)
-    }
-
-    func test_sinkReceiveFailure_finished() {
-        source
-            .sink(receiveFailure: { [weak self] error in
-                self?.error = error
-            })
-            .store(in: &subscriptions)
-
-        source.send(completion: .finished)
-
-        XCTAssertNil(value)
-        XCTAssertNil(finished)
-        XCTAssertNil(error)
-    }
-
-    func test_sinkReceiveFailure_failure() {
-        source
-            .sink(receiveFailure: { [weak self] error in
-                self?.error = error
-            })
-            .store(in: &subscriptions)
-
-        let testValue = TestError.test
-        source.send(completion: .failure(testValue))
-
-        XCTAssertNil(value)
-        XCTAssertNil(finished)
-        XCTAssertEqual(testValue, error)
-    }
-
     func test_catchWithHandler_error() {
         var handledError: TestError?
 
         source
             .sink(receiveCompletion: completionHandler, receiveValue: valueHandler)
-            .store(in: &subscriptions)
+            .store(in: subscriptions)
 
         let testValue = 10
         source.send(testValue)
@@ -158,7 +78,7 @@ final class PublisherExtTests: XCTestCase {
                   },
                   receiveValue: { [weak source] in source?.send($0) }
             )
-            .store(in: &subscriptions)
+            .store(in: subscriptions)
 
         let testValue2 = 11
         passthrough.accept(.success(testValue2))
@@ -180,7 +100,7 @@ final class PublisherExtTests: XCTestCase {
 
         source
             .sink(receiveCompletion: completionHandler, receiveValue: valueHandler)
-            .store(in: &subscriptions)
+            .store(in: subscriptions)
 
         let passthrough = PassthroughSubject<Int, TestError>()
         passthrough
@@ -195,7 +115,7 @@ final class PublisherExtTests: XCTestCase {
                   },
                   receiveValue: { [weak source] in source?.send($0) }
             )
-            .store(in: &subscriptions)
+            .store(in: subscriptions)
 
         let testValue2 = 11
         passthrough.send(testValue2)

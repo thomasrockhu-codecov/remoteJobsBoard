@@ -1,6 +1,6 @@
 import Combine
 import CombineCocoa
-import CombineExt
+import CombineExtensions
 import UIKit
 import WebKit
 
@@ -50,30 +50,28 @@ final class JobsListViewController: BaseCollectionViewController {
             .removeDuplicates()
             .receive(on: DispatchQueue.main)
             .share(replay: 1)
-        isJobsEmpty
-            .sink { [weak activityIndicator] in
-                $0 ? activityIndicator?.startAnimating() : activityIndicator?.stopAnimating()
-            }
-            .store(in: &subscriptionsStore)
-        isJobsEmpty
-            .map { [weak searchResultsController] isEmpty -> UISearchController? in
-                guard !isEmpty else { return nil }
-                let searchController = UISearchController(searchResultsController: searchResultsController)
-                searchController.searchResultsUpdater = searchResultsController as? UISearchResultsUpdating
-                return searchController
-            }
-            .assign(to: \.searchController, on: navigationItem, ownership: .weak)
-            .store(in: &subscriptionsStore)
-        viewModel.outputs.jobsLoadingFinished
-            .receive(on: DispatchQueue.main)
-            .sink { [weak refreshControl] in
-                refreshControl?.endRefreshing()
-            }
-            .store(in: &subscriptionsStore)
 
-        refreshControl.controlEventPublisher(for: .valueChanged)
-            .subscribe(viewModel.inputs.reloadData)
-            .store(in: &subscriptionsStore)
+        subscriptions {
+            isJobsEmpty
+                .sinkValue { [weak activityIndicator] in
+                    $0 ? activityIndicator?.startAnimating() : activityIndicator?.stopAnimating()
+                }
+            isJobsEmpty
+                .map { [weak searchResultsController] isEmpty -> UISearchController? in
+                    guard !isEmpty else { return nil }
+                    let searchController = UISearchController(searchResultsController: searchResultsController)
+                    searchController.searchResultsUpdater = searchResultsController as? UISearchResultsUpdating
+                    return searchController
+                }
+                .assign(to: \.searchController, on: navigationItem, ownership: .weak)
+            viewModel.outputs.jobsLoadingFinished
+                .receive(on: DispatchQueue.main)
+                .sinkValue { [weak refreshControl] in
+                    refreshControl?.endRefreshing()
+                }
+            refreshControl.controlEventPublisher(for: .valueChanged)
+                .subscribe(viewModel.inputs.reloadData)
+        }
     }
 
     override func configureSubviews() {

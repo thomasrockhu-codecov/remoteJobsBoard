@@ -1,5 +1,5 @@
 import Combine
-import CombineExt
+import CombineExtensions
 import Foundation
 
 final class JobsListViewModel: BaseViewModel<RootCoordinator.RouteModel> {
@@ -33,32 +33,28 @@ final class JobsListViewModel: BaseViewModel<RootCoordinator.RouteModel> {
     override func bind() {
         super.bind()
 
-        reloadDataRelay
-            .prepend(())
-            .flatMap { [weak self] in
-                self?.api.getJobs().catch(errorHandler: self?.errorHandler) ?? Empty().eraseToAnyPublisher()
-            }
-            .sink { [weak self] jobs in
-                guard let self = self else { return }
-                self.jobsLoadingFinishedRelay.accept()
-                self.currentPageRelay.accept(1)
-                self.allJobsRelay.accept(jobs)
-            }
-            .store(in: &subscriptionsStore)
-
-        searchText
-            .map { _ in 1 }
-            .subscribe(currentSearchPageRelay)
-            .store(in: &subscriptionsStore)
-
-        showNextPageRelay
-            .withLatestFrom(currentPageRelay, resultSelector: Self.nextPageMap)
-            .subscribe(currentPageRelay)
-            .store(in: &subscriptionsStore)
-        showNextSearchPageRelay
-            .withLatestFrom(currentSearchPageRelay, resultSelector: Self.nextPageMap)
-            .subscribe(currentSearchPageRelay)
-            .store(in: &subscriptionsStore)
+        subscriptions {
+            reloadDataRelay
+                .prepend(())
+                .flatMap { [weak self] in
+                    self?.api.getJobs().catch(errorHandler: self?.errorHandler) ?? Empty().eraseToAnyPublisher()
+                }
+                .sinkValue { [weak self] jobs in
+                    guard let self = self else { return }
+                    self.jobsLoadingFinishedRelay.accept()
+                    self.currentPageRelay.accept(1)
+                    self.allJobsRelay.accept(jobs)
+                }
+            searchText
+                .map { _ in 1 }
+                .subscribe(currentSearchPageRelay)
+            showNextPageRelay
+                .withLatestFrom(currentPageRelay, resultSelector: Self.nextPageMap)
+                .subscribe(currentPageRelay)
+            showNextSearchPageRelay
+                .withLatestFrom(currentSearchPageRelay, resultSelector: Self.nextPageMap)
+                .subscribe(currentSearchPageRelay)
+        }
     }
 
     override func bindRoutes() {
@@ -66,8 +62,8 @@ final class JobsListViewModel: BaseViewModel<RootCoordinator.RouteModel> {
 
         showJobDetails
             .map { RouteModel.showJobDetails($0) }
-            .sink { [weak self] in self?.trigger($0) }
-            .store(in: &subscriptionsStore)
+            .sinkValue { [weak self] in self?.trigger($0) }
+            .store(in: subscriptions)
     }
 
 }

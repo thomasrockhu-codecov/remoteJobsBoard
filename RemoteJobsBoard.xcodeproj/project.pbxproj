@@ -61,6 +61,7 @@
 		716EF27D260CB9C100A1F9A2 /* KeyedDecodingContainer+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716EF27C260CB9C100A1F9A2 /* KeyedDecodingContainer+Ext.swift */; };
 		716EF283260CBC1300A1F9A2 /* Publisher+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716EF282260CBC1300A1F9A2 /* Publisher+Ext.swift */; };
 		716EF28C260CBF2600A1F9A2 /* JobsResponseModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716EF28B260CBF2600A1F9A2 /* JobsResponseModelTests.swift */; };
+		71786F7C2718C650007D019E /* CombineExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = 71786F7B2718C650007D019E /* CombineExtensions */; };
 		718E255F26D822B800E2F214 /* JobsListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718E255E26D822B800E2F214 /* JobsListViewModelTests.swift */; };
 		718E256126D8243200E2F214 /* BaseViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718E256026D8243200E2F214 /* BaseViewModelTest.swift */; };
 		718E256326D8248A00E2F214 /* MockLoggerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718E256226D8248A00E2F214 /* MockLoggerService.swift */; };
@@ -86,7 +87,6 @@
 		71C74C2A260CCA98000BF24C /* JobsResponseModel_BadTitle.json in Resources */ = {isa = PBXBuildFile; fileRef = 71C74C27260CCA98000BF24C /* JobsResponseModel_BadTitle.json */; };
 		71C74C2B260CCA98000BF24C /* JobsResponseModel_BadURL_1.json in Resources */ = {isa = PBXBuildFile; fileRef = 71C74C28260CCA98000BF24C /* JobsResponseModel_BadURL_1.json */; };
 		71D48B0B267BAC8D00BD118D /* JobDetailsTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D48B0A267BAC8D00BD118D /* JobDetailsTagCell.swift */; };
-		71D48B0E267BBCAC00BD118D /* CombineExt in Frameworks */ = {isa = PBXBuildFile; productRef = 71D48B0D267BBCAC00BD118D /* CombineExt */; };
 		71D48B11267BBCF700BD118D /* XCoordinator in Frameworks */ = {isa = PBXBuildFile; productRef = 71D48B10267BBCF700BD118D /* XCoordinator */; };
 		71DA71A426556D1D00460F20 /* Atributika in Frameworks */ = {isa = PBXBuildFile; productRef = 71DA71A326556D1D00460F20 /* Atributika */; };
 		71DF069D26DC16660096EA84 /* LocalizedStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DF069C26DC16660096EA84 /* LocalizedStringTests.swift */; };
@@ -218,9 +218,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				71D48B0E267BBCAC00BD118D /* CombineExt in Frameworks */,
 				71D48B11267BBCF700BD118D /* XCoordinator in Frameworks */,
 				712B755A26DE9C60003FF04B /* CombineCocoa in Frameworks */,
+				71786F7C2718C650007D019E /* CombineExtensions in Frameworks */,
 				71DA71A426556D1D00460F20 /* Atributika in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -582,9 +582,9 @@
 			name = RemoteJobsBoard;
 			packageProductDependencies = (
 				71DA71A326556D1D00460F20 /* Atributika */,
-				71D48B0D267BBCAC00BD118D /* CombineExt */,
 				71D48B10267BBCF700BD118D /* XCoordinator */,
 				712B755926DE9C60003FF04B /* CombineCocoa */,
+				71786F7B2718C650007D019E /* CombineExtensions */,
 			);
 			productName = RemoteJobsBoard;
 			productReference = 714FCBD5260C9CAE0047B1EC /* RemoteJobsBoard.app */;
@@ -637,9 +637,9 @@
 			mainGroup = 714FCBCC260C9CAE0047B1EC;
 			packageReferences = (
 				71DA71A226556D1D00460F20 /* XCRemoteSwiftPackageReference "Atributika" */,
-				71D48B0C267BBCAC00BD118D /* XCRemoteSwiftPackageReference "CombineExt" */,
 				71D48B0F267BBCF700BD118D /* XCRemoteSwiftPackageReference "XCoordinator" */,
 				712B755826DE9C60003FF04B /* XCRemoteSwiftPackageReference "CombineCocoa" */,
+				71786F7A2718C650007D019E /* XCRemoteSwiftPackageReference "combineExtensions" */,
 			);
 			productRefGroup = 714FCBD6260C9CAE0047B1EC /* Products */;
 			projectDirPath = "";
@@ -1116,12 +1116,12 @@
 				minimumVersion = 0.3.0;
 			};
 		};
-		71D48B0C267BBCAC00BD118D /* XCRemoteSwiftPackageReference "CombineExt" */ = {
+		71786F7A2718C650007D019E /* XCRemoteSwiftPackageReference "combineExtensions" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/CombineCommunity/CombineExt";
+			repositoryURL = "https://github.com/dsk1306/combineExtensions";
 			requirement = {
 				kind = upToNextMinorVersion;
-				minimumVersion = 1.3.0;
+				minimumVersion = 1.1.0;
 			};
 		};
 		71D48B0F267BBCF700BD118D /* XCRemoteSwiftPackageReference "XCoordinator" */ = {
@@ -1148,10 +1148,10 @@
 			package = 712B755826DE9C60003FF04B /* XCRemoteSwiftPackageReference "CombineCocoa" */;
 			productName = CombineCocoa;
 		};
-		71D48B0D267BBCAC00BD118D /* CombineExt */ = {
+		71786F7B2718C650007D019E /* CombineExtensions */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 71D48B0C267BBCAC00BD118D /* XCRemoteSwiftPackageReference "CombineExt" */;
-			productName = CombineExt;
+			package = 71786F7A2718C650007D019E /* XCRemoteSwiftPackageReference "combineExtensions" */;
+			productName = CombineExtensions;
 		};
 		71D48B10267BBCF700BD118D /* XCoordinator */ = {
 			isa = XCSwiftPackageProductDependency;

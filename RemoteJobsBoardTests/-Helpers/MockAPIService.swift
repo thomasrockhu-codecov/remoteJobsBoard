@@ -1,5 +1,5 @@
 import Combine
-import CombineExt
+import CombineExtensions
 import Foundation
 @testable import RemoteJobsBoard
 

@@ -1,4 +1,5 @@
 import Combine
+import CombineExtensions
 import Foundation
 import XCoordinator
 
@@ -13,7 +14,7 @@ class BaseViewModel<RouteModel: Route> {
 
     let logger: LoggerServiceType
 
-    var subscriptionsStore = SubscriptionsStore()
+    let subscriptions = CombineCancellable()
 
     lazy var errorHandler: ErrorHandler = { [weak self] in
         self?.log(error: $0)

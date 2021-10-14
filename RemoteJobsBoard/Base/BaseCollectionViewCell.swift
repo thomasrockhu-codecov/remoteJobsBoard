@@ -1,3 +1,4 @@
+import CombineExtensions
 import UIKit
 
 /// Base class for all collection view cells.
@@ -5,7 +6,7 @@ class BaseCollectionViewCell: UICollectionViewCell {
 
     // MARK: - Properties
 
-    var reusablesubscriptionsStore = SubscriptionsStore()
+    private(set) var reusablesubscriptions = CombineCancellable()
 
     // MARK: - Initialization
 
@@ -26,7 +27,7 @@ class BaseCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        reusablesubscriptionsStore = SubscriptionsStore()
+        reusablesubscriptions = CombineCancellable()
         reusableBind()
     }
 

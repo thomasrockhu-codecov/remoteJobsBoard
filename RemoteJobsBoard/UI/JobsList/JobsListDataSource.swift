@@ -45,11 +45,11 @@ final class JobsListDataSource: BaseCollectionViewDataSource<JobsListSections> {
             .subscribe(on: mappingQueue)
             .map { JobsListSections(jobs: $0).snapshot }
             .receive(on: snapshotQueue)
-            .sink { [weak self] in self?.apply($0) }
-            .store(in: &subscriptionsStore)
+            .sinkValue { [weak self] in self?.apply($0) }
+            .store(in: subscriptions)
 
         collectionView?.didSelectItemPublisher
-            .sink { [weak self] indexPath in
+            .sinkValue { [weak self] indexPath in
                 guard let self = self else { return }
                 switch self.itemIdentifier(for: indexPath) {
                 case .none:
@@ -58,7 +58,7 @@ final class JobsListDataSource: BaseCollectionViewDataSource<JobsListSections> {
                     self.viewModel.inputs.showJobDetails.accept(job)
                 }
             }
-            .store(in: &subscriptionsStore)
+            .store(in: subscriptions)
 
         collectionView?.willDisplayCellPublisher
             .compactMap { [weak collectionView] _, indexPath -> Void? in
@@ -67,7 +67,7 @@ final class JobsListDataSource: BaseCollectionViewDataSource<JobsListSections> {
                 return indexPath.row == rowToTrigger ? () : nil
             }
             .subscribe(viewModel.inputs.showNextPage)
-            .store(in: &subscriptionsStore)
+            .store(in: subscriptions)
 
     }
 

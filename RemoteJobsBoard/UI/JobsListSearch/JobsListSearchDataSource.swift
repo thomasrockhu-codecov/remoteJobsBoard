@@ -45,11 +45,11 @@ final class JobsListSearchDataSource: BaseCollectionViewDataSource<JobsListSearc
             .subscribe(on: mappingQueue)
             .map { JobsListSearchSections(jobs: $0).snapshot }
             .receive(on: snapshotQueue)
-            .sink { [weak self] in self?.apply($0) }
-            .store(in: &subscriptionsStore)
+            .sinkValue { [weak self] in self?.apply($0) }
+            .store(in: subscriptions)
 
         collectionView?.didSelectItemPublisher
-            .sink { [weak self] indexPath in
+            .sinkValue { [weak self] indexPath in
                 guard let self = self else { return }
                 switch self.itemIdentifier(for: indexPath) {
                 case .none:
@@ -58,7 +58,7 @@ final class JobsListSearchDataSource: BaseCollectionViewDataSource<JobsListSearc
                     self.viewModel.inputs.showJobDetails.accept(job)
                 }
             }
-            .store(in: &subscriptionsStore)
+            .store(in: subscriptions)
 
         collectionView?.willDisplayCellPublisher
             .compactMap { [weak collectionView] _, indexPath -> Void? in
@@ -67,7 +67,7 @@ final class JobsListSearchDataSource: BaseCollectionViewDataSource<JobsListSearc
                 return indexPath.row == rowToTrigger ? () : nil
             }
             .subscribe(viewModel.inputs.showNextSearchPage)
-            .store(in: &subscriptionsStore)
+            .store(in: subscriptions)
     }
 
 }

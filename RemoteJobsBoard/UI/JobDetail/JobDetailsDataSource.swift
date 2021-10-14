@@ -66,8 +66,8 @@ final class JobDetailsDataSource: BaseCollectionViewDataSource<JobDetailsSection
             .subscribe(on: mappingQueue)
             .map { JobDetailsSections(job: $0).snapshot }
             .receive(on: snapshotQueue)
-            .sink { [weak self] in self?.apply($0, animatingDifferences: false) }
-            .store(in: &subscriptionsStore)
+            .sinkValue { [weak self] in self?.apply($0, animatingDifferences: false) }
+            .store(in: subscriptions)
     }
 
 }

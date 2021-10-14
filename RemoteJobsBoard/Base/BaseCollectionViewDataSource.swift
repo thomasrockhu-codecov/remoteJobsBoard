@@ -1,3 +1,4 @@
+import CombineExtensions
 import UIKit
 
 /// Base class for all collection view data sources.
@@ -17,7 +18,7 @@ UICollectionViewDiffableDataSource<Sections.SectionModel, Sections.SectionItem> 
 
     weak var collectionView: UICollectionView?
 
-    var subscriptionsStore = SubscriptionsStore()
+    let subscriptions = CombineCancellable()
 
     var mappingQueue: DispatchQueue { mappingQueueRelay }
     var snapshotQueue: DispatchQueue { snapshotQueueRelay }

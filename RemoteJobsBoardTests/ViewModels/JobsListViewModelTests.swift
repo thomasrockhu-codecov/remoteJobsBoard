@@ -50,7 +50,7 @@ final class JobsListViewModelTests: BaseViewModelTest {
                 expectations[safe: counter]?.fulfill()
                 counter += 1
             }
-            .store(in: &subscriptionsStore)
+            .store(in: subscriptions)
 
         viewModel.bind()
         wait(for: [expectations[0], expectations[1]], timeout: Constant.waitTimeout)
@@ -101,7 +101,7 @@ final class JobsListViewModelTests: BaseViewModelTest {
                 expectations[safe: counter]?.fulfill()
                 counter += 1
             }
-            .store(in: &subscriptionsStore)
+            .store(in: subscriptions)
 
         viewModel.bind()
         wait(for: [expectations[0]], timeout: Constant.waitTimeout)

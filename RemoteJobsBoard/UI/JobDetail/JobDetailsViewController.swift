@@ -42,15 +42,15 @@ final class JobDetailsViewController: BaseCollectionViewController {
         dataSource.bind()
         viewModel.bind()
 
-        applyButton.controlEventPublisher(for: .touchUpInside)
-            .subscribe(viewModel.inputs.applyToJob)
-            .store(in: &subscriptionsStore)
+        subscriptions {
+            applyButton.controlEventPublisher(for: .touchUpInside)
+                .subscribe(viewModel.inputs.applyToJob)
 
-        applyButton.publisher(for: \.bounds)
-            .map { $0.height }
-            .removeDuplicates()
-            .assign(to: \.contentInset.bottom, on: collectionView, ownership: .weak)
-            .store(in: &subscriptionsStore)
+            applyButton.publisher(for: \.bounds)
+                .map { $0.height }
+                .removeDuplicates()
+                .assign(to: \.contentInset.bottom, on: collectionView, ownership: .weak)
+        }
     }
 
     override func configureSubviews() {

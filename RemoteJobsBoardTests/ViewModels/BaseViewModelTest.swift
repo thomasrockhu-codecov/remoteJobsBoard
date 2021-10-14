@@ -1,5 +1,5 @@
 import Combine
-import CombineExt
+import CombineExtensions
 @testable import RemoteJobsBoard
 import XCTest
 
@@ -10,7 +10,7 @@ class BaseViewModelTest: XCTestCase {
     // MARK: - Properties
 
     // swiftlint:disable implicitly_unwrapped_optional
-    var subscriptionsStore: SubscriptionsStore!
+    private(set) var subscriptions: CombineCancellable!
     private(set) var services: ServicesContainer!
     // swiftlint:enable implicitly_unwrapped_optional
 
@@ -19,7 +19,7 @@ class BaseViewModelTest: XCTestCase {
     override func setUp() {
         super.setUp()
 
-        subscriptionsStore = SubscriptionsStore()
+        subscriptions = CombineCancellable()
         services = ServicesContainer(
             logger: MockLoggerService(),
             api: MockAPIService()

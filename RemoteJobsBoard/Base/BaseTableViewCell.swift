@@ -1,3 +1,4 @@
+import CombineExtensions
 import UIKit
 
 /// Base class for all table view cells.
@@ -5,7 +6,7 @@ class BaseTableViewCell: UITableViewCell {
 
     // MARK: - Properties
 
-    var reusablesubscriptionsStore = SubscriptionsStore()
+    private(set) var reusableSubscriptions = CombineCancellable()
 
     // MARK: - Initialization
 
@@ -26,7 +27,7 @@ class BaseTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        reusablesubscriptionsStore = SubscriptionsStore()
+        reusableSubscriptions = CombineCancellable()
         reusableBind()
     }
 

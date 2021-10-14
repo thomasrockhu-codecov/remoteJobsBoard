@@ -1,3 +1,4 @@
+import CombineExtensions
 import UIKit
 
 /// Base class for all table view data sources.
@@ -17,7 +18,7 @@ UITableViewDiffableDataSource<Sections.SectionModel, Sections.SectionItem> {
 
     weak var tableView: UITableView?
 
-    var subscriptionsStore = SubscriptionsStore()
+    let subscriptions = CombineCancellable()
 
     var mappingQueue: DispatchQueue { mappingQueueRelay }
     var snapshotQueue: DispatchQueue { snapshotQueueRelay }

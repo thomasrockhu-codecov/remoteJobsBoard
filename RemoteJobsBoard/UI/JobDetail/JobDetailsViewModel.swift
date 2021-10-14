@@ -32,8 +32,8 @@ final class JobDetailsViewModel: BaseViewModel<RootCoordinator.RouteModel> {
             }
 
         Publishers.Merge3(selectedLink, selectedPhoneNumber, applyToJob)
-            .sink { [weak self] in self?.trigger($0) }
-            .store(in: &subscriptionsStore)
+            .sinkValue { [weak self] in self?.trigger($0) }
+            .store(in: subscriptions)
     }
 
 }

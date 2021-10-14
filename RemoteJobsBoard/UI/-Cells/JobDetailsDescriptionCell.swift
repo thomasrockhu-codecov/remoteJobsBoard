@@ -1,6 +1,6 @@
 import Atributika
 import Combine
-import CombineExt
+import CombineExtensions
 import UIKit
 import WebKit
 
@@ -66,12 +66,10 @@ extension JobDetailsDescriptionCell {
     }
 
     func bind(to viewModel: JobDetailsViewModelType) {
-        selectedLink
-            .subscribe(viewModel.inputs.selectedLink)
-            .store(in: &reusablesubscriptionsStore)
-        selectedPhoneNumber
-            .subscribe(viewModel.inputs.selectedPhoneNumber)
-            .store(in: &reusablesubscriptionsStore)
+        reusablesubscriptions {
+            selectedLink.subscribe(viewModel.inputs.selectedLink)
+            selectedPhoneNumber.subscribe(viewModel.inputs.selectedPhoneNumber)
+        }
     }
 
 }

@@ -1,3 +1,4 @@
+import CombineExtensions
 import UIKit
 
 /// Base class for all collection view controllers.
@@ -7,7 +8,7 @@ class BaseCollectionViewController: UICollectionViewController {
 
     let services: ServicesContainer
 
-    var subscriptionsStore = SubscriptionsStore()
+    let subscriptions = CombineCancellable()
 
     var navigationItemTitle: String? {
         nil
