@@ -26,7 +26,7 @@ final class LocalizedStringTests: XCTestCase {
     func test_jobDetails() throws {
         try check(
             LocalizedString.JobDetails.applyButtonTitle,
-            englishString: "Apply"
+            englishString: "Apply on remotive.io"
         )
     }
 

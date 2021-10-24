@@ -21,7 +21,6 @@ struct JobDetailsSections: DataSourceSections {
 
     static func headlineSection(job: JobDetailsCellsModel) -> Section {
         let items = [
-            SectionItem(category: job.jobDetailCellCategory),
             SectionItem(jobTitle: job.jobDetailCellJobTitle),
             SectionItem(companyName: job.jobDetailCellCompanyName)
         ]
@@ -65,7 +64,6 @@ extension JobDetailsSections {
         case jobTitle(String)
         case description(String)
         case companyName(String)
-        case category(String)
         case tag(String)
 
         init(tag: String) {
@@ -82,10 +80,6 @@ extension JobDetailsSections {
 
         init(companyName: String) {
             self = .companyName(companyName)
-        }
-
-        init(category: String) {
-            self = .category(category)
         }
 
         var section: SectionModel {

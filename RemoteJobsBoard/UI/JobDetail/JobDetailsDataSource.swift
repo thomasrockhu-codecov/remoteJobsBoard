@@ -26,10 +26,6 @@ final class JobDetailsDataSource: BaseCollectionViewDataSource<JobDetailsSection
                 let cell: JobDetailsCompanyNameCell = try $0.dequeueReusableCell(for: $1)
                 cell.configure(with: companyName)
                 return cell
-            case .category(let categoryName):
-                let cell: JobDetailsCategoryCell = try $0.dequeueReusableCell(for: $1)
-                cell.configure(with: categoryName)
-                return cell
             case .tag(let tag):
                 let cell: JobDetailsTagCell = try $0.dequeueReusableCell(for: $1)
                 cell.configure(with: tag)
@@ -55,7 +51,6 @@ final class JobDetailsDataSource: BaseCollectionViewDataSource<JobDetailsSection
         collectionView.register(cellClass: JobDetailsTitleCell.self)
         collectionView.register(cellClass: JobDetailsDescriptionCell.self)
         collectionView.register(cellClass: JobDetailsCompanyNameCell.self)
-        collectionView.register(cellClass: JobDetailsCategoryCell.self)
         collectionView.register(cellClass: JobDetailsTagCell.self)
     }
 
@@ -77,33 +72,85 @@ final class JobDetailsDataSource: BaseCollectionViewDataSource<JobDetailsSection
 private extension JobDetailsDataSource {
 
     func layoutGroup(with item: NSCollectionLayoutItem, index: Int) -> NSCollectionLayoutGroup {
-        let size: NSCollectionLayoutSize
+        let heightDimension: NSCollectionLayoutDimension
         switch itemIdentifier(for: index)?.section {
         case .tags:
-            size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(100))
+            heightDimension = .estimated(Constant.tagHeight)
+        case .description:
+            heightDimension = .estimated(Constant.descriptionHeight)
+        case .headline:
+            heightDimension = .estimated(Constant.headlineHeight)
         default:
-            size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(100))
+            heightDimension = .estimated(Constant.defaultSize)
         }
 
-        return .horizontal(layoutSize: size, subitems: [item])
+        let subitems: [NSCollectionLayoutItem]
+        switch itemIdentifier(for: index)?.section {
+        case .tags:
+            subitems = [item, item, item, item, item, item]
+        default:
+            subitems = [item]
+        }
+
+        let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: heightDimension)
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: size, subitems: subitems)
+        group.interItemSpacing = .fixed(Constant.spacing)
+        return group
     }
 
     func layoutItem(for environment: NSCollectionLayoutEnvironment, index: Int) -> NSCollectionLayoutItem {
-        let size: NSCollectionLayoutSize
-        switch itemIdentifier(for: index)?.section {
-        case .tags:
-            size = NSCollectionLayoutSize(widthDimension: .estimated(100), heightDimension: .estimated(100))
+        let widthDimension: NSCollectionLayoutDimension
+        switch itemIdentifier(for: index) {
+        case .tag:
+            widthDimension = .estimated(Constant.defaultSize)
         default:
-            size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(100))
+            widthDimension = .fractionalWidth(1)
         }
 
+        let heightDimension: NSCollectionLayoutDimension
+        switch itemIdentifier(for: index) {
+        case .tag:
+            heightDimension = .estimated(Constant.tagHeight)
+        case .companyName:
+            heightDimension = .estimated(Constant.companyNameHeight)
+        case .jobTitle:
+            heightDimension = .estimated(Constant.jobTitleHeight)
+        case .description:
+            heightDimension = .estimated(Constant.descriptionHeight)
+        default:
+            heightDimension = .estimated(Constant.defaultSize)
+        }
+
+        let size = NSCollectionLayoutSize(widthDimension: widthDimension, heightDimension: heightDimension)
         return NSCollectionLayoutItem(layoutSize: size)
     }
 
     func layoutSection(with group: NSCollectionLayoutGroup, index: Int) -> NSCollectionLayoutSection {
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsetsReference = .layoutMargins
+        section.interGroupSpacing = Constant.spacing
+        section.contentInsets = NSDirectionalEdgeInsets(inset: Constant.spacing)
         return section
+    }
+
+}
+
+// MARK: - Constants
+
+private extension JobDetailsDataSource {
+
+    enum Constant {
+
+        static let tagHeight: CGFloat = 50
+        static let descriptionHeight: CGFloat = 500
+        static let jobTitleHeight: CGFloat = 50
+        static let companyNameHeight: CGFloat = 43
+        static let defaultSize: CGFloat = 100
+
+        static let spacing: CGFloat = 8
+
+        static let headlineHeight = jobTitleHeight + companyNameHeight
+
     }
 
 }

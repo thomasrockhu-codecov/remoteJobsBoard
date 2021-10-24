@@ -20,13 +20,8 @@
         }
       ],
       "color" : {
-        "color-space" : "srgb",
-        "components" : {
-          "alpha" : "1.000",
-          "blue" : "219",
-          "green" : "111",
-          "red" : "86"
-        }
+        "platform" : "universal",
+        "reference" : "systemIndigoColor"
       },
       "idiom" : "universal"
     }

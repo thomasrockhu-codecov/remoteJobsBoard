@@ -45,10 +45,10 @@ final class JobDetailsDescriptionCell: BaseJobDetailsCell {
         }
 
         descriptionLabel.add(to: contentView) {
-            $0.leadingAnchor.constraint(equalTo: $1.leadingMarginAnchor)
-            $0.topAnchor.constraint(equalTo: $1.topMarginAnchor)
-            $1.trailingMarginAnchor.constraint(equalTo: $0.trailingAnchor)
-            $1.bottomMarginAnchor.constraint(equalTo: $0.bottomAnchor)
+            $0.leadingAnchor.constraint(equalTo: $1.leadingAnchor)
+            $0.topAnchor.constraint(equalTo: $1.topAnchor)
+            $1.trailingAnchor.constraint(equalTo: $0.trailingAnchor)
+            $1.bottomAnchor.constraint(equalTo: $0.bottomAnchor)
         }
     }
 
@@ -84,7 +84,7 @@ private extension JobDetailsDescriptionCell {
             [strongStyle, boldStyle, italicStyle, linkStyle]
         }
 
-        static let bodyStyle = Style.font(font)
+        static let bodyStyle = Style.font(font).paragraphStyle(bodyParagraphStyle)
         static let strongStyle = Style("strong").font(boldFont)
         static let boldStyle = Style("b").font(boldFont)
         static let italicStyle = Style("i").font(italicFont)
@@ -97,6 +97,12 @@ private extension JobDetailsDescriptionCell {
         private static let font = UIFont.preferredFont(forTextStyle: .body)
         private static let boldFont = UIFont.boldSystemFont(ofSize: font.pointSize)
         private static let italicFont = UIFont.italicSystemFont(ofSize: font.pointSize)
+
+        private static let bodyParagraphStyle: NSParagraphStyle = {
+            var style = NSMutableParagraphStyle()
+            style.alignment = .justified
+            return style
+        }()
 
     }
 

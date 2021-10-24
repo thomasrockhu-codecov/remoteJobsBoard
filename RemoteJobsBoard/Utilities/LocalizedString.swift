@@ -57,7 +57,7 @@ extension LocalizedString {
         /// and value equal to `Apply`.
         static var applyButtonTitle: String {
             NSLocalizedString("JobDetails.applyButtonTitle",
-                              value: "Apply",
+                              value: "Apply on remotive.io",
                               comment: "Title of 'Apply to job' button.")
         }
 
