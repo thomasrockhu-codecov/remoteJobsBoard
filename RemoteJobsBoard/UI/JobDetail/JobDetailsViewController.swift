@@ -58,10 +58,10 @@ final class JobDetailsViewController: BaseCollectionViewController {
 
         // Apply Button.
         applyButton.add(to: view) {
-            [$0.centerXAnchor.constraint(equalTo: $1.centerXSafeAnchor),
-             $0.widthAnchor.constraint(greaterThanOrEqualTo: $1.widthAnchor, multiplier: Constant.applyButtonWidthMultiplier),
-             $0.heightAnchor.constraint(greaterThanOrEqualToConstant: Constant.applyButtonHeight),
-             $1.bottomSafeAnchor.constraint(equalTo: $0.bottomSafeAnchor)]
+            $0.centerXAnchor.constraint(equalTo: $1.centerXSafeAnchor)
+            $0.widthAnchor.constraint(greaterThanOrEqualTo: $1.widthAnchor, multiplier: Constant.applyButtonWidthMultiplier)
+            $0.heightAnchor.constraint(greaterThanOrEqualToConstant: Constant.applyButtonHeight)
+            $1.bottomSafeAnchor.constraint(equalTo: $0.bottomSafeAnchor)
         }
     }
 

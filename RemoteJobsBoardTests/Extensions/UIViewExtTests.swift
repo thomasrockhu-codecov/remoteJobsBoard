@@ -28,29 +28,29 @@ final class UIViewExtTests: XCTestCase {
     func test_addToView() {
         let parentView = UIView()
         let childView = UIView()
-        let constraints = [childView.leadingAnchor.constraint(equalTo: parentView.leadingAnchor)]
+        let constraint = childView.leadingAnchor.constraint(equalTo: parentView.leadingAnchor)
 
         childView.add(to: parentView) { _, _ in
-            constraints
+            constraint
         }
 
         XCTAssertFalse(childView.translatesAutoresizingMaskIntoConstraints)
         XCTAssertEqual(parentView.subviews, [childView])
-        XCTAssertEqual(parentView.constraints, constraints)
+        XCTAssertEqual(parentView.constraints, [constraint])
     }
 
     func test_addAsArrangedSubview() {
         let parentView = UIStackView()
         let childView = UIView()
-        let constraints = [childView.heightAnchor.constraint(equalToConstant: 44)]
+        let constraint = childView.heightAnchor.constraint(equalToConstant: 44)
 
         childView.addAsArrangedSubview(to: parentView) { _, _ in
-            constraints
+            constraint
         }
 
         XCTAssertFalse(childView.translatesAutoresizingMaskIntoConstraints)
         XCTAssertEqual(parentView.arrangedSubviews, [childView])
-        XCTAssertEqual(parentView.constraints, constraints)
+        XCTAssertEqual(parentView.constraints, [constraint])
     }
 
     func test_addAsArrangedSubview_noConstraints() {

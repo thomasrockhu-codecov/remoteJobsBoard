@@ -23,10 +23,10 @@ final class JobDetailsTagCell: BaseJobDetailsCell {
         tagLabelBackgroundView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         tagLabelBackgroundView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         tagLabelBackgroundView.add(to: contentView) {
-            [$0.leadingAnchor.constraint(equalTo: $1.leadingMarginAnchor),
-             $0.topAnchor.constraint(equalTo: $1.topMarginAnchor),
-             $1.trailingMarginAnchor.constraint(greaterThanOrEqualTo: $0.trailingAnchor),
-             $1.bottomMarginAnchor.constraint(equalTo: $0.bottomAnchor)]
+            $0.leadingAnchor.constraint(equalTo: $1.leadingMarginAnchor)
+            $0.topAnchor.constraint(equalTo: $1.topMarginAnchor)
+            $1.trailingMarginAnchor.constraint(greaterThanOrEqualTo: $0.trailingAnchor)
+            $1.bottomMarginAnchor.constraint(equalTo: $0.bottomAnchor)
         }
 
         // Tag Label.
@@ -38,10 +38,10 @@ final class JobDetailsTagCell: BaseJobDetailsCell {
         tagLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         tagLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         tagLabel.add(to: tagLabelBackgroundView.contentView) {
-            [$0.leadingAnchor.constraint(equalTo: $1.leadingMarginAnchor),
-             $0.topAnchor.constraint(equalTo: $1.topMarginAnchor),
-             $1.trailingMarginAnchor.constraint(equalTo: $0.trailingAnchor),
-             $1.bottomMarginAnchor.constraint(equalTo: $0.bottomAnchor)]
+            $0.leadingAnchor.constraint(equalTo: $1.leadingMarginAnchor)
+            $0.topAnchor.constraint(equalTo: $1.topMarginAnchor)
+            $1.trailingMarginAnchor.constraint(equalTo: $0.trailingAnchor)
+            $1.bottomMarginAnchor.constraint(equalTo: $0.bottomAnchor)
         }
     }
 
