@@ -984,7 +984,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 54XDBWL7NB;
 				INFOPLIST_FILE = RemoteJobsBoard/SupportingFiles/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1011,7 +1011,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 54XDBWL7NB;
 				INFOPLIST_FILE = RemoteJobsBoard/SupportingFiles/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1035,7 +1035,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 54XDBWL7NB;
 				INFOPLIST_FILE = RemoteJobsBoardTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1057,7 +1057,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 54XDBWL7NB;
 				INFOPLIST_FILE = RemoteJobsBoardTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1109,7 +1109,7 @@
 			repositoryURL = "https://github.com/CombineCommunity/CombineCocoa";
 			requirement = {
 				kind = upToNextMinorVersion;
-				minimumVersion = 0.3.0;
+				minimumVersion = 0.4.0;
 			};
 		};
 		71786F7A2718C650007D019E /* XCRemoteSwiftPackageReference "combineExtensions" */ = {
