@@ -2,12 +2,12 @@ import UIKit
 
 class BaseJobDetailsCell: BaseCollectionViewCell {
 
-    // MARK: - Base Class
+	// MARK: - Base Class
 
-    override func configureSubviews() {
-        super.configureSubviews()
+	override func configureSubviews() {
+		super.configureSubviews()
 
-        backgroundColor = Color.JobsList.background
-    }
+		backgroundColor = Color.JobsList.background
+	}
 
 }

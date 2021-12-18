@@ -5,53 +5,52 @@ import XCoordinator
 
 class BaseViewModel<RouteModel: Route> {
 
-    // MARK: - Typealiases
+	// MARK: - Typealiases
 
-    typealias RouteModel = RouteModel
-    typealias Router = WeakRouter<RouteModel>
+	typealias RouteModel = RouteModel
+	typealias Router = WeakRouter<RouteModel>
 
-    // MARK: - Properties
+	// MARK: - Properties
 
-    let logger: LoggerServiceType
+	let logger: LoggerServiceType
+	let router: Router
 
-    let subscriptions = CombineCancellable()
+	let subscriptions = CombineCancellable()
 
-    lazy var errorHandler: ErrorHandler = { [weak self] in
-        self?.log(error: $0)
-    }
+	lazy var errorHandler: ErrorHandler = { [weak self] in
+		self?.log(error: $0)
+	}
 
-    let router: Router
+	// MARK: - Initialization
 
-    // MARK: - Initialization
+	init(router: Router, services: ServicesContainer) {
+		self.router = router
+		self.logger = services.logger
+	}
 
-    init(router: Router, services: ServicesContainer) {
-        self.router = router
-        self.logger = services.logger
-    }
+	// MARK: - Deinitialization
 
-    // MARK: - Deinitialization
+	deinit {
+		logger.log(deinitOf: self)
+	}
 
-    deinit {
-        logger.log(deinitOf: self)
-    }
+	// MARK: - Public
 
-    // MARK: - Public
+	func bindRoutes() {}
 
-    func bindRoutes() {}
+	/// If you override this method, `super` must be called.
+	func bind() {
+		bindRoutes()
+	}
 
-    /// If you override this method, `super` must be called.
-    func bind() {
-        bindRoutes()
-    }
+	func trigger(_ route: RouteModel) {
+		DispatchQueue.main.async { [weak self] in
+			self?.router.trigger(route)
+		}
+	}
 
-    func trigger(_ route: RouteModel) {
-        DispatchQueue.main.async { [weak self] in
-            self?.router.trigger(route)
-        }
-    }
-
-    func log(error: Error) {
-        logger.log(error: error)
-    }
+	func log(error: Error) {
+		logger.log(error: error)
+	}
 
 }

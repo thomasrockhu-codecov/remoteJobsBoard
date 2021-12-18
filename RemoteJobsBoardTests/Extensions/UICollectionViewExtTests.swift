@@ -4,69 +4,69 @@ import XCTest
 
 final class UICollectionViewExtTests: XCTestCase {
 
-    // MARK: - Typealiases
+	// MARK: - Typealiases
 
-    private typealias Kind = UICollectionView.ReusableSupplementaryViewKind
+	private typealias Kind = UICollectionView.ReusableSupplementaryViewKind
 
-    // MARK: - Properties
+	// MARK: - Properties
 
-    private var viewController: MockViewController!
+	private var viewController: MockViewController!
 
-    // MARK: - Base Class
+	// MARK: - Base Class
 
-    override func setUp() {
-        super.setUp()
+	override func setUp() {
+		super.setUp()
 
-        viewController = MockViewController()
-    }
+		viewController = MockViewController()
+	}
 
-    // MARK: - Tests
+	// MARK: - Tests
 
-    func test_cell_success() throws {
-        guard let collectionView = viewController.collectionView else { throw TestError.nilCollectionView }
-        guard let dataSource = collectionView.dataSource else { throw TestError.nilDataSource }
+	func test_cell_success() throws {
+		guard let collectionView = viewController.collectionView else { throw TestError.nilCollectionView }
+		guard let dataSource = collectionView.dataSource else { throw TestError.nilDataSource }
 
-        collectionView.register(cellClass: MockCollectionViewCell.self)
+		collectionView.register(cellClass: MockCollectionViewCell.self)
 
-        let cell = dataSource.collectionView(collectionView, cellForItemAt: Constant.indexPath)
-        XCTAssertNil(viewController.error)
-        XCTAssertNotNil(cell)
-    }
+		let cell = dataSource.collectionView(collectionView, cellForItemAt: Constant.indexPath)
+		XCTAssertNil(viewController.error)
+		XCTAssertNotNil(cell)
+	}
 
-    func test_cell_error() throws {
-        guard let collectionView = viewController.collectionView else { throw TestError.nilCollectionView }
-        guard let dataSource = collectionView.dataSource else { throw TestError.nilDataSource }
+	func test_cell_error() throws {
+		guard let collectionView = viewController.collectionView else { throw TestError.nilCollectionView }
+		guard let dataSource = collectionView.dataSource else { throw TestError.nilDataSource }
 
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: Constant.cellIdentifier)
+		collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: Constant.cellIdentifier)
 
-        let cell = dataSource.collectionView(collectionView, cellForItemAt: Constant.indexPath)
-        XCTAssertEqual(viewController.error, TestError.dequeueError(Constant.cellIdentifier))
-        XCTAssertNotNil(cell)
-    }
+		let cell = dataSource.collectionView(collectionView, cellForItemAt: Constant.indexPath)
+		XCTAssertEqual(viewController.error, TestError.dequeueError(Constant.cellIdentifier))
+		XCTAssertNotNil(cell)
+	}
 
-    func test_supplementary_success_header() throws {
-        try testSupplementaryView(for: .header)
-    }
+	func test_supplementary_success_header() throws {
+		try testSupplementaryView(for: .header)
+	}
 
-    func test_supplementary_success_footer() throws {
-        try testSupplementaryView(for: .footer)
-    }
+	func test_supplementary_success_footer() throws {
+		try testSupplementaryView(for: .footer)
+	}
 
-    func test_supplementary_error_header() throws {
-        try testSupplementaryViewFailure(for: .header)
-    }
+	func test_supplementary_error_header() throws {
+		try testSupplementaryViewFailure(for: .header)
+	}
 
-    func test_supplementary_error_footer() throws {
-        try testSupplementaryViewFailure(for: .footer)
-    }
+	func test_supplementary_error_footer() throws {
+		try testSupplementaryViewFailure(for: .footer)
+	}
 
-    func test_reusableSupplementaryViewKind() {
-        var kind = UICollectionView.ReusableSupplementaryViewKind.footer
-        XCTAssertEqual(kind.rawValue, UICollectionView.elementKindSectionFooter)
+	func test_reusableSupplementaryViewKind() {
+		var kind = UICollectionView.ReusableSupplementaryViewKind.footer
+		XCTAssertEqual(kind.rawValue, UICollectionView.elementKindSectionFooter)
 
-        kind = .header
-        XCTAssertEqual(kind.rawValue, UICollectionView.elementKindSectionHeader)
-    }
+		kind = .header
+		XCTAssertEqual(kind.rawValue, UICollectionView.elementKindSectionHeader)
+	}
 
 }
 
@@ -74,38 +74,38 @@ final class UICollectionViewExtTests: XCTestCase {
 
 private extension UICollectionViewExtTests {
 
-    func testSupplementaryView(for kind: UICollectionView.ReusableSupplementaryViewKind) throws {
-        guard let collectionView = viewController.collectionView else { throw TestError.nilCollectionView }
-        guard let dataSource = collectionView.dataSource else { throw TestError.nilDataSource }
+	func testSupplementaryView(for kind: UICollectionView.ReusableSupplementaryViewKind) throws {
+		guard let collectionView = viewController.collectionView else { throw TestError.nilCollectionView }
+		guard let dataSource = collectionView.dataSource else { throw TestError.nilDataSource }
 
-        collectionView.register(cellClass: MockCollectionViewCell.self)
-        collectionView.register(viewClass: MockCollectionReusableView.self, forKind: kind)
-        collectionView.reloadItems(at: [Constant.indexPath])
+		collectionView.register(cellClass: MockCollectionViewCell.self)
+		collectionView.register(viewClass: MockCollectionReusableView.self, forKind: kind)
+		collectionView.reloadItems(at: [Constant.indexPath])
 
-        let view = dataSource.collectionView?(collectionView,
-                                              viewForSupplementaryElementOfKind: kind.rawValue,
-                                              at: Constant.indexPath)
+		let view = dataSource.collectionView?(collectionView,
+																					viewForSupplementaryElementOfKind: kind.rawValue,
+																					at: Constant.indexPath)
 
-        XCTAssertNil(viewController.error)
-        XCTAssertNotNil(view)
-    }
+		XCTAssertNil(viewController.error)
+		XCTAssertNotNil(view)
+	}
 
-    func testSupplementaryViewFailure(for kind: UICollectionView.ReusableSupplementaryViewKind) throws {
-        guard let collectionView = viewController.collectionView else { throw TestError.nilCollectionView }
-        guard let dataSource = collectionView.dataSource else { throw TestError.nilDataSource }
+	func testSupplementaryViewFailure(for kind: UICollectionView.ReusableSupplementaryViewKind) throws {
+		guard let collectionView = viewController.collectionView else { throw TestError.nilCollectionView }
+		guard let dataSource = collectionView.dataSource else { throw TestError.nilDataSource }
 
-        collectionView.register(cellClass: MockCollectionViewCell.self)
-        collectionView.register(UICollectionReusableView.self,
-                                forSupplementaryViewOfKind: kind.rawValue,
-                                withReuseIdentifier: Constant.viewIdentifier)
-        collectionView.reloadItems(at: [Constant.indexPath])
+		collectionView.register(cellClass: MockCollectionViewCell.self)
+		collectionView.register(UICollectionReusableView.self,
+														forSupplementaryViewOfKind: kind.rawValue,
+														withReuseIdentifier: Constant.viewIdentifier)
+		collectionView.reloadItems(at: [Constant.indexPath])
 
-        let view = dataSource.collectionView?(collectionView,
-                                              viewForSupplementaryElementOfKind: kind.rawValue,
-                                              at: Constant.indexPath)
-        XCTAssertEqual(viewController.error, TestError.dequeueError(Constant.viewIdentifier))
-        XCTAssertNotNil(view)
-    }
+		let view = dataSource.collectionView?(collectionView,
+																					viewForSupplementaryElementOfKind: kind.rawValue,
+																					at: Constant.indexPath)
+		XCTAssertEqual(viewController.error, TestError.dequeueError(Constant.viewIdentifier))
+		XCTAssertNotNil(view)
+	}
 
 }
 
@@ -113,13 +113,13 @@ private extension UICollectionViewExtTests {
 
 private extension UICollectionViewExtTests {
 
-    enum Constant {
+	enum Constant {
 
-        static let indexPath = IndexPath(row: 0, section: 0)
-        static let cellIdentifier = "MockCollectionViewCell"
-        static let viewIdentifier = "MockCollectionReusableView"
+		static let indexPath = IndexPath(row: 0, section: 0)
+		static let cellIdentifier = "MockCollectionViewCell"
+		static let viewIdentifier = "MockCollectionReusableView"
 
-    }
+	}
 
 }
 
@@ -127,24 +127,24 @@ private extension UICollectionViewExtTests {
 
 private enum TestError: Error, Equatable {
 
-    case nilCollectionView
-    case nilDataSource
-    case dequeueError(String)
-    case unknown(Error)
-    case unexpectedIdentifier(String)
+	case nilCollectionView
+	case nilDataSource
+	case dequeueError(String)
+	case unknown(Error)
+	case unexpectedIdentifier(String)
 
-    static func == (lhs: TestError, rhs: TestError) -> Bool {
-        switch (lhs, rhs) {
-        case (.nilCollectionView, .nilCollectionView), (.nilDataSource, .nilDataSource):
-            return true
-        case let (.dequeueError(lhsID), .dequeueError(rhsID)):
-            return lhsID == rhsID
-        case let (.unexpectedIdentifier(lhsID), .unexpectedIdentifier(rhsID)):
-            return lhsID == rhsID
-        default:
-            return false
-        }
-    }
+	static func == (lhs: TestError, rhs: TestError) -> Bool {
+		switch (lhs, rhs) {
+		case (.nilCollectionView, .nilCollectionView), (.nilDataSource, .nilDataSource):
+			return true
+		case let (.dequeueError(lhsID), .dequeueError(rhsID)):
+			return lhsID == rhsID
+		case let (.unexpectedIdentifier(lhsID), .unexpectedIdentifier(rhsID)):
+			return lhsID == rhsID
+		default:
+			return false
+		}
+	}
 
 }
 
@@ -153,79 +153,79 @@ private enum TestError: Error, Equatable {
 // swiftlint:disable line_length
 private final class MockViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
-    var error: TestError?
+	var error: TestError?
 
-    init() {
-        let layout = UICollectionViewFlowLayout()
-        layout.headerReferenceSize = CGSize(width: 30, height: 30)
-        layout.footerReferenceSize = CGSize(width: 40, height: 40)
-        super.init(collectionViewLayout: layout)
-    }
+	init() {
+		let layout = UICollectionViewFlowLayout()
+		layout.headerReferenceSize = CGSize(width: 30, height: 30)
+		layout.footerReferenceSize = CGSize(width: 40, height: 40)
+		super.init(collectionViewLayout: layout)
+	}
 
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
 
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        5
-    }
+	override func numberOfSections(in collectionView: UICollectionView) -> Int {
+		5
+	}
 
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        5
-    }
+	override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+		5
+	}
 
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        do {
-            let cell: MockCollectionViewCell = try collectionView.dequeueReusableCell(for: indexPath)
-            return cell
-        } catch let dequeueError as CommonError {
-            switch dequeueError {
-            case .collectionViewCellDequeue(identifier: let identifier):
-                self.error = .dequeueError(identifier)
-            default:
-                self.error = .unknown(dequeueError)
-            }
-            return MockCollectionViewCell()
-        } catch {
-            self.error = .unknown(error)
-            return MockCollectionViewCell()
-        }
-    }
+	override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		do {
+			let cell: MockCollectionViewCell = try collectionView.dequeueReusableCell(for: indexPath)
+			return cell
+		} catch let dequeueError as CommonError {
+			switch dequeueError {
+			case .collectionViewCellDequeue(identifier: let identifier):
+				self.error = .dequeueError(identifier)
+			default:
+				self.error = .unknown(dequeueError)
+			}
+			return MockCollectionViewCell()
+		} catch {
+			self.error = .unknown(error)
+			return MockCollectionViewCell()
+		}
+	}
 
-    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        do {
-            switch kind {
-            case UICollectionView.elementKindSectionHeader:
-                let view: MockCollectionReusableView = try collectionView.dequeueReusableSupplementaryView(ofKind: .header, for: indexPath)
-                return view
-            case UICollectionView.elementKindSectionFooter:
-                let view: MockCollectionReusableView = try collectionView.dequeueReusableSupplementaryView(ofKind: .footer, for: indexPath)
-                return view
-            default:
-                self.error = .unexpectedIdentifier(kind)
-                return MockCollectionReusableView()
-            }
-        } catch let dequeueError as CommonError {
-            switch dequeueError {
-            case .collectionViewSupplementaryViewDequeue(identifier: let identifier):
-                self.error = .dequeueError(identifier)
-            default:
-                self.error = .unknown(dequeueError)
-            }
-            return MockCollectionReusableView()
-        } catch {
-            self.error = .unknown(error)
-            return MockCollectionReusableView()
-        }
-    }
+	override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+		do {
+			switch kind {
+			case UICollectionView.elementKindSectionHeader:
+				let view: MockCollectionReusableView = try collectionView.dequeueReusableSupplementaryView(ofKind: .header, for: indexPath)
+				return view
+			case UICollectionView.elementKindSectionFooter:
+				let view: MockCollectionReusableView = try collectionView.dequeueReusableSupplementaryView(ofKind: .footer, for: indexPath)
+				return view
+			default:
+				self.error = .unexpectedIdentifier(kind)
+				return MockCollectionReusableView()
+			}
+		} catch let dequeueError as CommonError {
+			switch dequeueError {
+			case .collectionViewSupplementaryViewDequeue(identifier: let identifier):
+				self.error = .dequeueError(identifier)
+			default:
+				self.error = .unknown(dequeueError)
+			}
+			return MockCollectionReusableView()
+		} catch {
+			self.error = .unknown(error)
+			return MockCollectionReusableView()
+		}
+	}
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        CGSize(width: 40, height: 40)
-    }
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+		CGSize(width: 40, height: 40)
+	}
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        CGSize(width: 30, height: 30)
-    }
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+		CGSize(width: 30, height: 30)
+	}
 
 }
 

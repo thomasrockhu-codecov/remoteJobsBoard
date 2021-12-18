@@ -5,7 +5,7 @@ import UIKit
 enum Image {
 
 
-    static var onError: ((Error) -> Void)?
+  static var onError: ((Error) -> Void)?
 
 }
 // swiftlint:enable let_var_whitespace superfluous_disable_command
@@ -14,19 +14,19 @@ enum Image {
 
 private extension Image {
 
-    struct Asset {
+  struct Asset {
 
-        let name: String
+    let name: String
 
-        var image: UIImage {
-            guard let result = UIImage(named: name) else {
-                Image.onError?(InitError.imageInit(name: name))
-                return UIImage()
-            }
-            return result
-        }
-
+    var image: UIImage {
+      guard let result = UIImage(named: name) else {
+        Image.onError?(InitError.imageInit(name: name))
+        return UIImage()
+      }
+      return result
     }
+
+  }
 
 }
 
@@ -34,11 +34,11 @@ private extension Image {
 
 extension Image {
 
-    enum InitError: Error {
+  enum InitError: Error {
 
-        case imageInit(name: String)
-        case sfSymbolInit(name: String)
+    case imageInit(name: String)
+    case sfSymbolInit(name: String)
 
-    }
+  }
 
 }

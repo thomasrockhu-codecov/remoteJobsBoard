@@ -4,25 +4,25 @@ import XCoordinator
 /// Base class for all navigation coordinators.
 class BaseNavigationCoordinator<RouteType: Route>: NavigationCoordinator<RouteType> {
 
-    // MARK: - Properties
+	// MARK: - Properties
 
-    let services: ServicesContainer
+	let services: ServicesContainer
 
-    // MARK: - Initialization
+	// MARK: - Initialization
 
-    init(services: ServicesContainer,
-         initialRoute: RouteType,
-         rootViewController: UINavigationController) {
+	init(services: ServicesContainer,
+			 initialRoute: RouteType,
+			 rootViewController: UINavigationController) {
 
-        self.services = services
+		self.services = services
 
-        super.init(rootViewController: rootViewController, initialRoute: initialRoute)
-    }
+		super.init(rootViewController: rootViewController, initialRoute: initialRoute)
+	}
+	
+	// MARK: - Deinitialization
 
-    // MARK: - Deinitialization
-
-    deinit {
-        services.logger.log(deinitOf: self)
-    }
+	deinit {
+		services.logger.log(deinitOf: self)
+	}
 
 }

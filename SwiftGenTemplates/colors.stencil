@@ -10,11 +10,11 @@ import UIKit
 {% macro casesBlock assets %}
   {% for asset in assets %}
   {% if asset.type == "color" %}
-    static var {{asset.name|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords}}: UIColor { Asset(name: "{{asset.value}}").color }
+  static var {{asset.name|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords}}: UIColor { Asset(name: "{{asset.value}}").color }
   {% elif asset.items and ( forceNamespaces == "true" or asset.isNamespaced == "true" ) %}
-    enum {{asset.name|swiftIdentifier:"pretty"|escapeReservedKeywords}} {
-    {% filter indent:4 %}{% call casesBlock asset.items %}{% endfilter %}
-    }
+  enum {{asset.name|swiftIdentifier:"pretty"|escapeReservedKeywords}} {
+    {% filter indent:2 %}{% call casesBlock asset.items %}{% endfilter %}
+  }
   {% elif asset.items %}
   {% call casesBlock asset.items %}
   {% endif %}
@@ -37,14 +37,14 @@ enum {{enumName}} {
   {% if catalogs.count > 1 %}
   {% for catalog in catalogs %}
   enum {{catalog.name|swiftIdentifier:"pretty"|escapeReservedKeywords}} {
-    {% filter indent:2 %}{% call enumBlock catalog.assets %}{% endfilter %}
+    {% filter indent:1 %}{% call enumBlock catalog.assets %}{% endfilter %}
   }
   {% endfor %}
   {% else %}
   {% call enumBlock catalogs.first.assets %}
   {% endif %}
 
-    static var onError: ((Error) -> Void)?
+  static var onError: ((Error) -> Void)?
 
 }
 // swiftlint:enable let_var_whitespace superfluous_disable_command type_contents_order
@@ -53,19 +53,19 @@ enum {{enumName}} {
 
 private extension {{enumName}} {
 
-    struct Asset {
+  struct Asset {
 
-        let name: String
+    let name: String
 
-        var color: UIColor {
-            guard let result = UIColor(named: name) else {
-                Color.onError?(InitError.colorInit(name: name))
-                return .clear
-            }
-            return result
-        }
-
+    var color: UIColor {
+      guard let result = UIColor(named: name) else {
+        Color.onError?(InitError.colorInit(name: name))
+        return .clear
+      }
+      return result
     }
+
+  }
 
 }
 {% else %}
@@ -76,10 +76,10 @@ private extension {{enumName}} {
 
 extension Color {
 
-    enum InitError: Error {
+  enum InitError: Error {
 
-        case colorInit(name: String)
+    case colorInit(name: String)
 
-    }
+  }
 
 }

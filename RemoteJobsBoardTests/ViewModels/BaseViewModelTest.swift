@@ -7,23 +7,23 @@ import XCTest
 /// This class must not be final.
 class BaseViewModelTest: XCTestCase {
 
-    // MARK: - Properties
+	// MARK: - Properties
 
-    // swiftlint:disable implicitly_unwrapped_optional
-    private(set) var subscriptions: CombineCancellable!
-    private(set) var services: ServicesContainer!
-    // swiftlint:enable implicitly_unwrapped_optional
+	// swiftlint:disable implicitly_unwrapped_optional
+	private(set) var subscriptions: CombineCancellable!
+	private(set) var services: ServicesContainer!
+	// swiftlint:enable implicitly_unwrapped_optional
 
-    // MARK: - Base Class
+	// MARK: - Base Class
 
-    override func setUp() {
-        super.setUp()
-
-        subscriptions = CombineCancellable()
-        services = ServicesContainer(
-            logger: MockLoggerService(),
-            api: MockAPIService()
-        )
-    }
+	override func setUp() {
+		super.setUp()
+		
+		subscriptions = CombineCancellable()
+		services = ServicesContainer(
+			logger: MockLoggerService(),
+			api: MockAPIService()
+		)
+	}
 
 }

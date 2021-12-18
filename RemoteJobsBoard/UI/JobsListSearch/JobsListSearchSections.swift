@@ -2,22 +2,22 @@ import Foundation
 
 struct JobsListSearchSections: DataSourceSections {
 
-    // MARK: - Properties
+	// MARK: - Properties
 
-    let sections: [Section]
+	let sections: [Section]
 
-    // MARK: - Initialization
+	// MARK: - Initialization
 
-    init(jobs: [Job]) {
-        sections = [Self.jobsSection(jobs: jobs)]
-    }
+	init(jobs: [Job]) {
+		sections = [Self.jobsSection(jobs: jobs)]
+	}
 
-    // MARK: - Public Methods
+	// MARK: - Public Methods
 
-    static func jobsSection(jobs: [Job]) -> Section {
-        let items = jobs.map { SectionItem.job($0) }
-        return (.jobs, items)
-    }
+	static func jobsSection(jobs: [Job]) -> Section {
+		let items = jobs.map { SectionItem.job($0) }
+		return (.jobs, items)
+	}
 
 }
 
@@ -25,11 +25,11 @@ struct JobsListSearchSections: DataSourceSections {
 
 extension JobsListSearchSections {
 
-    enum SectionModel: DataSourceSectionModel {
+	enum SectionModel: DataSourceSectionModel {
 
-        case jobs
+		case jobs
 
-    }
+	}
 
 }
 
@@ -37,17 +37,17 @@ extension JobsListSearchSections {
 
 extension JobsListSearchSections {
 
-    enum SectionItem: DataSourceSectionItem {
+	enum SectionItem: DataSourceSectionItem {
 
-        case job(Job)
+		case job(Job)
 
-        var section: SectionModel {
-            switch self {
-            case .job:
-                return .jobs
-            }
-        }
+		var section: SectionModel {
+			switch self {
+			case .job:
+				return .jobs
+			}
+		}
 
-    }
+	}
 
 }

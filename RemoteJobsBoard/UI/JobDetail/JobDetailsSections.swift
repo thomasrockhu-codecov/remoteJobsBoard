@@ -2,42 +2,42 @@ import Foundation
 
 struct JobDetailsSections: DataSourceSections {
 
-    // MARK: - Properties
+	// MARK: - Properties
 
-    let sections: [Section]
+	let sections: [Section]
 
-    // MARK: - Initialization
+	// MARK: - Initialization
 
-    init(job: JobDetailsCellsModel) {
-        sections = [
-            Self.headlineSection(job: job),
-            Self.tagsSection(job: job),
-            Self.descriptionSection(job: job)
-        ]
-        .compactMap { $0 }
-    }
+	init(job: JobDetailsCellsModel) {
+		sections = [
+			Self.headlineSection(job: job),
+			Self.tagsSection(job: job),
+			Self.descriptionSection(job: job)
+		]
+		.compactMap { $0 }
+	}
 
-    // MARK: - Public Methods
+	// MARK: - Public Methods
 
-    static func headlineSection(job: JobDetailsCellsModel) -> Section {
-        let items = [
-            SectionItem(jobTitle: job.jobDetailCellJobTitle),
-            SectionItem(companyName: job.jobDetailCellCompanyName)
-        ]
-        .compactMap { $0 }
-        return (.headline, items)
-    }
+	static func headlineSection(job: JobDetailsCellsModel) -> Section {
+		let items = [
+			SectionItem(jobTitle: job.jobDetailCellJobTitle),
+			SectionItem(companyName: job.jobDetailCellCompanyName)
+		]
+		.compactMap { $0 }
+		return (.headline, items)
+	}
 
-    static func tagsSection(job: JobDetailsCellsModel) -> Section? {
-        guard let tags = job.jobDetailCellTags else { return nil }
-        let items = tags.map { SectionItem.tag($0) }
-        return (.tags, items)
-    }
+	static func tagsSection(job: JobDetailsCellsModel) -> Section? {
+		guard let tags = job.jobDetailCellTags else { return nil }
+		let items = tags.map { SectionItem.tag($0) }
+		return (.tags, items)
+	}
 
-    static func descriptionSection(job: JobDetailsCellsModel) -> Section {
-        let items = [SectionItem.description(job.jobDetailCellDescription)]
-        return (.description, items)
-    }
+	static func descriptionSection(job: JobDetailsCellsModel) -> Section {
+		let items = [SectionItem.description(job.jobDetailCellDescription)]
+		return (.description, items)
+	}
 
 }
 
@@ -45,13 +45,13 @@ struct JobDetailsSections: DataSourceSections {
 
 extension JobDetailsSections {
 
-    enum SectionModel: DataSourceSectionModel {
+	enum SectionModel: DataSourceSectionModel {
 
-        case headline
-        case description
-        case tags
+		case headline
+		case description
+		case tags
 
-    }
+	}
 
 }
 
@@ -59,40 +59,40 @@ extension JobDetailsSections {
 
 extension JobDetailsSections {
 
-    enum SectionItem: DataSourceSectionItem {
+	enum SectionItem: DataSourceSectionItem {
 
-        case jobTitle(String)
-        case description(String)
-        case companyName(String)
-        case tag(String)
+		case jobTitle(String)
+		case description(String)
+		case companyName(String)
+		case tag(String)
 
-        init(tag: String) {
-            self = .tag(tag)
-        }
+		init(tag: String) {
+			self = .tag(tag)
+		}
 
-        init(jobTitle: String) {
-            self = .jobTitle(jobTitle)
-        }
+		init(jobTitle: String) {
+			self = .jobTitle(jobTitle)
+		}
 
-        init(description: String) {
-            self = .description(description)
-        }
+		init(description: String) {
+			self = .description(description)
+		}
 
-        init(companyName: String) {
-            self = .companyName(companyName)
-        }
+		init(companyName: String) {
+			self = .companyName(companyName)
+		}
 
-        var section: SectionModel {
-            switch self {
-            case .description:
-                return .description
-            case .tag:
-                return .tags
-            default:
-                return .headline
-            }
-        }
+		var section: SectionModel {
+			switch self {
+			case .description:
+				return .description
+			case .tag:
+				return .tags
+			default:
+				return .headline
+			}
+		}
 
-    }
+	}
 
 }

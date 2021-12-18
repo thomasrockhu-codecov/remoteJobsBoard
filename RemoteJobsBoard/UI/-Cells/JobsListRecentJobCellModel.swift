@@ -1,9 +1,9 @@
 import Foundation
 
 protocol JobsListRecentJobCellModel {
-
-    var recentJobCellJobTitle: String { get }
-    var recentJobCellCompanyName: String { get }
-    var recentJobCellPublicationDate: String { get }
-
+	
+	var recentJobCellJobTitle: String { get }
+	var recentJobCellCompanyName: String { get }
+	var recentJobCellPublicationDate: String { get }
+	
 }

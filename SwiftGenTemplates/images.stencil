@@ -10,11 +10,11 @@ import UIKit
 {% macro casesBlock assets %}
   {% for asset in assets %}
   {% if asset.type == "image" %}
-    static var {{asset.name|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords}}: UIImage { Asset(name: "{{asset.value}}").image }
+  static var {{asset.name|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords}}: UIImage { Asset(name: "{{asset.value}}").image }
   {% elif asset.items and ( forceNamespaces == "true" or asset.isNamespaced == "true" ) %}
-    enum {{asset.name|swiftIdentifier:"pretty"|escapeReservedKeywords}} {
-    {% filter indent:4 %}{% call casesBlock asset.items %}{% endfilter %}
-    }
+  enum {{asset.name|swiftIdentifier:"pretty"|escapeReservedKeywords}} {
+    {% filter indent:2 %}{% call casesBlock asset.items %}{% endfilter %}
+  }
   {% elif asset.items %}
   {% call casesBlock asset.items %}
   {% endif %}
@@ -37,14 +37,14 @@ enum {{enumName}} {
   {% if catalogs.count > 1 %}
   {% for catalog in catalogs %}
   enum {{catalog.name|swiftIdentifier:"pretty"|escapeReservedKeywords}} {
-    {% filter indent:2 %}{% call enumBlock catalog.assets %}{% endfilter %}
+    {% filter indent:1 %}{% call enumBlock catalog.assets %}{% endfilter %}
   }
   {% endfor %}
   {% else %}
   {% call enumBlock catalogs.first.assets %}
   {% endif %}
 
-    static var onError: ((Error) -> Void)?
+  static var onError: ((Error) -> Void)?
 
 }
 // swiftlint:enable let_var_whitespace superfluous_disable_command
@@ -53,19 +53,19 @@ enum {{enumName}} {
 
 private extension {{enumName}} {
 
-    struct Asset {
+  struct Asset {
 
-        let name: String
+    let name: String
 
-        var image: UIImage {
-            guard let result = UIImage(named: name) else {
-                Image.onError?(InitError.imageInit(name: name))
-                return UIImage()
-            }
-            return result
-        }
-
+    var image: UIImage {
+      guard let result = UIImage(named: name) else {
+        Image.onError?(InitError.imageInit(name: name))
+        return UIImage()
+      }
+      return result
     }
+
+  }
 
 }
 {% else %}
@@ -76,11 +76,11 @@ private extension {{enumName}} {
 
 extension Image {
 
-    enum InitError: Error {
+  enum InitError: Error {
 
-        case imageInit(name: String)
-        case sfSymbolInit(name: String)
+    case imageInit(name: String)
+    case sfSymbolInit(name: String)
 
-    }
+  }
 
 }

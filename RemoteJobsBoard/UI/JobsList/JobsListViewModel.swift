@@ -4,67 +4,67 @@ import Foundation
 
 final class JobsListViewModel: BaseViewModel<RootCoordinator.RouteModel> {
 
-    // MARK: - Properties
+	// MARK: - Properties
 
-    private let api: APIServiceType
+	private let api: APIServiceType
 
-    private let showJobDetailsRelay = ShowJobDetailsSubject()
-    private let searchTextRelay = SearchTextSubject(nil)
-    private let reloadDataRelay = ReloadDataSubject()
-    private let showNextPageRelay = NextPageSubject()
-    private let showNextSearchPageRelay = NextPageSubject()
-    private let currentPageRelay = CurrentValueRelay<Int>(1)
-    private let currentSearchPageRelay = CurrentValueRelay<Int>(1)
-    private let allJobsRelay = CurrentValueRelay<[Job]>([])
-    private let jobsLoadingFinishedRelay = PassthroughRelay<Void>()
+	private let showJobDetailsRelay = ShowJobDetailsSubject()
+	private let searchTextRelay = SearchTextSubject(nil)
+	private let reloadDataRelay = ReloadDataSubject()
+	private let showNextPageRelay = NextPageSubject()
+	private let showNextSearchPageRelay = NextPageSubject()
+	private let currentPageRelay = CurrentValueRelay<Int>(1)
+	private let currentSearchPageRelay = CurrentValueRelay<Int>(1)
+	private let allJobsRelay = CurrentValueRelay<[Job]>([])
+	private let jobsLoadingFinishedRelay = PassthroughRelay<Void>()
 
-    private let bindQueue = DispatchQueue(label: "JLVM_bindQueue", qos: .userInteractive)
+	private let bindQueue = DispatchQueue(label: "JLVM_bindQueue", qos: .userInteractive)
 
-    // MARK: - Initialization
+	// MARK: - Initialization
 
-    override init(router: Router, services: ServicesContainer) {
-        api = services.api
+	override init(router: Router, services: ServicesContainer) {
+		api = services.api
 
-        super.init(router: router, services: services)
-    }
+		super.init(router: router, services: services)
+	}
 
-    // MARK: - Base Class
+	// MARK: - Base Class
 
-    override func bind() {
-        super.bind()
+	override func bind() {
+		super.bind()
 
-        subscriptions {
-            reloadDataRelay
-                .prepend(())
-                .flatMap { [weak self] in
-                    self?.api.getJobs().catch(errorHandler: self?.errorHandler) ?? Empty().eraseToAnyPublisher()
-                }
-                .sinkValue { [weak self] jobs in
-                    guard let self = self else { return }
-                    self.jobsLoadingFinishedRelay.accept()
-                    self.currentPageRelay.accept(1)
-                    self.allJobsRelay.accept(jobs)
-                }
-            searchText
-                .map { _ in 1 }
-                .subscribe(currentSearchPageRelay)
-            showNextPageRelay
-                .withLatestFrom(currentPageRelay, resultSelector: Self.nextPageMap)
-                .subscribe(currentPageRelay)
-            showNextSearchPageRelay
-                .withLatestFrom(currentSearchPageRelay, resultSelector: Self.nextPageMap)
-                .subscribe(currentSearchPageRelay)
-        }
-    }
+		subscriptions {
+			reloadDataRelay
+				.prepend(())
+				.flatMap { [weak self] in
+					self?.api.getJobs().catch(errorHandler: self?.errorHandler) ?? Empty().eraseToAnyPublisher()
+				}
+				.sinkValue { [weak self] jobs in
+					guard let self = self else { return }
+					self.jobsLoadingFinishedRelay.accept()
+					self.currentPageRelay.accept(1)
+					self.allJobsRelay.accept(jobs)
+				}
+			searchText
+				.map { _ in 1 }
+				.subscribe(currentSearchPageRelay)
+			showNextPageRelay
+				.withLatestFrom(currentPageRelay, resultSelector: Self.nextPageMap)
+				.subscribe(currentPageRelay)
+			showNextSearchPageRelay
+				.withLatestFrom(currentSearchPageRelay, resultSelector: Self.nextPageMap)
+				.subscribe(currentSearchPageRelay)
+		}
+	}
 
-    override func bindRoutes() {
-        super.bindRoutes()
+	override func bindRoutes() {
+		super.bindRoutes()
 
-        showJobDetails
-            .map { RouteModel.showJobDetails($0) }
-            .sinkValue { [weak self] in self?.trigger($0) }
-            .store(in: subscriptions)
-    }
+		showJobDetails
+			.map { RouteModel.showJobDetails($0) }
+			.sinkValue { [weak self] in self?.trigger($0) }
+			.store(in: subscriptions)
+	}
 
 }
 
@@ -72,9 +72,9 @@ final class JobsListViewModel: BaseViewModel<RootCoordinator.RouteModel> {
 
 private extension JobsListViewModel {
 
-    static func nextPageMap(_ trigger: Void, _ currentPage: Int) -> Int {
-        currentPage + 1
-    }
+	static func nextPageMap(_ trigger: Void, _ currentPage: Int) -> Int {
+		currentPage + 1
+	}
 
 }
 
@@ -82,8 +82,8 @@ private extension JobsListViewModel {
 
 extension JobsListViewModel: JobsListViewModelType {
 
-    var inputs: JobsListViewModelTypeInputs { self }
-    var outputs: JobsListViewModelTypeOutputs { self }
+	var inputs: JobsListViewModelTypeInputs { self }
+	var outputs: JobsListViewModelTypeOutputs { self }
 
 }
 
@@ -91,11 +91,11 @@ extension JobsListViewModel: JobsListViewModelType {
 
 extension JobsListViewModel: JobsListViewModelTypeInputs {
 
-    var showJobDetails: ShowJobDetailsSubject { showJobDetailsRelay }
-    var searchText: SearchTextSubject { searchTextRelay }
-    var reloadData: ReloadDataSubject { reloadDataRelay }
-    var showNextPage: NextPageSubject { showNextPageRelay }
-    var showNextSearchPage: NextPageSubject { showNextSearchPageRelay }
+	var showJobDetails: ShowJobDetailsSubject { showJobDetailsRelay }
+	var searchText: SearchTextSubject { searchTextRelay }
+	var reloadData: ReloadDataSubject { reloadDataRelay }
+	var showNextPage: NextPageSubject { showNextPageRelay }
+	var showNextSearchPage: NextPageSubject { showNextSearchPageRelay }
 
 }
 
@@ -103,41 +103,41 @@ extension JobsListViewModel: JobsListViewModelTypeInputs {
 
 extension JobsListViewModel: JobsListViewModelTypeOutputs {
 
-    var jobsLoadingFinished: JobsLoadingFinishedSubject {
-        jobsLoadingFinishedRelay.eraseToAnyPublisher()
-    }
+	var jobsLoadingFinished: JobsLoadingFinishedSubject {
+		jobsLoadingFinishedRelay.eraseToAnyPublisher()
+	}
 
-    var jobs: JobsSubject {
-        Publishers.CombineLatest(
-            currentPageRelay,
-            allJobsRelay
-        )
-        .debounce(for: 0.1, scheduler: bindQueue)
-        .map { Array($1.prefix($0 * Constant.itemsPerPage)) }
-        .removeDuplicates()
-        .eraseToAnyPublisher()
-    }
+	var jobs: JobsSubject {
+		Publishers.CombineLatest(
+			currentPageRelay,
+			allJobsRelay
+		)
+		.debounce(for: 0.1, scheduler: bindQueue)
+		.map { Array($1.prefix($0 * Constant.itemsPerPage)) }
+		.removeDuplicates()
+		.eraseToAnyPublisher()
+	}
 
-    var searchResultJobs: JobsSubject {
-        Publishers.CombineLatest3(
-            searchText,
-            allJobsRelay,
-            currentSearchPageRelay
-        )
-        .debounce(for: 0.1, scheduler: bindQueue)
-        .map { searchText, allJobs, page -> [Job] in
-            guard let searchText = searchText?.orNil else { return [] }
-            let filtered = allJobs
-                .filter {
-                    $0.companyName.localizedCaseInsensitiveContains(searchText)
-                        || $0.title.localizedCaseInsensitiveContains(searchText)
-                }
-                .prefix(page * Constant.itemsPerPage)
-            return Array(filtered)
-        }
-        .removeDuplicates()
-        .eraseToAnyPublisher()
-    }
+	var searchResultJobs: JobsSubject {
+		Publishers.CombineLatest3(
+			searchText,
+			allJobsRelay,
+			currentSearchPageRelay
+		)
+		.debounce(for: 0.1, scheduler: bindQueue)
+		.map { searchText, allJobs, page -> [Job] in
+			guard let searchText = searchText?.orNil else { return [] }
+			let filtered = allJobs
+				.filter {
+					$0.companyName.localizedCaseInsensitiveContains(searchText)
+					|| $0.title.localizedCaseInsensitiveContains(searchText)
+				}
+				.prefix(page * Constant.itemsPerPage)
+			return Array(filtered)
+		}
+		.removeDuplicates()
+		.eraseToAnyPublisher()
+	}
 
 }
 
@@ -145,9 +145,9 @@ extension JobsListViewModel: JobsListViewModelTypeOutputs {
 
 private extension JobsListViewModel {
 
-    enum Constant {
+	enum Constant {
 
-        static let itemsPerPage = 20
-    }
+		static let itemsPerPage = 20
+	}
 
 }

@@ -4,66 +4,66 @@ import UIKit
 
 final class JobDetailsViewController: BaseCollectionViewController {
 
-    // MARK: - Properties
+	// MARK: - Properties
 
-    private let viewModel: JobDetailsViewModelType
+	private let viewModel: JobDetailsViewModelType
 
-    private lazy var dataSource = JobDetailsDataSource(viewModel: viewModel, collectionView: collectionView, services: services)
+	private lazy var dataSource = JobDetailsDataSource(viewModel: viewModel, collectionView: collectionView, services: services)
 
-    // MARK: - Properties - Views
+	// MARK: - Properties - Views
 
-    private lazy var applyButton = JobDetailsApplyButton()
+	private lazy var applyButton = JobDetailsApplyButton()
 
-    // MARK: - Properties - Base Class
+	// MARK: - Properties - Base Class
+	
+	override var backgroundColor: UIColor? {
+		Color.JobsList.background
+	}
 
-    override var backgroundColor: UIColor? {
-        Color.JobsList.background
-    }
+	// MARK: - Initialization
 
-    // MARK: - Initialization
+	init(viewModel: JobDetailsViewModelType, services: ServicesContainer) {
+		self.viewModel = viewModel
 
-    init(viewModel: JobDetailsViewModelType, services: ServicesContainer) {
-        self.viewModel = viewModel
+		super.init(services: services)
+	}
 
-        super.init(services: services)
-    }
+	// MARK: - Base Class
 
-    // MARK: - Base Class
+	override func viewDidLoad() {
+		super.viewDidLoad()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+		navigationItem.largeTitleDisplayMode = .never
+	}
 
-        navigationItem.largeTitleDisplayMode = .never
-    }
+	override func bind() {
+		super.bind()
 
-    override func bind() {
-        super.bind()
+		dataSource.bind()
+		viewModel.bind()
 
-        dataSource.bind()
-        viewModel.bind()
+		subscriptions {
+			applyButton.controlEventPublisher(for: .touchUpInside)
+				.subscribe(viewModel.inputs.applyToJob)
 
-        subscriptions {
-            applyButton.controlEventPublisher(for: .touchUpInside)
-                .subscribe(viewModel.inputs.applyToJob)
+			applyButton.publisher(for: \.bounds)
+				.map { $0.height }
+				.removeDuplicates()
+				.assign(to: \.contentInset.bottom, on: collectionView, ownership: .weak)
+		}
+	}
 
-            applyButton.publisher(for: \.bounds)
-                .map { $0.height }
-                .removeDuplicates()
-                .assign(to: \.contentInset.bottom, on: collectionView, ownership: .weak)
-        }
-    }
+	override func configureSubviews() {
+		super.configureSubviews()
 
-    override func configureSubviews() {
-        super.configureSubviews()
-
-        // Apply Button.
-        applyButton.add(to: view) {
-            $0.centerXAnchor.constraint(equalTo: $1.centerXSafeAnchor)
-            $0.widthAnchor.constraint(greaterThanOrEqualTo: $1.widthAnchor, multiplier: Constant.applyButtonWidthMultiplier)
-            $0.heightAnchor.constraint(greaterThanOrEqualToConstant: Constant.applyButtonHeight)
-            $1.bottomSafeAnchor.constraint(equalTo: $0.bottomSafeAnchor)
-        }
-    }
+		// Apply Button.
+		applyButton.add(to: view) {
+			$0.centerXAnchor.constraint(equalTo: $1.centerXSafeAnchor)
+			$0.widthAnchor.constraint(greaterThanOrEqualTo: $1.widthAnchor, multiplier: Constant.applyButtonWidthMultiplier)
+			$0.heightAnchor.constraint(greaterThanOrEqualToConstant: Constant.applyButtonHeight)
+			$1.bottomSafeAnchor.constraint(equalTo: $0.bottomSafeAnchor)
+		}
+	}
 
 }
 
@@ -71,11 +71,11 @@ final class JobDetailsViewController: BaseCollectionViewController {
 
 private extension JobDetailsViewController {
 
-    enum Constant {
+	enum Constant {
 
-        static let applyButtonWidthMultiplier: CGFloat = 0.75
-        static let applyButtonHeight: CGFloat = 56
+		static let applyButtonWidthMultiplier: CGFloat = 0.75
+		static let applyButtonHeight: CGFloat = 56
 
-    }
+	}
 
 }

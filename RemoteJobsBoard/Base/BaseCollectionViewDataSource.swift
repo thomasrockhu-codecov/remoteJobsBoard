@@ -2,77 +2,76 @@ import CombineExtensions
 import UIKit
 
 /// Base class for all collection view data sources.
-class BaseCollectionViewDataSource<Sections: DataSourceSections>:
-UICollectionViewDiffableDataSource<Sections.SectionModel, Sections.SectionItem> {
+class BaseCollectionViewDataSource<Sections: DataSourceSections>: UICollectionViewDiffableDataSource<Sections.SectionModel, Sections.SectionItem> {
 
-    // MARK: - Typealiases
+	// MARK: - Typealiases
 
-    typealias SectionItem = Sections.SectionItem
-    typealias SectionModel = Sections.SectionModel
-    typealias DataSourceSnapshot = Sections.DataSourceSnapshot
-    typealias BaseCellProvider = (UICollectionView, IndexPath, SectionItem) throws -> UICollectionViewCell
+	typealias SectionItem = Sections.SectionItem
+	typealias SectionModel = Sections.SectionModel
+	typealias DataSourceSnapshot = Sections.DataSourceSnapshot
+	typealias BaseCellProvider = (UICollectionView, IndexPath, SectionItem) throws -> UICollectionViewCell
 
-    // MARK: - Properties
+	// MARK: - Properties
 
-    let logger: LoggerServiceType
+	let logger: LoggerServiceType
 
-    weak var collectionView: UICollectionView?
+	weak var collectionView: UICollectionView?
 
-    let subscriptions = CombineCancellable()
+	let subscriptions = CombineCancellable()
 
-    var mappingQueue: DispatchQueue { mappingQueueRelay }
-    var snapshotQueue: DispatchQueue { snapshotQueueRelay }
+	var mappingQueue: DispatchQueue { mappingQueueRelay }
+	var snapshotQueue: DispatchQueue { snapshotQueueRelay }
 
-    lazy var mappingQueueRelay = DispatchQueue(label: "\(Self.self)MappingQueue", qos: .userInitiated)
-    lazy var snapshotQueueRelay = DispatchQueue(label: "\(Self.self)SnapshotQueue", qos: .userInteractive)
+	lazy var mappingQueueRelay = DispatchQueue(label: "\(Self.self)MappingQueue", qos: .userInitiated)
+	lazy var snapshotQueueRelay = DispatchQueue(label: "\(Self.self)SnapshotQueue", qos: .userInteractive)
 
-    // MARK: - Initialization
+	// MARK: - Initialization
 
-    init(collectionView: UICollectionView,
-         services: ServicesContainer,
-         cellProvider: @escaping BaseCellProvider) {
+	init(collectionView: UICollectionView,
+			 services: ServicesContainer,
+			 cellProvider: @escaping BaseCellProvider) {
 
-        self.collectionView = collectionView
-        self.logger = services.logger
+		self.collectionView = collectionView
+		self.logger = services.logger
 
-        super.init(collectionView: collectionView) { [weak logger] in
-            do {
-                return try cellProvider($0, $1, $2)
-            } catch {
-                logger?.log(error: error)
-                return nil
-            }
-        }
+		super.init(collectionView: collectionView) { [weak logger] in
+			do {
+				return try cellProvider($0, $1, $2)
+			} catch {
+				logger?.log(error: error)
+				return nil
+			}
+		}
 
-        configureCollectionView(collectionView)
-    }
+		configureCollectionView(collectionView)
+	}
 
-    // MARK: - Deinitialization
+	// MARK: - Deinitialization
 
-    deinit {
-        logger.log(deinitOf: self)
-    }
+	deinit {
+		logger.log(deinitOf: self)
+	}
 
-    // MARK: - Public
+	// MARK: - Public
 
-    func bind() {}
+	func bind() {}
 
-    /// Configures collectionView.
-    /// If you override this function, you should call `super` at some point in your implementation.
-    func configureCollectionView(_ collectionView: UICollectionView) {
-        let layout = makeCollectionViewLayout()
-        collectionView.setCollectionViewLayout(layout, animated: false)
-    }
+	/// Configures collectionView.
+	/// If you override this function, you should call `super` at some point in your implementation.
+	func configureCollectionView(_ collectionView: UICollectionView) {
+		let layout = makeCollectionViewLayout()
+		collectionView.setCollectionViewLayout(layout, animated: false)
+	}
 
-    func makeCollectionViewLayout() -> UICollectionViewLayout {
-        UICollectionViewFlowLayout()
-    }
+	func makeCollectionViewLayout() -> UICollectionViewLayout {
+		UICollectionViewFlowLayout()
+	}
 
-    /// Returns an identifier for the first item at the specified section in the collection view.
-    /// - Parameter section: The section of the item in the collection view.
-    func itemIdentifier(for section: Int) -> SectionItem? {
-        let indexPath = IndexPath(row: 0, section: section)
-        return itemIdentifier(for: indexPath)
-    }
+	/// Returns an identifier for the first item at the specified section in the collection view.
+	/// - Parameter section: The section of the item in the collection view.
+	func itemIdentifier(for section: Int) -> SectionItem? {
+		let indexPath = IndexPath(row: 0, section: section)
+		return itemIdentifier(for: indexPath)
+	}
 
 }

@@ -3,32 +3,32 @@ import XCTest
 
 final class LocalizedStringTests: XCTestCase {
 
-    // MARK: - Tests
+	// MARK: - Tests
 
-    func test_navigationTitle() throws {
-        try check(
-            LocalizedString.NavigationTitle.jobsList,
-            englishString: "Remote Jobs Board"
-        )
-    }
+	func test_navigationTitle() throws {
+		try check(
+			LocalizedString.NavigationTitle.jobsList,
+			englishString: "Remote Jobs Board"
+		)
+	}
 
-    func test_jobType() throws {
-        try check(
-            LocalizedString.JobType.contract,
-            englishString: "Contract"
-        )
-        try check(
-            LocalizedString.JobType.fullTime,
-            englishString: "Full-Time"
-        )
-    }
+	func test_jobType() throws {
+		try check(
+			LocalizedString.JobType.contract,
+			englishString: "Contract"
+		)
+		try check(
+			LocalizedString.JobType.fullTime,
+			englishString: "Full-Time"
+		)
+	}
 
-    func test_jobDetails() throws {
-        try check(
-            LocalizedString.JobDetails.applyButtonTitle,
-            englishString: "Apply on remotive.io"
-        )
-    }
+	func test_jobDetails() throws {
+		try check(
+			LocalizedString.JobDetails.applyButtonTitle,
+			englishString: "Apply on remotive.io"
+		)
+	}
 
 }
 
@@ -36,18 +36,18 @@ final class LocalizedStringTests: XCTestCase {
 
 private extension LocalizedStringTests {
 
-    func check(_ localizedString: String,
-               englishString: String) throws {
+	func check(_ localizedString: String,
+						 englishString: String) throws {
 
-        switch Locale.current.languageCode {
-        case .none:
-            throw TestError.nilLanguageCode
-        case "en":
-            if localizedString != englishString { throw TestError.wrongEnglishString }
-        default:
-            if localizedString != englishString { throw TestError.wrongNewLanguageString }
-        }
-    }
+		switch Locale.current.languageCode {
+		case .none:
+			throw TestError.nilLanguageCode
+		case "en":
+			if localizedString != englishString { throw TestError.wrongEnglishString }
+		default:
+			if localizedString != englishString { throw TestError.wrongNewLanguageString }
+		}
+	}
 
 }
 
@@ -55,12 +55,12 @@ private extension LocalizedStringTests {
 
 private extension LocalizedStringTests {
 
-    enum TestError: Error {
+	enum TestError: Error {
 
-        case nilLanguageCode
-        case wrongNewLanguageString
-        case wrongEnglishString
+		case nilLanguageCode
+		case wrongNewLanguageString
+		case wrongEnglishString
 
-    }
+	}
 
 }

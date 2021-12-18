@@ -3,38 +3,38 @@ import Foundation
 
 final class JobDetailsViewModel: BaseViewModel<RootCoordinator.RouteModel> {
 
-    // MARK: - Properties
+	// MARK: - Properties
 
-    private let outputsRelay: OutputsRelay
+	private let outputsRelay: OutputsRelay
 
-    private let inputsRelay = InputsRelay()
+	private let inputsRelay = InputsRelay()
 
-    // MARK: - Initialization
+	// MARK: - Initialization
 
-    init(job: Job, router: Router, services: ServicesContainer) {
-        outputsRelay = OutputsRelay(job: job)
+	init(job: Job, router: Router, services: ServicesContainer) {
+		outputsRelay = OutputsRelay(job: job)
 
-        super.init(router: router, services: services)
-    }
+		super.init(router: router, services: services)
+	}
 
-    // MARK: - Base Class
+	// MARK: - Base Class
 
-    override func bindRoutes() {
-        super.bindRoutes()
+	override func bindRoutes() {
+		super.bindRoutes()
 
-        let selectedLink = inputs.selectedLink
-            .map { RouteModel.webPage($0) }
-        let selectedPhoneNumber = inputs.selectedPhoneNumber
-            .map { RouteModel.phoneNumber($0) }
-        let applyToJob = inputsRelay.applyToJob
-            .withLatestFrom(outputsRelay.job) {
-                RouteModel.webPage($1.url)
-            }
+		let selectedLink = inputs.selectedLink
+			.map { RouteModel.webPage($0) }
+		let selectedPhoneNumber = inputs.selectedPhoneNumber
+			.map { RouteModel.phoneNumber($0) }
+		let applyToJob = inputsRelay.applyToJob
+			.withLatestFrom(outputsRelay.job) {
+				RouteModel.webPage($1.url)
+			}
 
-        Publishers.Merge3(selectedLink, selectedPhoneNumber, applyToJob)
-            .sinkValue { [weak self] in self?.trigger($0) }
-            .store(in: subscriptions)
-    }
+		Publishers.Merge3(selectedLink, selectedPhoneNumber, applyToJob)
+			.sinkValue { [weak self] in self?.trigger($0) }
+			.store(in: subscriptions)
+	}
 
 }
 
@@ -42,7 +42,7 @@ final class JobDetailsViewModel: BaseViewModel<RootCoordinator.RouteModel> {
 
 extension JobDetailsViewModel: JobDetailsViewModelType {
 
-    var inputs: JobDetailViewModelTypeInputs { inputsRelay }
-    var outputs: JobDetailViewModelTypeOutputs { outputsRelay }
+	var inputs: JobDetailViewModelTypeInputs { inputsRelay }
+	var outputs: JobDetailViewModelTypeOutputs { outputsRelay }
 
 }

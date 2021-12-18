@@ -2,33 +2,33 @@ import UIKit
 
 final class JobsListSearchResultsController: BaseCollectionViewController {
 
-    // MARK: - Properties
+	// MARK: - Properties
 
-    private let viewModel: JobsListViewModelType
+	private let viewModel: JobsListViewModelType
 
-    private lazy var dataSource = JobsListSearchDataSource(viewModel: viewModel, collectionView: collectionView, services: services)
+	private lazy var dataSource = JobsListSearchDataSource(viewModel: viewModel, collectionView: collectionView, services: services)
 
-    // MARK: - Properties - Base Class
+	// MARK: - Properties - Base Class
 
-    override var backgroundColor: UIColor? {
-        Color.JobsList.background
-    }
+	override var backgroundColor: UIColor? {
+		Color.JobsList.background
+	}
 
-    // MARK: - Initialization
+	// MARK: - Initialization
 
-    init(services: ServicesContainer, viewModel: JobsListViewModelType) {
-        self.viewModel = viewModel
+	init(services: ServicesContainer, viewModel: JobsListViewModelType) {
+		self.viewModel = viewModel
 
-        super.init(services: services)
-    }
+		super.init(services: services)
+	}
 
-    // MARK: - Base Class
+	// MARK: - Base Class
 
-    override func bind() {
-        super.bind()
+	override func bind() {
+		super.bind()
 
-        dataSource.bind()
-    }
+		dataSource.bind()
+	}
 
 }
 
@@ -36,9 +36,9 @@ final class JobsListSearchResultsController: BaseCollectionViewController {
 
 extension JobsListSearchResultsController: UISearchResultsUpdating {
 
-    func updateSearchResults(for searchController: UISearchController) {
-        let text = searchController.searchBar.text
-        viewModel.inputs.searchText.accept(text)
-    }
+	func updateSearchResults(for searchController: UISearchController) {
+		let text = searchController.searchBar.text
+		viewModel.inputs.searchText.accept(text)
+	}
 
 }

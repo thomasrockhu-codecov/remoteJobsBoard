@@ -4,10 +4,10 @@ import Foundation
 
 protocol JobDetailsViewModelType: AnyObject {
 
-    var inputs: JobDetailViewModelTypeInputs { get }
-    var outputs: JobDetailViewModelTypeOutputs { get }
+	var inputs: JobDetailViewModelTypeInputs { get }
+	var outputs: JobDetailViewModelTypeOutputs { get }
 
-    func bind()
+	func bind()
 
 }
 
@@ -15,13 +15,13 @@ protocol JobDetailsViewModelType: AnyObject {
 
 protocol JobDetailViewModelTypeInputs: AnyObject {
 
-    typealias SelectedLinkSubject = PassthroughRelay<URL>
-    typealias SelectedPhoneNumberSubject = PassthroughRelay<String>
-    typealias ApplyToJobSubject = PassthroughRelay<Void>
+	typealias SelectedLinkSubject = PassthroughRelay<URL>
+	typealias SelectedPhoneNumberSubject = PassthroughRelay<String>
+	typealias ApplyToJobSubject = PassthroughRelay<Void>
 
-    var selectedLink: SelectedLinkSubject { get }
-    var selectedPhoneNumber: SelectedPhoneNumberSubject { get }
-    var applyToJob: ApplyToJobSubject { get }
+	var selectedLink: SelectedLinkSubject { get }
+	var selectedPhoneNumber: SelectedPhoneNumberSubject { get }
+	var applyToJob: ApplyToJobSubject { get }
 
 }
 
@@ -29,8 +29,8 @@ protocol JobDetailViewModelTypeInputs: AnyObject {
 
 protocol JobDetailViewModelTypeOutputs: AnyObject {
 
-    typealias JobSubject = AnyPublisher<Job, Never>
+	typealias JobSubject = AnyPublisher<Job, Never>
 
-    var job: JobSubject { get }
+	var job: JobSubject { get }
 
 }

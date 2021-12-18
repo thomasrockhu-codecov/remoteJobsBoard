@@ -2,29 +2,29 @@ import UIKit
 
 final class JobDetailsApplyButton: UIButton {
 
-    // MARK: - Typealiases
+	// MARK: - Typealiases
 
-    private typealias Color = RemoteJobsBoard.Color.ApplyButton
+	private typealias Color = RemoteJobsBoard.Color.ApplyButton
 
-    // MARK: - Initialization
+	// MARK: - Initialization
 
-    convenience init() {
-        self.init(type: .system)
+	convenience init() {
+		self.init(type: .system)
 
-        commonInit()
-    }
+		commonInit()
+	}
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+	override init(frame: CGRect) {
+		super.init(frame: frame)
 
-        commonInit()
-    }
+		commonInit()
+	}
 
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
+	required init?(coder: NSCoder) {
+		super.init(coder: coder)
 
-        commonInit()
-    }
+		commonInit()
+	}
 
 }
 
@@ -32,20 +32,20 @@ final class JobDetailsApplyButton: UIButton {
 
 private extension JobDetailsApplyButton {
 
-    func commonInit() {
-        setTitle(LocalizedString.JobDetails.applyButtonTitle, for: .normal)
-        tintColor = Color.tintColor
-        backgroundColor = Color.backgroundColor
-        layer.cornerRadius = Constant.cornerRadius
-        titleLabel?.font = .preferredFont(forTextStyle: .title3)
+	func commonInit() {
+		setTitle(LocalizedString.JobDetails.applyButtonTitle, for: .normal)
+		tintColor = Color.tintColor
+		backgroundColor = Color.backgroundColor
+		layer.cornerRadius = Constant.cornerRadius
+		titleLabel?.font = .preferredFont(forTextStyle: .title3)
 
-        contentEdgeInsets = UIEdgeInsets(
-            top: Constant.verticalContentEdgeInset,
-            left: Constant.horizontalContentEdgeInset,
-            bottom: Constant.verticalContentEdgeInset,
-            right: Constant.horizontalContentEdgeInset
-        )
-    }
+		contentEdgeInsets = UIEdgeInsets(
+			top: Constant.verticalContentEdgeInset,
+			left: Constant.horizontalContentEdgeInset,
+			bottom: Constant.verticalContentEdgeInset,
+			right: Constant.horizontalContentEdgeInset
+		)
+	}
 
 }
 
@@ -53,12 +53,12 @@ private extension JobDetailsApplyButton {
 
 private extension JobDetailsApplyButton {
 
-    enum Constant {
+	enum Constant {
 
-        static let cornerRadius: CGFloat = 8
-        static let horizontalContentEdgeInset: CGFloat = 16
-        static let verticalContentEdgeInset: CGFloat = 4
+		static let cornerRadius: CGFloat = 8
+		static let horizontalContentEdgeInset: CGFloat = 16
+		static let verticalContentEdgeInset: CGFloat = 4
 
-    }
+	}
 
 }
