@@ -80,7 +80,7 @@ final class JobsListViewModelTests: BaseViewModelTest {
 		]
 
 		var counter = 0
-		viewModel.outputs.searchResultJobs
+		viewModel.searchResultsOutputs.searchResultJobs
 			.sink {
 				switch counter {
 				case 0, 4:
@@ -106,33 +106,36 @@ final class JobsListViewModelTests: BaseViewModelTest {
 		viewModel.bind()
 		wait(for: [expectations[0]], timeout: Constant.waitTimeout)
 
-		viewModel.inputs.searchText.accept(Constant.searchText1)
+		viewModel.searchResultsInputs.searchText.accept(Constant.searchText1)
 		wait(for: [expectations[1]], timeout: Constant.waitTimeout)
 
-		viewModel.inputs.showNextSearchPage.accept()
+		viewModel.searchResultsInputs.showNextSearchPage.accept()
 		wait(for: [expectations[2]], timeout: Constant.waitTimeout)
 
-		viewModel.inputs.searchText.accept(Constant.searchText2)
+		viewModel.searchResultsInputs.searchText.accept(Constant.searchText2)
 		wait(for: [expectations[3]], timeout: Constant.waitTimeout)
 
-		viewModel.inputs.searchText.accept(Constant.searchText3)
+		viewModel.searchResultsInputs.searchText.accept(Constant.searchText3)
 		wait(for: [expectations[4]], timeout: Constant.waitTimeout)
 
-		viewModel.inputs.searchText.accept("")
-		viewModel.inputs.searchText.accept(nil)
+		viewModel.searchResultsInputs.searchText.accept("")
+		viewModel.searchResultsInputs.searchText.accept(nil)
 
 		sleep(1)
 	}
 
-	func test_route() throws {
+	// MARK: - Tests - Route
+
+	func test_route_showJobDetails() throws {
 		viewModel.bind()
+		sleep(1)
 
-		let showJobDetailsExpectation = expectation(description: "showJobDetailsExpectation")
+		let showJobDetailsExpectation = expectation(description: Constant.showJobDetailsExpectation)
 
-		let webPageExpectation = expectation(description: "webPageExpectation")
+		let webPageExpectation = expectation(description: Constant.webPageExpectation)
 		webPageExpectation.isInverted = true
 
-		let phoneNumberExpectation = expectation(description: "phoneNumberExpectation")
+		let phoneNumberExpectation = expectation(description: Constant.phoneNumberExpectation)
 		phoneNumberExpectation.isInverted = true
 
 		coordinator.showJobDetailsExpectation = showJobDetailsExpectation
@@ -145,6 +148,33 @@ final class JobsListViewModelTests: BaseViewModelTest {
 		viewModel.inputs.showJobDetails.accept(job)
 		wait(for: [showJobDetailsExpectation], timeout: Constant.waitTimeout)
 		XCTAssertEqual(coordinator.latestRoute, .showJobDetails(job))
+
+		wait(for: [webPageExpectation, phoneNumberExpectation], timeout: Constant.waitTimeout)
+	}
+
+	func test_route_showCategoryJobs() throws {
+		viewModel.bind()
+		sleep(1)
+
+		let showCategoryJobsExpectation = expectation(description: Constant.showCategoryJobsExpectation)
+
+		let webPageExpectation = expectation(description: Constant.webPageExpectation)
+		webPageExpectation.isInverted = true
+
+		let phoneNumberExpectation = expectation(description: Constant.phoneNumberExpectation)
+		phoneNumberExpectation.isInverted = true
+
+		coordinator.showCategoryJobsExpectation = showCategoryJobsExpectation
+		coordinator.webPageExpectation = webPageExpectation
+		coordinator.phoneNumberExpectation = phoneNumberExpectation
+
+		XCTAssertEqual(coordinator.latestRoute, .initial)
+
+		viewModel.inputs.showCategoryJobs.accept(.softwareDevelopment)
+		wait(for: [showCategoryJobsExpectation], timeout: Constant.waitTimeout)
+
+		let jobs = try getMockJSONFullJobs().filter { $0.category == .softwareDevelopment }
+		XCTAssertEqual(coordinator.latestRoute, .showCategoryJobs(category: .softwareDevelopment, jobs: jobs))
 
 		wait(for: [webPageExpectation, phoneNumberExpectation], timeout: Constant.waitTimeout)
 	}
@@ -179,6 +209,11 @@ private extension JobsListViewModelTests {
 		static let searchText1 = "QA"
 		static let searchText2 = "Software"
 		static let searchText3 = "No results search text 🤔"
+
+		static let webPageExpectation = "webPageExpectation"
+		static let phoneNumberExpectation = "phoneNumberExpectation"
+		static let showCategoryJobsExpectation = "showCategoryJobsExpectation"
+		static let showJobDetailsExpectation = "showJobDetailsExpectation"
 
 	}
 

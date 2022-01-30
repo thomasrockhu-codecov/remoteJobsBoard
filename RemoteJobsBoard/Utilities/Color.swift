@@ -9,6 +9,10 @@ enum Color {
     static var backgroundColor: UIColor { Asset(name: "ApplyButton/backgroundColor").color }
     static var tintColor: UIColor { Asset(name: "ApplyButton/tintColor").color }
   }
+  enum CategoryCell {
+    static var background: UIColor { Asset(name: "CategoryCell/background").color }
+    static var categoryTitleTextColor: UIColor { Asset(name: "CategoryCell/categoryTitleTextColor").color }
+  }
   enum CompanyNameCell {
     static var companyNameTextColor: UIColor { Asset(name: "CompanyNameCell/companyNameTextColor").color }
   }

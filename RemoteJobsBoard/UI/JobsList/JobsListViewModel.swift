@@ -2,23 +2,33 @@ import Combine
 import CombineExtensions
 import Foundation
 
-final class JobsListViewModel: BaseViewModel<RootCoordinator.RouteModel> {
+final class JobsListViewModel: BaseViewModel<RootCoordinator.RouteModel>, JobsListViewModelTypeInputs, JobsListSearchResultsViewModelTypeInputs {
 
 	// MARK: - Properties
 
 	private let api: APIServiceType
 
-	private let showJobDetailsRelay = ShowJobDetailsSubject()
-	private let searchTextRelay = SearchTextSubject(nil)
-	private let reloadDataRelay = ReloadDataSubject()
-	private let showNextPageRelay = NextPageSubject()
-	private let showNextSearchPageRelay = NextPageSubject()
 	private let currentPageRelay = CurrentValueRelay<Int>(1)
 	private let currentSearchPageRelay = CurrentValueRelay<Int>(1)
 	private let allJobsRelay = CurrentValueRelay<[Job]>([])
 	private let jobsLoadingFinishedRelay = PassthroughRelay<Void>()
 
-	private let bindQueue = DispatchQueue(label: "JLVM_bindQueue", qos: .userInteractive)
+	private let bindQueue = DispatchQueue(
+		label: String(describing: JobsListViewModel.self) + "BindQueue",
+		qos: .userInteractive
+	)
+
+	// MARK: - Properties - JobsListViewModelTypeInputs
+
+	let showJobDetails = ShowJobDetailsSubject()
+	let reloadData = ReloadDataSubject()
+	let showNextPage = NextPageSubject()
+	let showCategoryJobs = ShowCategoryJobsSubject()
+
+	// MARK: - Properties - JobsListSearchResultsViewModelTypeInputs
+
+	let showNextSearchPage = NextPageSubject()
+	let searchText = SearchTextSubject(nil)
 
 	// MARK: - Initialization
 
@@ -34,24 +44,19 @@ final class JobsListViewModel: BaseViewModel<RootCoordinator.RouteModel> {
 		super.bind()
 
 		subscriptions {
-			reloadDataRelay
+			reloadData
 				.prepend(())
 				.flatMap { [weak self] in
 					self?.api.getJobs().catch(errorHandler: self?.errorHandler) ?? Empty().eraseToAnyPublisher()
 				}
-				.sinkValue { [weak self] jobs in
-					guard let self = self else { return }
-					self.jobsLoadingFinishedRelay.accept()
-					self.currentPageRelay.accept(1)
-					self.allJobsRelay.accept(jobs)
-				}
+				.sinkValue { [weak self] in self?.handleDataReload(with: $0) }
 			searchText
 				.map { _ in 1 }
 				.subscribe(currentSearchPageRelay)
-			showNextPageRelay
+			showNextPage
 				.withLatestFrom(currentPageRelay, resultSelector: Self.nextPageMap)
 				.subscribe(currentPageRelay)
-			showNextSearchPageRelay
+			showNextSearchPage
 				.withLatestFrom(currentSearchPageRelay, resultSelector: Self.nextPageMap)
 				.subscribe(currentSearchPageRelay)
 		}
@@ -60,10 +65,12 @@ final class JobsListViewModel: BaseViewModel<RootCoordinator.RouteModel> {
 	override func bindRoutes() {
 		super.bindRoutes()
 
-		showJobDetails
-			.map { RouteModel.showJobDetails($0) }
-			.sinkValue { [weak self] in self?.trigger($0) }
-			.store(in: subscriptions)
+		Publishers.Merge(
+			showJobDetails.map { RouteModel.showJobDetails($0) },
+			showCategoryJobs.withLatestFrom(allJobsRelay, resultSelector: Self.showCategoryJobsRoute)
+		)
+		.sinkValue { [weak self] in self?.trigger($0) }
+		.store(in: subscriptions)
 	}
 
 }
@@ -72,8 +79,34 @@ final class JobsListViewModel: BaseViewModel<RootCoordinator.RouteModel> {
 
 private extension JobsListViewModel {
 
+	static func showCategoryJobsRoute(for category: Job.Category, with jobs: [Job]) -> RouteModel {
+		let jobs = jobs.filter { $0.category == category }
+		return .showCategoryJobs(category: category, jobs: jobs)
+	}
+
 	static func nextPageMap(_ trigger: Void, _ currentPage: Int) -> Int {
 		currentPage + 1
+	}
+
+	static func jobCategories(from jobs: [Job]) -> [Job.Category] {
+		Array(Set(jobs.map({ $0.category }))).sorted()
+	}
+
+	static func searchResultJobs(from allJobs: [Job], filteredBy searchText: String?, page: Int) -> [Job] {
+		guard let searchText = searchText?.orNil else { return [] }
+		let filtered = allJobs
+			.filter {
+				$0.companyName.localizedCaseInsensitiveContains(searchText)
+				|| $0.title.localizedCaseInsensitiveContains(searchText)
+			}
+			.prefix(page * Constant.itemsPerPage)
+		return Array(filtered)
+	}
+
+	func handleDataReload(with jobs: [Job]) {
+		jobsLoadingFinishedRelay.accept()
+		currentPageRelay.accept(1)
+		allJobsRelay.accept(jobs)
 	}
 
 }
@@ -87,24 +120,19 @@ extension JobsListViewModel: JobsListViewModelType {
 
 }
 
-// MARK: - JobsListViewModelTypeInputs
-
-extension JobsListViewModel: JobsListViewModelTypeInputs {
-
-	var showJobDetails: ShowJobDetailsSubject { showJobDetailsRelay }
-	var searchText: SearchTextSubject { searchTextRelay }
-	var reloadData: ReloadDataSubject { reloadDataRelay }
-	var showNextPage: NextPageSubject { showNextPageRelay }
-	var showNextSearchPage: NextPageSubject { showNextSearchPageRelay }
-
-}
-
 // MARK: - JobsListViewModelTypeOutputs
 
 extension JobsListViewModel: JobsListViewModelTypeOutputs {
 
 	var jobsLoadingFinished: JobsLoadingFinishedSubject {
 		jobsLoadingFinishedRelay.eraseToAnyPublisher()
+	}
+
+	var jobCategories: JobCategoriesSubject {
+		jobs
+			.map(Self.jobCategories)
+			.removeDuplicates()
+			.eraseToAnyPublisher()
 	}
 
 	var jobs: JobsSubject {
@@ -118,23 +146,29 @@ extension JobsListViewModel: JobsListViewModelTypeOutputs {
 		.eraseToAnyPublisher()
 	}
 
+}
+
+// MARK: - JobsListSearchResultsViewModelType
+
+extension JobsListViewModel: JobsListSearchResultsViewModelType {
+
+	var searchResultsInputs: JobsListSearchResultsViewModelTypeInputs { self }
+	var searchResultsOutputs: JobsListSearchResultsViewModelTypeOutputs { self }
+
+}
+
+// MARK: - JobsListSearchResultsViewModelTypeOutputs
+
+extension JobsListViewModel: JobsListSearchResultsViewModelTypeOutputs {
+
 	var searchResultJobs: JobsSubject {
 		Publishers.CombineLatest3(
-			searchText,
 			allJobsRelay,
+			searchText,
 			currentSearchPageRelay
 		)
 		.debounce(for: 0.1, scheduler: bindQueue)
-		.map { searchText, allJobs, page -> [Job] in
-			guard let searchText = searchText?.orNil else { return [] }
-			let filtered = allJobs
-				.filter {
-					$0.companyName.localizedCaseInsensitiveContains(searchText)
-					|| $0.title.localizedCaseInsensitiveContains(searchText)
-				}
-				.prefix(page * Constant.itemsPerPage)
-			return Array(filtered)
-		}
+		.map(Self.searchResultJobs)
 		.removeDuplicates()
 		.eraseToAnyPublisher()
 	}

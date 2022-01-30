@@ -39,6 +39,11 @@ final class RootCoordinator: BaseNavigationCoordinator<RootCoordinator.RouteMode
 			}
 			UIApplication.shared.open(url)
 			return .none()
+		case let .showCategoryJobs(category: category, jobs: jobs):
+			let viewModel = JobCategoryJobsListViewModel(category: category, jobs: jobs, router: weakRouter, services: services)
+			let searchResultsController = JobsListSearchResultsController(services: services, viewModel: viewModel)
+			let viewController = JobCategoryJobsListViewController(viewModel: viewModel, services: services, searchResultsController: searchResultsController)
+			return .push(viewController)
 		}
 	}
 
@@ -52,6 +57,7 @@ extension RootCoordinator {
 
 		case initial
 		case showJobDetails(Job)
+		case showCategoryJobs(category: Job.Category, jobs: [Job])
 		case webPage(URL)
 		case phoneNumber(String)
 

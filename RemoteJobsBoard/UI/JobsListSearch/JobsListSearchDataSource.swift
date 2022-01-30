@@ -4,11 +4,11 @@ final class JobsListSearchDataSource: BaseCollectionViewDataSource<JobsListSearc
 
 	// MARK: - Properties
 
-	private let viewModel: JobsListViewModelType
+	private let viewModel: JobsListSearchResultsViewModelType
 
 	// MARK: - Initialization
 
-	init(viewModel: JobsListViewModelType, collectionView: UICollectionView, services: ServicesContainer) {
+	init(viewModel: JobsListSearchResultsViewModelType, collectionView: UICollectionView, services: ServicesContainer) {
 		self.viewModel = viewModel
 
 		super.init(collectionView: collectionView, services: services) {
@@ -41,7 +41,7 @@ final class JobsListSearchDataSource: BaseCollectionViewDataSource<JobsListSearc
 	override func bind() {
 		super.bind()
 
-		viewModel.outputs.searchResultJobs
+		viewModel.searchResultsOutputs.searchResultJobs
 			.subscribe(on: mappingQueue)
 			.map { JobsListSearchSections(jobs: $0).snapshot }
 			.receive(on: snapshotQueue)
@@ -55,7 +55,7 @@ final class JobsListSearchDataSource: BaseCollectionViewDataSource<JobsListSearc
 				case .none:
 					self.logger.log(error: CommonError.unexpectedItemIdentifier)
 				case .job(let job):
-					self.viewModel.inputs.showJobDetails.accept(job)
+					self.viewModel.searchResultsInputs.showJobDetails.accept(job)
 				}
 			}
 			.store(in: subscriptions)
@@ -66,7 +66,7 @@ final class JobsListSearchDataSource: BaseCollectionViewDataSource<JobsListSearc
 				let rowToTrigger = collectionView.numberOfItems(inSection: 0) - Constant.itemPaginationOffset
 				return indexPath.row == rowToTrigger ? () : nil
 			}
-			.subscribe(viewModel.inputs.showNextSearchPage)
+			.subscribe(viewModel.searchResultsInputs.showNextSearchPage)
 			.store(in: subscriptions)
 	}
 

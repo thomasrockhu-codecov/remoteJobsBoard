@@ -16,15 +16,14 @@ protocol JobsListViewModelType: AnyObject {
 protocol JobsListViewModelTypeInputs: AnyObject {
 	
 	typealias ShowJobDetailsSubject = PassthroughRelay<Job>
-	typealias SearchTextSubject = CurrentValueRelay<String?>
 	typealias ReloadDataSubject = PassthroughRelay<Void>
+	typealias ShowCategoryJobsSubject = PassthroughRelay<Job.Category>
 	typealias NextPageSubject = PassthroughRelay<Void>
 	
 	var showJobDetails: ShowJobDetailsSubject { get }
-	var searchText: SearchTextSubject { get }
+	var showCategoryJobs: ShowCategoryJobsSubject { get }
 	var reloadData: ReloadDataSubject { get }
 	var showNextPage: NextPageSubject { get }
-	var showNextSearchPage: NextPageSubject { get }
 	
 }
 
@@ -33,10 +32,11 @@ protocol JobsListViewModelTypeInputs: AnyObject {
 protocol JobsListViewModelTypeOutputs: AnyObject {
 	
 	typealias JobsSubject = AnyPublisher<[Job], Never>
+	typealias JobCategoriesSubject = AnyPublisher<[Job.Category], Never>
 	typealias JobsLoadingFinishedSubject = AnyPublisher<Void, Never>
 	
 	var jobs: JobsSubject { get }
-	var searchResultJobs: JobsSubject { get }
+	var jobCategories: JobCategoriesSubject { get }
 	var jobsLoadingFinished: JobsLoadingFinishedSubject { get }
 	
 }

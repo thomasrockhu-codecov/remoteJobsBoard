@@ -4,7 +4,7 @@
 
 iOS client for [remotive.io](https://remotive.io).
 
-https://user-images.githubusercontent.com/9428706/138598961-75fcb41e-92c9-4169-933e-c7c9e3cd97b0.mp4
+https://user-images.githubusercontent.com/9428706/151434626-1939562d-f032-49d3-b2f2-5473212c92cc.mp4
 
 ## Coverage Graph
 

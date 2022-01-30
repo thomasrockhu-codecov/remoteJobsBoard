@@ -1,6 +1,6 @@
 import Foundation
 
-struct JobsListSections: DataSourceSections {
+struct JobCategoryJobsListSections: DataSourceSections {
 
 	// MARK: - Properties
 
@@ -8,19 +8,13 @@ struct JobsListSections: DataSourceSections {
 
 	// MARK: - Initialization
 
-	init(categories: [Job.Category], jobs: [Job]) {
+	init(jobs: [Job]) {
 		sections = [
-			Self.categoriesSection(categories: categories),
 			Self.jobsSection(jobs: jobs)
 		]
 	}
 
 	// MARK: - Public Methods
-
-	static func categoriesSection(categories: [Job.Category]) -> Section {
-		let items = categories.map { SectionItem.category($0) }
-		return (.categories, items)
-	}
 
 	static func jobsSection(jobs: [Job]) -> Section {
 		let items = jobs.map { SectionItem.job($0) }
@@ -31,11 +25,10 @@ struct JobsListSections: DataSourceSections {
 
 // MARK: - SectionModel
 
-extension JobsListSections {
+extension JobCategoryJobsListSections {
 
 	enum SectionModel: DataSourceSectionModel {
 
-		case categories
 		case jobs
 
 	}
@@ -44,33 +37,18 @@ extension JobsListSections {
 
 // MARK: - SectionItem
 
-extension JobsListSections {
+extension JobCategoryJobsListSections {
 
 	enum SectionItem: DataSourceSectionItem {
 
 		case job(Job)
-		case category(Job.Category)
 
 		var section: SectionModel {
 			switch self {
 			case .job:
 				return .jobs
-			case .category:
-				return .categories
 			}
 		}
-
-	}
-
-}
-
-// MARK: - Constants
-
-extension JobsListSections {
-
-	enum Constant {
-
-		static let jobsSectionIndex = 1
 
 	}
 

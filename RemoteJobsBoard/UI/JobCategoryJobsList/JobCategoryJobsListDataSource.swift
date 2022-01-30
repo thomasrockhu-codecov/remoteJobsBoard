@@ -1,15 +1,15 @@
 import Combine
 import UIKit
 
-final class JobsListDataSource: BaseCollectionViewDataSource<JobsListSections> {
+final class JobCategoryJobsListDataSource: BaseCollectionViewDataSource<JobCategoryJobsListSections> {
 
 	// MARK: - Properties
 
-	private let viewModel: JobsListViewModelType
+	private let viewModel: JobCategoryJobsListViewModelType
 
 	// MARK: - Initialization
 
-	init(viewModel: JobsListViewModelType, collectionView: UICollectionView, services: ServicesContainer) {
+	init(viewModel: JobCategoryJobsListViewModelType, collectionView: UICollectionView, services: ServicesContainer) {
 		self.viewModel = viewModel
 
 		super.init(collectionView: collectionView, services: services) {
@@ -17,10 +17,6 @@ final class JobsListDataSource: BaseCollectionViewDataSource<JobsListSections> {
 			case .job(let job):
 				let cell: JobsListRecentJobCell = try $0.dequeueReusableCell(for: $1)
 				cell.configure(with: job)
-				return cell
-			case .category(let category):
-				let cell: JobsListCategoryCell = try $0.dequeueReusableCell(for: $1)
-				cell.configure(with: category)
 				return cell
 			}
 		}
@@ -40,21 +36,17 @@ final class JobsListDataSource: BaseCollectionViewDataSource<JobsListSections> {
 		super.configureCollectionView(collectionView)
 
 		collectionView.register(cellClass: JobsListRecentJobCell.self)
-		collectionView.register(cellClass: JobsListCategoryCell.self)
 	}
 
 	override func bind() {
 		super.bind()
 
-		Publishers.CombineLatest(
-			viewModel.outputs.jobCategories,
-			viewModel.outputs.jobs
-		)
-		.subscribe(on: mappingQueue)
-		.map { JobsListSections(categories: $0, jobs: $1).snapshot }
-		.receive(on: snapshotQueue)
-		.sinkValue { [weak self] in self?.apply($0) }
-		.store(in: subscriptions)
+		viewModel.outputs.jobs
+			.subscribe(on: mappingQueue)
+			.map { JobCategoryJobsListSections(jobs: $0).snapshot }
+			.receive(on: snapshotQueue)
+			.sinkValue { [weak self] in self?.apply($0) }
+			.store(in: subscriptions)
 
 		collectionView?.didSelectItemPublisher
 			.sinkValue { [weak self] in self?.handleSelection(ofItemAt: $0) }
@@ -72,11 +64,11 @@ final class JobsListDataSource: BaseCollectionViewDataSource<JobsListSections> {
 
 // MARK: - Private Methods
 
-private extension JobsListDataSource {
+private extension JobCategoryJobsListDataSource {
 
 	func shouldTriggerNextPage(displayingCellAt indexPath: IndexPath) -> Bool {
 		guard let collectionView = collectionView else { return false }
-		let rowToTrigger = collectionView.numberOfItems(inSection: JobsListSections.Constant.jobsSectionIndex) - Constant.itemPaginationOffset
+		let rowToTrigger = collectionView.numberOfItems(inSection: Constant.jobsSectionIndex) - Constant.itemPaginationOffset
 		return indexPath.row == rowToTrigger
 	}
 
@@ -86,8 +78,6 @@ private extension JobsListDataSource {
 			logger.log(error: CommonError.unexpectedItemIdentifier)
 		case .job(let job):
 			viewModel.inputs.showJobDetails.accept(job)
-		case .category(let category):
-			viewModel.inputs.showCategoryJobs.accept(category)
 		}
 	}
 
@@ -95,7 +85,7 @@ private extension JobsListDataSource {
 
 // MARK: - Private Methods - Layout
 
-private extension JobsListDataSource {
+private extension JobCategoryJobsListDataSource {
 
 	static func layoutItem() -> NSCollectionLayoutItem {
 		let itemSize = NSCollectionLayoutSize(
@@ -112,20 +102,11 @@ private extension JobsListDataSource {
 	}
 
 	static func layoutGroup(for model: SectionItem, with item: NSCollectionLayoutItem, with environment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutGroup {
-		switch model {
-		case .category:
-			let groupSize = NSCollectionLayoutSize(
-				widthDimension: .absolute(Constant.categoryCellWidth),
-				heightDimension: .absolute(Constant.categoryCellHeight)
-			)
-			return .horizontal(layoutSize: groupSize, subitems: [item])
-		case .job:
-			let groupSize = NSCollectionLayoutSize(
-				widthDimension: layoutJobGroupWidthDimension(with: environment),
-				heightDimension: .absolute(Constant.jobCellHeight)
-			)
-			return .horizontal(layoutSize: groupSize, subitems: [item])
-		}
+		let groupSize = NSCollectionLayoutSize(
+			widthDimension: layoutJobGroupWidthDimension(with: environment),
+			heightDimension: .absolute(Constant.jobCellHeight)
+		)
+		return .horizontal(layoutSize: groupSize, subitems: [item])
 	}
 
 	static func layoutSection(for model: SectionItem, with group: NSCollectionLayoutGroup) -> NSCollectionLayoutSection {
@@ -133,14 +114,6 @@ private extension JobsListDataSource {
 		section.contentInsetsReference = .layoutMargins
 		section.contentInsets = NSDirectionalEdgeInsets(inset: Constant.contentInsets)
 		section.interGroupSpacing = Constant.contentInsets
-
-		switch model {
-		case .category:
-			section.orthogonalScrollingBehavior = .groupPaging
-		default:
-			break
-		}
-
 		return section
 	}
 
@@ -148,7 +121,7 @@ private extension JobsListDataSource {
 
 // MARK: - Constants
 
-private extension JobsListDataSource {
+private extension JobCategoryJobsListDataSource {
 
 	enum Constant {
 
@@ -160,11 +133,8 @@ private extension JobsListDataSource {
 		static let contentInsets: CGFloat = 8
 		/// `1`.
 		static let itemPaginationOffset = 1
-
-		/// `160`.
-		static let categoryCellWidth: CGFloat = 160
-		/// `100`.
-		static let categoryCellHeight: CGFloat = 100
+		/// `1`.
+		static let jobsSectionIndex = 0
 
 	}
 

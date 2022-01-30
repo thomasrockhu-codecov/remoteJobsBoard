@@ -13,7 +13,7 @@ struct Job: Hashable {
 	}()
 
 	/// Job category.
-	let category: String
+	let category: Category
 
 	/// Job title.
 	let title: String
@@ -42,7 +42,7 @@ struct Job: Hashable {
 	// MARK: - Initialization
 
 	init(apiModel: APIService.JobsResponseModel.Job) {
-		category = apiModel.category
+		category = Category(rawValue: apiModel.category)
 		title = apiModel.title
 		url = apiModel.url
 		companyName = apiModel.companyName
@@ -72,7 +72,7 @@ extension Job: JobDetailsCellsModel {
 	var jobDetailCellJobTitle: String { title }
 	var jobDetailCellDescription: String { description }
 	var jobDetailCellCompanyName: String { companyName }
-	var jobDetailCellCategory: String { category }
+	var jobDetailCellCategory: String { category.rawValue }
 	var jobDetailCellPublicationDate: String { Self.publicationDateFormatter.string(from: publicationDate) }
 	var jobDetailCellJobType: String? { type?.localizedTitle }
 	var jobDetailCellLocation: String? { location }

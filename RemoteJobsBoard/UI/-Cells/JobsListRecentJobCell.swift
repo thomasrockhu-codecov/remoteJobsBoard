@@ -4,7 +4,7 @@ final class JobsListRecentJobCell: BaseCollectionViewCell {
 
 	// MARK: - Typealiases
 
-	typealias Color = RemoteJobsBoard.Color.RecentJobCell
+	private typealias Color = RemoteJobsBoard.Color.RecentJobCell
 
 	// MARK: - Properties
 

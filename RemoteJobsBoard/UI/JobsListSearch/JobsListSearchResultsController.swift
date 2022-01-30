@@ -4,7 +4,7 @@ final class JobsListSearchResultsController: BaseCollectionViewController {
 
 	// MARK: - Properties
 
-	private let viewModel: JobsListViewModelType
+	private let viewModel: JobsListSearchResultsViewModelType
 
 	private lazy var dataSource = JobsListSearchDataSource(viewModel: viewModel, collectionView: collectionView, services: services)
 
@@ -16,7 +16,7 @@ final class JobsListSearchResultsController: BaseCollectionViewController {
 
 	// MARK: - Initialization
 
-	init(services: ServicesContainer, viewModel: JobsListViewModelType) {
+	init(services: ServicesContainer, viewModel: JobsListSearchResultsViewModelType) {
 		self.viewModel = viewModel
 
 		super.init(services: services)
@@ -38,7 +38,7 @@ extension JobsListSearchResultsController: UISearchResultsUpdating {
 
 	func updateSearchResults(for searchController: UISearchController) {
 		let text = searchController.searchBar.text
-		viewModel.inputs.searchText.accept(text)
+		viewModel.searchResultsInputs.searchText.accept(text)
 	}
 
 }

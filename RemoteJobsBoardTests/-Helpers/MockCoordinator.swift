@@ -7,6 +7,7 @@ final class MockCoordinator: NavigationCoordinator<RootCoordinator.RouteModel> {
 	var latestRoute: RootCoordinator.RouteModel?
 
 	var showJobDetailsExpectation: XCTestExpectation?
+	var showCategoryJobsExpectation: XCTestExpectation?
 	var phoneNumberExpectation: XCTestExpectation?
 	var webPageExpectation: XCTestExpectation?
 
@@ -26,6 +27,8 @@ final class MockCoordinator: NavigationCoordinator<RootCoordinator.RouteModel> {
 			phoneNumberExpectation?.fulfill()
 		case .webPage:
 			webPageExpectation?.fulfill()
+		case .showCategoryJobs:
+			showCategoryJobsExpectation?.fulfill()
 		}
 
 		return .none()
