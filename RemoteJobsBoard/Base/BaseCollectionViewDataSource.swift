@@ -17,7 +17,7 @@ class BaseCollectionViewDataSource<Sections: DataSourceSections>: UICollectionVi
 
 	weak var collectionView: UICollectionView?
 
-	let subscriptions = CombineCancellable()
+	let cancellable = CombineCancellable()
 
 	var mappingQueue: DispatchQueue { mappingQueueRelay }
 	var snapshotQueue: DispatchQueue { snapshotQueueRelay }

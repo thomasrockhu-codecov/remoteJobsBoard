@@ -58,19 +58,16 @@ private extension APIService {
 	func cachedResponse(for request: URLRequest, maxAge: TimeInterval? = nil) -> CachedURLResponse? {
 		guard let cachedResponse = urlCache?.cachedResponse(for: request) else { return nil }
 
-		if let maxAge = maxAge {
-			let currentDate = Date()
-			guard
-				let date = cachedResponse.userInfo?[Constant.cacheDateKey] as? Date,
-				date.distance(to: currentDate) > 0,
-				date.distance(to: currentDate) < maxAge
-			else {
-				return nil
-			}
-			return cachedResponse
-		} else {
-			return cachedResponse
+		guard let maxAge = maxAge else { return cachedResponse }
+		let currentDate = Date()
+		guard
+			let date = cachedResponse.userInfo?[Constant.cacheDateKey] as? Date,
+			date.distance(to: currentDate) > 0,
+			date.distance(to: currentDate) < maxAge
+		else {
+			return nil
 		}
+		return cachedResponse
 	}
 
 	func cache(output: Output, for request: URLRequest) {

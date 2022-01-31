@@ -1,49 +1,53 @@
 import Foundation
 
-struct JobDetailsSections: DataSourceSections {
+extension JobDetails {
 
-	// MARK: - Properties
+	struct Sections: DataSourceSections {
 
-	let sections: [Section]
+		// MARK: - Properties
 
-	// MARK: - Initialization
+		let sections: [Section]
 
-	init(job: JobDetailsCellsModel) {
-		sections = [
-			Self.headlineSection(job: job),
-			Self.tagsSection(job: job),
-			Self.descriptionSection(job: job)
-		]
-		.compactMap { $0 }
-	}
+		// MARK: - Initialization
 
-	// MARK: - Public Methods
+		init(job: JobDetailsCellsModel) {
+			sections = [
+				Self.headlineSection(job: job),
+				Self.tagsSection(job: job),
+				Self.descriptionSection(job: job)
+			]
+			.compactMap { $0 }
+		}
 
-	static func headlineSection(job: JobDetailsCellsModel) -> Section {
-		let items = [
-			SectionItem(jobTitle: job.jobDetailCellJobTitle),
-			SectionItem(companyName: job.jobDetailCellCompanyName)
-		]
-		.compactMap { $0 }
-		return (.headline, items)
-	}
+		// MARK: - Public Methods
 
-	static func tagsSection(job: JobDetailsCellsModel) -> Section? {
-		guard let tags = job.jobDetailCellTags else { return nil }
-		let items = tags.map { SectionItem.tag($0) }
-		return (.tags, items)
-	}
+		static func headlineSection(job: JobDetailsCellsModel) -> Section {
+			let items = [
+				SectionItem(jobTitle: job.jobDetailCellJobTitle),
+				SectionItem(companyName: job.jobDetailCellCompanyName)
+			]
+			.compactMap { $0 }
+			return (.headline, items)
+		}
 
-	static func descriptionSection(job: JobDetailsCellsModel) -> Section {
-		let items = [SectionItem.description(job.jobDetailCellDescription)]
-		return (.description, items)
+		static func tagsSection(job: JobDetailsCellsModel) -> Section? {
+			guard let tags = job.jobDetailCellTags else { return nil }
+			let items = tags.map { SectionItem.tag($0) }
+			return (.tags, items)
+		}
+
+		static func descriptionSection(job: JobDetailsCellsModel) -> Section {
+			let items = [SectionItem.description(job.jobDetailCellDescription)]
+			return (.description, items)
+		}
+
 	}
 
 }
 
 // MARK: - SectionModel
 
-extension JobDetailsSections {
+extension JobDetails.Sections {
 
 	enum SectionModel: DataSourceSectionModel {
 
@@ -57,7 +61,7 @@ extension JobDetailsSections {
 
 // MARK: - SectionItem
 
-extension JobDetailsSections {
+extension JobDetails.Sections {
 
 	enum SectionItem: DataSourceSectionItem {
 

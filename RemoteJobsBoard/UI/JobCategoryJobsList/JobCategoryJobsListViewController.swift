@@ -1,53 +1,61 @@
 import UIKit
 
-final class JobCategoryJobsListViewController: BaseCollectionViewController {
+extension JobCategoryJobsList {
 
-	// MARK: - Properties
+	final class ViewController: BaseCollectionViewController {
 
-	private let viewModel: JobCategoryJobsListViewModelType
-	private let searchResultsController: UIViewController
+		// MARK: - Typealiases
 
-	private lazy var dataSource = JobCategoryJobsListDataSource(viewModel: viewModel, collectionView: collectionView, services: services)
+		typealias ViewModel = JobCategoryJobsListViewModelType
 
-	// MARK: - Properties - Base Class
+		// MARK: - Properties
 
-	override var backgroundColor: UIColor? {
-		Color.JobsList.background
-	}
+		private let viewModel: ViewModel
+		private let searchResultsController: UIViewController
 
-	override var navigationItemTitle: String? {
-		viewModel.outputs.categoryName
-	}
+		private lazy var dataSource = DataSource(viewModel: viewModel, collectionView: collectionView, services: services)
 
-	// MARK: - Initialization
+		// MARK: - Properties - Base Class
 
-	init(viewModel: JobCategoryJobsListViewModelType, services: ServicesContainer, searchResultsController: UIViewController) {
-		self.viewModel = viewModel
-		self.searchResultsController = searchResultsController
+		override var backgroundColor: UIColor? {
+			Color.JobsList.background
+		}
 
-		super.init(services: services)
-	}
+		override var navigationItemTitle: String? {
+			viewModel.output.categoryName
+		}
 
-	// MARK: - Base Class
+		// MARK: - Initialization
 
-	override func viewDidLoad() {
-		super.viewDidLoad()
+		init(viewModel: ViewModel, services: ServicesContainer, searchResultsController: UIViewController) {
+			self.viewModel = viewModel
+			self.searchResultsController = searchResultsController
 
-		configureSearchController()
-	}
+			super.init(services: services)
+		}
 
-	override func bind() {
-		super.bind()
+		// MARK: - Base Class
 
-		dataSource.bind()
-		viewModel.bind()
+		override func viewDidLoad() {
+			super.viewDidLoad()
+
+			configureSearchController()
+		}
+
+		override func bind() {
+			super.bind()
+
+			dataSource.bind()
+			viewModel.bind()
+		}
+
 	}
 
 }
 
 // MARK: - Private Methods
 
-private extension JobCategoryJobsListViewController {
+private extension JobCategoryJobsList.ViewController {
 
 	func configureSearchController() {
 		let searchController = UISearchController(searchResultsController: searchResultsController)

@@ -1,75 +1,84 @@
 import UIKit
 
-final class JobDetailsDataSource: BaseCollectionViewDataSource<JobDetailsSections> {
+extension JobDetails {
 
-	// MARK: - Properties
+	final class DataSource: BaseCollectionViewDataSource<Sections> {
 
-	private let viewModel: JobDetailsViewModelType
+		// MARK: - Typealiases
 
-	// MARK: - Initialization
+		typealias ViewModel = ViewController.ViewModel
 
-	init(viewModel: JobDetailsViewModelType, collectionView: UICollectionView, services: ServicesContainer) {
-		self.viewModel = viewModel
+		// MARK: - Properties
 
-		super.init(collectionView: collectionView, services: services) {
-			switch $2 {
-			case .jobTitle(let jobTitle):
-				let cell: JobDetailsTitleCell = try $0.dequeueReusableCell(for: $1)
-				cell.configure(with: jobTitle)
-				return cell
-			case .description(let description):
-				let cell: JobDetailsDescriptionCell = try $0.dequeueReusableCell(for: $1)
-				cell.configure(with: description)
-				cell.bind(to: viewModel)
-				return cell
-			case .companyName(let companyName):
-				let cell: JobDetailsCompanyNameCell = try $0.dequeueReusableCell(for: $1)
-				cell.configure(with: companyName)
-				return cell
-			case .tag(let tag):
-				let cell: JobDetailsTagCell = try $0.dequeueReusableCell(for: $1)
-				cell.configure(with: tag)
-				return cell
+		private let viewModel: ViewModel
+
+		// MARK: - Initialization
+
+		init(viewModel: ViewModel, collectionView: UICollectionView, services: ServicesContainer) {
+			self.viewModel = viewModel
+
+			super.init(collectionView: collectionView, services: services) {
+				switch $2 {
+				case .jobTitle(let jobTitle):
+					let cell: JobDetailsTitleCell = try $0.dequeueReusableCell(for: $1)
+					cell.configure(with: jobTitle)
+					return cell
+				case .description(let description):
+					let cell: JobDetailsDescriptionCell = try $0.dequeueReusableCell(for: $1)
+					cell.configure(with: description)
+					cell.bind(to: viewModel)
+					return cell
+				case .companyName(let companyName):
+					let cell: JobDetailsCompanyNameCell = try $0.dequeueReusableCell(for: $1)
+					cell.configure(with: companyName)
+					return cell
+				case .tag(let tag):
+					let cell: JobDetailsTagCell = try $0.dequeueReusableCell(for: $1)
+					cell.configure(with: tag)
+					return cell
+				}
 			}
 		}
-	}
 
-	// MARK: - Base Class
+		// MARK: - Base Class
 
-	override func makeCollectionViewLayout() -> UICollectionViewLayout {
-		UICollectionViewCompositionalLayout { [weak self] index, environment in
-			guard let self = self else { return nil }
-			let item = self.layoutItem(for: environment, index: index)
-			let group = self.layoutGroup(with: item, index: index)
-			return self.layoutSection(with: group, index: index)
+		override func makeCollectionViewLayout() -> UICollectionViewLayout {
+			UICollectionViewCompositionalLayout { [weak self] index, environment in
+				guard let self = self else { return nil }
+				let item = self.layoutItem(for: environment, index: index)
+				let group = self.layoutGroup(with: item, index: index)
+				return self.layoutSection(with: group, index: index)
+			}
 		}
-	}
 
-	override func configureCollectionView(_ collectionView: UICollectionView) {
-		super.configureCollectionView(collectionView)
+		override func configureCollectionView(_ collectionView: UICollectionView) {
+			super.configureCollectionView(collectionView)
 
-		collectionView.register(cellClass: JobDetailsTitleCell.self)
-		collectionView.register(cellClass: JobDetailsDescriptionCell.self)
-		collectionView.register(cellClass: JobDetailsCompanyNameCell.self)
-		collectionView.register(cellClass: JobDetailsTagCell.self)
-	}
+			collectionView.register(cellClass: JobDetailsTitleCell.self)
+			collectionView.register(cellClass: JobDetailsDescriptionCell.self)
+			collectionView.register(cellClass: JobDetailsCompanyNameCell.self)
+			collectionView.register(cellClass: JobDetailsTagCell.self)
+		}
 
-	override func bind() {
-		super.bind()
+		override func bind() {
+			super.bind()
 
-		viewModel.outputs.job
-			.subscribe(on: mappingQueue)
-			.map { JobDetailsSections(job: $0).snapshot }
-			.receive(on: snapshotQueue)
-			.sinkValue { [weak self] in self?.apply($0, animatingDifferences: false) }
-			.store(in: subscriptions)
+			cancellable {
+				viewModel.output.job
+					.subscribe(on: mappingQueue)
+					.map { Sections(job: $0).snapshot }
+					.receive(on: snapshotQueue)
+					.sinkValue { [weak self] in self?.apply($0, animatingDifferences: false) }
+			}
+		}
+
 	}
 
 }
 
 // MARK: - Private Methods - Layout
 
-private extension JobDetailsDataSource {
+private extension JobDetails.DataSource {
 
 	func layoutGroup(with item: NSCollectionLayoutItem, index: Int) -> NSCollectionLayoutGroup {
 		let heightDimension: NSCollectionLayoutDimension
@@ -122,7 +131,7 @@ private extension JobDetailsDataSource {
 		}
 
 		let size = NSCollectionLayoutSize(widthDimension: widthDimension, heightDimension: heightDimension)
-		return NSCollectionLayoutItem(layoutSize: size)
+		return .init(layoutSize: size)
 	}
 
 	func layoutSection(with group: NSCollectionLayoutGroup, index: Int) -> NSCollectionLayoutSection {
@@ -137,7 +146,7 @@ private extension JobDetailsDataSource {
 
 // MARK: - Constants
 
-private extension JobDetailsDataSource {
+private extension JobDetails.DataSource {
 
 	enum Constant {
 

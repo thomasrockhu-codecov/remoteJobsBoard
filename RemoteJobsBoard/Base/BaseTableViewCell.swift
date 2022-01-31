@@ -6,7 +6,7 @@ class BaseTableViewCell: UITableViewCell {
 
 	// MARK: - Properties
 
-	private(set) var reusableSubscriptions = CombineCancellable()
+	private(set) var reusableCancellable = CombineCancellable()
 
 	// MARK: - Initialization
 
@@ -27,7 +27,7 @@ class BaseTableViewCell: UITableViewCell {
 	override func prepareForReuse() {
 		super.prepareForReuse()
 
-		reusableSubscriptions = CombineCancellable()
+		reusableCancellable = CombineCancellable()
 		reusableBind()
 	}
 

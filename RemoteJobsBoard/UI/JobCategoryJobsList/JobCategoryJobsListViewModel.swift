@@ -2,65 +2,65 @@ import Foundation
 import Combine
 import CombineExtensions
 
-final class JobCategoryJobsListViewModel: BaseViewModel<RootCoordinator.RouteModel>, JobCategoryJobsListViewModelTypeInputs, JobsListSearchResultsViewModelTypeInputs {
+extension JobCategoryJobsList {
 
-	// MARK: - Properties
+	final class ViewModel: BaseViewModel<RootCoordinator.RouteModel>, JobCategoryJobsListViewModelType, JobsSearchViewModelType, JobCategoryJobsListViewModelInput, JobsSearchViewModelInput {
 
-	private let categoryRelay: Job.Category
-	private let allJobsRelay: CurrentValueRelay<[Job]>
+		// MARK: - Properties
 
-	private let currentPageRelay = CurrentValueRelay<Int>(1)
-	private let currentSearchPageRelay = CurrentValueRelay<Int>(1)
+		private let categoryRelay: Job.Category
+		private let allJobsRelay: CurrentValueRelay<[Job]>
 
-	private let bindQueue = DispatchQueue(
-		label: String(describing: JobCategoryJobsListViewModel.self) + "BindQueue",
-		qos: .userInteractive
-	)
+		private let currentPageRelay = CurrentValueRelay<Int>(1)
+		private let currentSearchPageRelay = CurrentValueRelay<Int>(1)
 
-	// MARK: - Properties - JobCategoryJobsListViewModelTypeInputs
+		// MARK: - Properties - JobCategoryJobsListViewModelInput
 
-	let showJobDetails = ShowJobDetailsSubject()
-	let showNextPage = NextPageSubject()
+		let showJobDetails = ShowJobDetailsSubject()
+		let showNextPage = NextPageSubject()
 
-	// MARK: - Properties - JobsListSearchResultsViewModelTypeInputs
+		// MARK: - Properties - JobsSearchViewModelInput
 
-	let searchText = SearchTextSubject(nil)
-	let showNextSearchPage = NextPageSubject()
+		let searchText = SearchTextSubject(nil)
+		let showNextSearchPage = NextPageSubject()
 
-	// MARK: - Initialization
+		// MARK: - Initialization
 
-	init(category: Job.Category, jobs: [Job], router: Router, services: ServicesContainer) {
-		allJobsRelay = CurrentValueRelay(jobs)
-		categoryRelay = category
+		init(category: Job.Category, jobs: [Job], router: Router, services: ServicesContainer) {
+			allJobsRelay = CurrentValueRelay(jobs)
+			categoryRelay = category
 
-		super.init(router: router, services: services)
-	}
-
-	// MARK: - Base Class
-
-	override func bind() {
-		super.bind()
-
-		subscriptions {
-			showNextPage
-				.withLatestFrom(currentPageRelay, resultSelector: Self.nextPageMap)
-				.subscribe(currentPageRelay)
+			super.init(router: router, services: services)
 		}
-	}
 
-	override func bindRoutes() {
-		super.bindRoutes()
+		// MARK: - Base Class
 
-		showJobDetails.map { RouteModel.showJobDetails($0) }
-		.sinkValue { [weak self] in self?.trigger($0) }
-		.store(in: subscriptions)
+		override func bind() {
+			super.bind()
+
+			cancellable {
+				showNextPage
+					.withLatestFrom(currentPageRelay, resultSelector: Self.nextPageMap)
+					.subscribe(currentPageRelay)
+			}
+		}
+
+		override func bindRoutes() {
+			super.bindRoutes()
+
+			showJobDetails
+				.map { RouteModel.showJobDetails($0) }
+				.sinkValue { [weak self] in self?.trigger($0) }
+				.store(in: cancellable)
+		}
+
 	}
 
 }
 
 // MARK: - Private Methods
 
-private extension JobCategoryJobsListViewModel {
+private extension JobCategoryJobsList.ViewModel {
 
 	static func nextPageMap(_ trigger: Void, _ currentPage: Int) -> Int {
 		currentPage + 1
@@ -71,7 +71,7 @@ private extension JobCategoryJobsListViewModel {
 		let filtered = allJobs
 			.filter {
 				$0.companyName.localizedCaseInsensitiveContains(searchText)
-				|| $0.title.localizedCaseInsensitiveContains(searchText)
+					|| $0.title.localizedCaseInsensitiveContains(searchText)
 			}
 			.prefix(page * Constant.itemsPerPage)
 		return Array(filtered)
@@ -79,25 +79,16 @@ private extension JobCategoryJobsListViewModel {
 
 }
 
-// MARK: - JobCategoryJobsListViewModelType
+// MARK: - JobCategoryJobsListViewModelOutput
 
-extension JobCategoryJobsListViewModel: JobCategoryJobsListViewModelType {
-
-	var inputs: JobCategoryJobsListViewModelTypeInputs { self }
-	var outputs: JobCategoryJobsListViewModelTypeOutputs { self }
-
-}
-
-// MARK: - JobCategoryJobsListViewModelTypeOutputs
-
-extension JobCategoryJobsListViewModel: JobCategoryJobsListViewModelTypeOutputs {
+extension JobCategoryJobsList.ViewModel: JobCategoryJobsListViewModelOutput {
 
 	var jobs: JobsSubject {
 		Publishers.CombineLatest(
 			currentPageRelay,
 			allJobsRelay
 		)
-		.debounce(for: 0.1, scheduler: bindQueue)
+		.debounce(for: 0.1, scheduler: RunLoop.main)
 		.map { Array($1.prefix($0 * Constant.itemsPerPage)) }
 		.removeDuplicates()
 		.eraseToAnyPublisher()
@@ -109,20 +100,11 @@ extension JobCategoryJobsListViewModel: JobCategoryJobsListViewModelTypeOutputs 
 
 }
 
-// MARK: - JobsListSearchResultsViewModelType
+// MARK: - JobsSearchViewModelOutput
 
-extension JobCategoryJobsListViewModel: JobsListSearchResultsViewModelType {
+extension JobCategoryJobsList.ViewModel: JobsSearchViewModelOutput {
 
-	var searchResultsInputs: JobsListSearchResultsViewModelTypeInputs { self }
-	var searchResultsOutputs: JobsListSearchResultsViewModelTypeOutputs { self }
-
-}
-
-// MARK: - JobsListSearchResultsViewModelTypeOutputs
-
-extension JobCategoryJobsListViewModel: JobsListSearchResultsViewModelTypeOutputs {
-
-	var searchResultJobs: JobsSubject {
+	var searchResultJobs: SearchResultJobsSubject {
 		Publishers.CombineLatest3(
 			allJobsRelay,
 			searchText,
@@ -138,7 +120,7 @@ extension JobCategoryJobsListViewModel: JobsListSearchResultsViewModelTypeOutput
 
 // MARK: - Constants
 
-private extension JobCategoryJobsListViewModel {
+private extension JobCategoryJobsList.ViewModel {
 
 	enum Constant {
 

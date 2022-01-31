@@ -2,74 +2,82 @@ import Combine
 import CombineCocoa
 import UIKit
 
-final class JobDetailsViewController: BaseCollectionViewController {
+extension JobDetails {
 
-	// MARK: - Properties
+	final class ViewController: BaseCollectionViewController {
 
-	private let viewModel: JobDetailsViewModelType
+		// MARK: - Typealiases
 
-	private lazy var dataSource = JobDetailsDataSource(viewModel: viewModel, collectionView: collectionView, services: services)
+		typealias ViewModel = JobDetailsViewModelType
 
-	// MARK: - Properties - Views
+		// MARK: - Properties
 
-	private lazy var applyButton = JobDetailsApplyButton()
+		private let viewModel: ViewModel
 
-	// MARK: - Properties - Base Class
-	
-	override var backgroundColor: UIColor? {
-		Color.JobsList.background
-	}
+		private lazy var dataSource = DataSource(viewModel: viewModel, collectionView: collectionView, services: services)
 
-	// MARK: - Initialization
+		// MARK: - Properties - Views
 
-	init(viewModel: JobDetailsViewModelType, services: ServicesContainer) {
-		self.viewModel = viewModel
+		private lazy var applyButton = JobDetailsApplyButton()
 
-		super.init(services: services)
-	}
+		// MARK: - Properties - Base Class
 
-	// MARK: - Base Class
-
-	override func viewDidLoad() {
-		super.viewDidLoad()
-
-		navigationItem.largeTitleDisplayMode = .never
-	}
-
-	override func bind() {
-		super.bind()
-
-		dataSource.bind()
-		viewModel.bind()
-
-		subscriptions {
-			applyButton.controlEventPublisher(for: .touchUpInside)
-				.subscribe(viewModel.inputs.applyToJob)
-
-			applyButton.publisher(for: \.bounds)
-				.map { $0.height }
-				.removeDuplicates()
-				.assign(to: \.contentInset.bottom, on: collectionView, ownership: .weak)
+		override var backgroundColor: UIColor? {
+			Color.JobsList.background
 		}
-	}
 
-	override func configureSubviews() {
-		super.configureSubviews()
+		// MARK: - Initialization
 
-		// Apply Button.
-		applyButton.add(to: view) {
-			$0.centerXAnchor.constraint(equalTo: $1.centerXSafeAnchor)
-			$0.widthAnchor.constraint(greaterThanOrEqualTo: $1.widthAnchor, multiplier: Constant.applyButtonWidthMultiplier)
-			$0.heightAnchor.constraint(greaterThanOrEqualToConstant: Constant.applyButtonHeight)
-			$1.bottomSafeAnchor.constraint(equalTo: $0.bottomSafeAnchor)
+		init(viewModel: ViewModel, services: ServicesContainer) {
+			self.viewModel = viewModel
+
+			super.init(services: services)
 		}
+
+		// MARK: - Base Class
+
+		override func viewDidLoad() {
+			super.viewDidLoad()
+
+			navigationItem.largeTitleDisplayMode = .never
+		}
+
+		override func bind() {
+			super.bind()
+
+			dataSource.bind()
+			viewModel.bind()
+
+			cancellable {
+				applyButton.controlEventPublisher(for: .touchUpInside)
+					.subscribe(viewModel.input.applyToJob)
+
+				applyButton.publisher(for: \.bounds)
+					.map(\.height)
+					.removeDuplicates()
+					.assign(to: \.contentInset.bottom, on: collectionView, ownership: .weak)
+			}
+		}
+
+		override func configureSubviews() {
+			super.configureSubviews()
+
+			// Apply Button.
+			applyButton.add(to: view) {
+				$0.centerXAnchor.constraint(equalTo: $1.centerXSafeAnchor)
+				$0.widthAnchor.constraint(greaterThanOrEqualTo: $1.widthAnchor, multiplier: Constant.applyButtonWidthMultiplier)
+				$0.heightAnchor.constraint(greaterThanOrEqualToConstant: Constant.applyButtonHeight)
+				$1.bottomSafeAnchor.constraint(equalTo: $0.bottomSafeAnchor)
+			}
+		}
+
 	}
 
 }
 
 // MARK: - Constants
 
-private extension JobDetailsViewController {
+private extension JobDetails.ViewController {
 
 	enum Constant {
 

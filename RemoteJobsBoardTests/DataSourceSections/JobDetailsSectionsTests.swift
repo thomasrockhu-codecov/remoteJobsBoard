@@ -5,20 +5,21 @@ final class JobDetailsSectionsTests: XCTestCase {
 
 	// MARK: - Typealiases
 
-	fileprivate typealias SectionItem = JobDetailsSections.SectionItem
+	fileprivate typealias Sections = JobDetails.Sections
+	fileprivate typealias SectionItem = Sections.SectionItem
 
 	// MARK: - Tests
 
 	func test_descriptionSection() {
 		let job = MockJob()
-		let items = JobDetailsSections.descriptionSection(job: job).items
+		let items = Sections.descriptionSection(job: job).items
 		XCTAssertEqual(items.count, 1)
 		XCTAssertEqual(items[safe: 0], .description(Constant.description))
 	}
 
 	func test_headlineSection() {
 		let job = MockJob()
-		let items = JobDetailsSections.headlineSection(job: job).items
+		let items = Sections.headlineSection(job: job).items
 		XCTAssertEqual(items.count, 2)
 		XCTAssertEqual(items[safe: 0], .jobTitle(Constant.jobTitle))
 		XCTAssertEqual(items[safe: 1], .companyName(Constant.companyName))
@@ -54,7 +55,7 @@ final class JobDetailsSectionsTests: XCTestCase {
 
 	func test_tagsSection_full() {
 		let job = MockJob()
-		let items = JobDetailsSections.tagsSection(job: job)?.items
+		let items = Sections.tagsSection(job: job)?.items
 		XCTAssertEqual(items?.count, 5)
 		XCTAssertEqual(items?[safe: 0], .tag(Constant.category))
 		XCTAssertEqual(items?[safe: 1], .tag(Constant.jobType))
@@ -65,7 +66,7 @@ final class JobDetailsSectionsTests: XCTestCase {
 
 	func test_tagsSection_nilJobType() {
 		let job = MockJob(jobType: nil)
-		let items = JobDetailsSections.tagsSection(job: job)?.items
+		let items = Sections.tagsSection(job: job)?.items
 		XCTAssertEqual(items?.count, 4)
 		XCTAssertEqual(items?[safe: 0], .tag(Constant.category))
 		XCTAssertEqual(items?[safe: 1], .tag(Constant.salary))
@@ -75,7 +76,7 @@ final class JobDetailsSectionsTests: XCTestCase {
 
 	func test_tagsSection_nilSalary() {
 		let job = MockJob(salary: nil)
-		let items = JobDetailsSections.tagsSection(job: job)?.items
+		let items = Sections.tagsSection(job: job)?.items
 		XCTAssertEqual(items?.count, 4)
 		XCTAssertEqual(items?[safe: 0], .tag(Constant.category))
 		XCTAssertEqual(items?[safe: 1], .tag(Constant.jobType))
@@ -85,7 +86,7 @@ final class JobDetailsSectionsTests: XCTestCase {
 
 	func test_tagsSection_nilLocation() {
 		let job = MockJob(location: nil)
-		let items = JobDetailsSections.tagsSection(job: job)?.items
+		let items = Sections.tagsSection(job: job)?.items
 		XCTAssertEqual(items?.count, 4)
 		XCTAssertEqual(items?[safe: 0], .tag(Constant.category))
 		XCTAssertEqual(items?[safe: 1], .tag(Constant.jobType))
@@ -95,7 +96,7 @@ final class JobDetailsSectionsTests: XCTestCase {
 
 	func test_tagsSection_nilTags() {
 		let job = MockJob2()
-		XCTAssertNil(JobDetailsSections.tagsSection(job: job)?.items)
+		XCTAssertNil(Sections.tagsSection(job: job)?.items)
 	}
 
 }

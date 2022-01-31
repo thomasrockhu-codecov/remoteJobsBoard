@@ -2,82 +2,81 @@ import Combine
 import CombineExtensions
 import Foundation
 
-final class JobsListViewModel: BaseViewModel<RootCoordinator.RouteModel>, JobsListViewModelTypeInputs, JobsListSearchResultsViewModelTypeInputs {
+extension JobsList {
 
-	// MARK: - Properties
+	final class ViewModel: BaseViewModel<RootCoordinator.RouteModel>, JobsListViewModelType, JobsSearchViewModelType, JobsListViewModelInput, JobsSearchViewModelInput {
 
-	private let api: APIServiceType
+		// MARK: - Properties
 
-	private let currentPageRelay = CurrentValueRelay<Int>(1)
-	private let currentSearchPageRelay = CurrentValueRelay<Int>(1)
-	private let allJobsRelay = CurrentValueRelay<[Job]>([])
-	private let jobsLoadingFinishedRelay = PassthroughRelay<Void>()
+		private let api: APIServiceType
 
-	private let bindQueue = DispatchQueue(
-		label: String(describing: JobsListViewModel.self) + "BindQueue",
-		qos: .userInteractive
-	)
+		private let currentPageRelay = CurrentValueRelay<Int>(1)
+		private let currentSearchPageRelay = CurrentValueRelay<Int>(1)
+		private let allJobsRelay = CurrentValueRelay<[Job]>([])
+		private let jobsLoadingFinishedRelay = PassthroughRelay<Void>()
 
-	// MARK: - Properties - JobsListViewModelTypeInputs
+		// MARK: - Properties - JobsListViewModelInput
 
-	let showJobDetails = ShowJobDetailsSubject()
-	let reloadData = ReloadDataSubject()
-	let showNextPage = NextPageSubject()
-	let showCategoryJobs = ShowCategoryJobsSubject()
+		let showJobDetails = ShowJobDetailsSubject()
+		let reloadData = ReloadDataSubject()
+		let showNextPage = NextPageSubject()
+		let showCategoryJobs = ShowCategoryJobsSubject()
 
-	// MARK: - Properties - JobsListSearchResultsViewModelTypeInputs
+		// MARK: - Properties - JobsSearchViewModelInput
 
-	let showNextSearchPage = NextPageSubject()
-	let searchText = SearchTextSubject(nil)
+		let showNextSearchPage = NextPageSubject()
+		let searchText = SearchTextSubject(nil)
 
-	// MARK: - Initialization
+		// MARK: - Initialization
 
-	override init(router: Router, services: ServicesContainer) {
-		api = services.api
+		override init(router: Router, services: ServicesContainer) {
+			api = services.api
 
-		super.init(router: router, services: services)
-	}
-
-	// MARK: - Base Class
-
-	override func bind() {
-		super.bind()
-
-		subscriptions {
-			reloadData
-				.prepend(())
-				.flatMap { [weak self] in
-					self?.api.getJobs().catch(errorHandler: self?.errorHandler) ?? Empty().eraseToAnyPublisher()
-				}
-				.sinkValue { [weak self] in self?.handleDataReload(with: $0) }
-			searchText
-				.map { _ in 1 }
-				.subscribe(currentSearchPageRelay)
-			showNextPage
-				.withLatestFrom(currentPageRelay, resultSelector: Self.nextPageMap)
-				.subscribe(currentPageRelay)
-			showNextSearchPage
-				.withLatestFrom(currentSearchPageRelay, resultSelector: Self.nextPageMap)
-				.subscribe(currentSearchPageRelay)
+			super.init(router: router, services: services)
 		}
-	}
 
-	override func bindRoutes() {
-		super.bindRoutes()
+		// MARK: - Base Class
 
-		Publishers.Merge(
-			showJobDetails.map { RouteModel.showJobDetails($0) },
-			showCategoryJobs.withLatestFrom(allJobsRelay, resultSelector: Self.showCategoryJobsRoute)
-		)
-		.sinkValue { [weak self] in self?.trigger($0) }
-		.store(in: subscriptions)
+		override func bind() {
+			super.bind()
+
+			cancellable {
+				reloadData
+					.prepend(())
+					.flatMap { [weak self] in
+						self?.api.getJobs().catch(errorHandler: self?.errorHandler) ?? Empty().eraseToAnyPublisher()
+					}
+					.sinkValue { [weak self] in self?.handleDataReload(with: $0) }
+				searchText
+					.map { _ in 1 }
+					.subscribe(currentSearchPageRelay)
+				showNextPage
+					.withLatestFrom(currentPageRelay, resultSelector: Self.nextPageMap)
+					.subscribe(currentPageRelay)
+				showNextSearchPage
+					.withLatestFrom(currentSearchPageRelay, resultSelector: Self.nextPageMap)
+					.subscribe(currentSearchPageRelay)
+			}
+		}
+
+		override func bindRoutes() {
+			super.bindRoutes()
+
+			Publishers.Merge(
+				showJobDetails.map { RouteModel.showJobDetails($0) },
+				showCategoryJobs.withLatestFrom(allJobsRelay, resultSelector: Self.showCategoryJobsRoute)
+			)
+			.sinkValue { [weak self] in self?.trigger($0) }
+			.store(in: cancellable)
+		}
+
 	}
 
 }
 
 // MARK: - Private Methods
 
-private extension JobsListViewModel {
+private extension JobsList.ViewModel {
 
 	static func showCategoryJobsRoute(for category: Job.Category, with jobs: [Job]) -> RouteModel {
 		let jobs = jobs.filter { $0.category == category }
@@ -111,18 +110,9 @@ private extension JobsListViewModel {
 
 }
 
-// MARK: - JobsListViewModelType
+// MARK: - JobsListViewModelOutput
 
-extension JobsListViewModel: JobsListViewModelType {
-
-	var inputs: JobsListViewModelTypeInputs { self }
-	var outputs: JobsListViewModelTypeOutputs { self }
-
-}
-
-// MARK: - JobsListViewModelTypeOutputs
-
-extension JobsListViewModel: JobsListViewModelTypeOutputs {
+extension JobsList.ViewModel: JobsListViewModelOutput {
 
 	var jobsLoadingFinished: JobsLoadingFinishedSubject {
 		jobsLoadingFinishedRelay.eraseToAnyPublisher()
@@ -140,7 +130,7 @@ extension JobsListViewModel: JobsListViewModelTypeOutputs {
 			currentPageRelay,
 			allJobsRelay
 		)
-		.debounce(for: 0.1, scheduler: bindQueue)
+		.debounce(for: 0.1, scheduler: RunLoop.main)
 		.map { Array($1.prefix($0 * Constant.itemsPerPage)) }
 		.removeDuplicates()
 		.eraseToAnyPublisher()
@@ -148,26 +138,17 @@ extension JobsListViewModel: JobsListViewModelTypeOutputs {
 
 }
 
-// MARK: - JobsListSearchResultsViewModelType
+// MARK: - JobsSearchViewModelOutput
 
-extension JobsListViewModel: JobsListSearchResultsViewModelType {
+extension JobsList.ViewModel: JobsSearchViewModelOutput {
 
-	var searchResultsInputs: JobsListSearchResultsViewModelTypeInputs { self }
-	var searchResultsOutputs: JobsListSearchResultsViewModelTypeOutputs { self }
-
-}
-
-// MARK: - JobsListSearchResultsViewModelTypeOutputs
-
-extension JobsListViewModel: JobsListSearchResultsViewModelTypeOutputs {
-
-	var searchResultJobs: JobsSubject {
+	var searchResultJobs: SearchResultJobsSubject {
 		Publishers.CombineLatest3(
 			allJobsRelay,
 			searchText,
 			currentSearchPageRelay
 		)
-		.debounce(for: 0.1, scheduler: bindQueue)
+		.debounce(for: 0.1, scheduler: RunLoop.main)
 		.map(Self.searchResultJobs)
 		.removeDuplicates()
 		.eraseToAnyPublisher()
@@ -177,7 +158,7 @@ extension JobsListViewModel: JobsListSearchResultsViewModelTypeOutputs {
 
 // MARK: - Constants
 
-private extension JobsListViewModel {
+private extension JobsList.ViewModel {
 
 	enum Constant {
 

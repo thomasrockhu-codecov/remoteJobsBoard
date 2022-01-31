@@ -1,6 +1,6 @@
 import Foundation
 
-extension JobCategoryJobsList {
+extension JobsSearch {
 
 	struct Sections: DataSourceSections {
 
@@ -11,9 +11,7 @@ extension JobCategoryJobsList {
 		// MARK: - Initialization
 
 		init(jobs: [Job]) {
-			sections = [
-				Self.jobsSection(jobs: jobs)
-			]
+			sections = [Self.jobsSection(jobs: jobs)]
 		}
 
 		// MARK: - Public Methods
@@ -29,7 +27,7 @@ extension JobCategoryJobsList {
 
 // MARK: - SectionModel
 
-extension JobCategoryJobsList.Sections {
+extension JobsSearch.Sections {
 
 	enum SectionModel: DataSourceSectionModel {
 
@@ -41,7 +39,7 @@ extension JobCategoryJobsList.Sections {
 
 // MARK: - SectionItem
 
-extension JobCategoryJobsList.Sections {
+extension JobsSearch.Sections {
 
 	enum SectionItem: DataSourceSectionItem {
 

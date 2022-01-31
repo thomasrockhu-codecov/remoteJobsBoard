@@ -9,7 +9,7 @@ final class RootCoordinator: BaseNavigationCoordinator<RootCoordinator.RouteMode
 		super.init(
 			services: services,
 			initialRoute: .initial,
-			rootViewController: JobsListNavigationController()
+			rootViewController: JobsList.NavigationController()
 		)
 	}
 
@@ -18,33 +18,69 @@ final class RootCoordinator: BaseNavigationCoordinator<RootCoordinator.RouteMode
 	override func prepareTransition(for route: RouteModel) -> NavigationTransition {
 		switch route {
 		case .initial:
-			let viewModel = JobsListViewModel(router: weakRouter, services: services)
-			let searchResultsController = JobsListSearchResultsController(services: services, viewModel: viewModel)
-			let controller = JobsListViewController(services: services, viewModel: viewModel, searchResultsController: searchResultsController)
-			return .push(controller, animation: nil)
+			return initialTransition()
 		case .showJobDetails(let job):
-			let viewModel = JobDetailsViewModel(job: job, router: weakRouter, services: services)
-			let controller = JobDetailsViewController(viewModel: viewModel, services: services)
-			return .push(controller)
+			return showJobDetailsTransition(job)
 		case .webPage(let url):
-			guard UIApplication.shared.canOpenURL(url) else { return .none() }
-			UIApplication.shared.open(url)
-			return .none()
+			return webPageTransition(with: url)
 		case .phoneNumber(let phoneNumber):
-			guard
-				let url = URL(string: "tel://\(phoneNumber)"),
-				UIApplication.shared.canOpenURL(url)
-			else {
-				return .none()
-			}
-			UIApplication.shared.open(url)
-			return .none()
+			return phoneNumberTransition(with: phoneNumber)
 		case let .showCategoryJobs(category: category, jobs: jobs):
-			let viewModel = JobCategoryJobsListViewModel(category: category, jobs: jobs, router: weakRouter, services: services)
-			let searchResultsController = JobsListSearchResultsController(services: services, viewModel: viewModel)
-			let viewController = JobCategoryJobsListViewController(viewModel: viewModel, services: services, searchResultsController: searchResultsController)
-			return .push(viewController)
+			return showCategoryJobsTransition(category: category, jobs: jobs)
 		}
+	}
+
+}
+
+// MARK: - Private Methods
+
+private extension RootCoordinator {
+
+	func initialTransition() -> NavigationTransition {
+		let viewModel = JobsList.ViewModel(router: weakRouter, services: services)
+		let searchResultsController = JobsSearch.ResultsController(services: services, viewModel: viewModel)
+		let controller = JobsList.ViewController(services: services, viewModel: viewModel, searchResultsController: searchResultsController)
+		return .push(controller, animation: nil)
+	}
+
+	func showJobDetailsTransition(_ job: Job) -> NavigationTransition {
+		typealias N = JobDetails
+
+		let viewModel = N.ViewModel(job: job, router: weakRouter, services: services)
+		let controller = N.ViewController(viewModel: viewModel, services: services)
+		return .push(controller)
+	}
+
+	func webPageTransition(with url: URL) -> NavigationTransition {
+		guard UIApplication.shared.canOpenURL(url) else { return .none() }
+
+		UIApplication.shared.open(url)
+		return .none()
+	}
+
+	func phoneNumberTransition(with phoneNumber: String) -> NavigationTransition {
+		guard let url = URL(string: "tel://\(phoneNumber)"), UIApplication.shared.canOpenURL(url) else {
+			return .none()
+		}
+
+		UIApplication.shared.open(url)
+		return .none()
+	}
+
+	func showCategoryJobsTransition(category: Job.Category, jobs: [Job]) -> NavigationTransition {
+		let viewModel = JobCategoryJobsList.ViewModel(
+			category: category,
+			jobs: jobs,
+			router: weakRouter,
+			services: services
+		)
+		let searchResultsController = JobsSearch.ResultsController(services: services, viewModel: viewModel)
+		let viewController = JobCategoryJobsList.ViewController(
+			viewModel: viewModel,
+			services: services,
+			searchResultsController: searchResultsController
+		)
+		return .push(viewController)
 	}
 
 }

@@ -73,7 +73,7 @@ extension UICollectionView {
 
 // MARK: - ReusableSupplementaryViewKind
 
-public extension UICollectionView {
+extension UICollectionView {
 
 	enum ReusableSupplementaryViewKind {
 

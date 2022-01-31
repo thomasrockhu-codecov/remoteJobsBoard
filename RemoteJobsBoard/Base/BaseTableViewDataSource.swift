@@ -17,7 +17,7 @@ class BaseTableViewDataSource<Sections: DataSourceSections>: UITableViewDiffable
 
 	weak var tableView: UITableView?
 
-	let subscriptions = CombineCancellable()
+	let cancellable = CombineCancellable()
 
 	var mappingQueue: DispatchQueue { mappingQueueRelay }
 	var snapshotQueue: DispatchQueue { snapshotQueueRelay }

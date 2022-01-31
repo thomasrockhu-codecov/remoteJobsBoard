@@ -6,7 +6,7 @@ class BaseCollectionViewCell: UICollectionViewCell {
 
 	// MARK: - Properties
 
-	private(set) var reusablesubscriptions = CombineCancellable()
+	private(set) var reusableCancellable = CombineCancellable()
 
 	// MARK: - Initialization
 
@@ -27,7 +27,7 @@ class BaseCollectionViewCell: UICollectionViewCell {
 	override func prepareForReuse() {
 		super.prepareForReuse()
 
-		reusablesubscriptions = CombineCancellable()
+		reusableCancellable = CombineCancellable()
 		reusableBind()
 	}
 

@@ -2,18 +2,28 @@ import Combine
 import CombineExtensions
 import Foundation
 
-protocol JobsListViewModelType: AnyObject {
+protocol JobsListViewModelType: BaseViewModelType {
 	
-	var inputs: JobsListViewModelTypeInputs { get }
-	var outputs: JobsListViewModelTypeOutputs { get }
+	var input: JobsListViewModelInput { get }
+	var output: JobsListViewModelOutput { get }
 	
-	func bind()
-	
+}
+
+extension JobsListViewModelType where Self: JobsListViewModelInput {
+
+	var input: JobsListViewModelInput { self }
+
+}
+
+extension JobsListViewModelType where Self: JobsListViewModelOutput {
+
+	var output: JobsListViewModelOutput { self }
+
 }
 
 // MARK: - Inputs
 
-protocol JobsListViewModelTypeInputs: AnyObject {
+protocol JobsListViewModelInput: AnyObject {
 	
 	typealias ShowJobDetailsSubject = PassthroughRelay<Job>
 	typealias ReloadDataSubject = PassthroughRelay<Void>
@@ -29,7 +39,7 @@ protocol JobsListViewModelTypeInputs: AnyObject {
 
 // MARK: - Outputs
 
-protocol JobsListViewModelTypeOutputs: AnyObject {
+protocol JobsListViewModelOutput: AnyObject {
 	
 	typealias JobsSubject = AnyPublisher<[Job], Never>
 	typealias JobCategoriesSubject = AnyPublisher<[Job.Category], Never>

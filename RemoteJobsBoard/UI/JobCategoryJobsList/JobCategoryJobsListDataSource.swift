@@ -1,62 +1,68 @@
 import Combine
 import UIKit
 
-final class JobCategoryJobsListDataSource: BaseCollectionViewDataSource<JobCategoryJobsListSections> {
+extension JobCategoryJobsList {
 
-	// MARK: - Properties
+	final class DataSource: BaseCollectionViewDataSource<Sections> {
 
-	private let viewModel: JobCategoryJobsListViewModelType
+		// MARK: - Typealiases
 
-	// MARK: - Initialization
+		typealias ViewModel = ViewController.ViewModel
 
-	init(viewModel: JobCategoryJobsListViewModelType, collectionView: UICollectionView, services: ServicesContainer) {
-		self.viewModel = viewModel
+		// MARK: - Properties
 
-		super.init(collectionView: collectionView, services: services) {
-			switch $2 {
-			case .job(let job):
-				let cell: JobsListRecentJobCell = try $0.dequeueReusableCell(for: $1)
-				cell.configure(with: job)
-				return cell
+		private let viewModel: ViewModel
+
+		// MARK: - Initialization
+
+		init(viewModel: ViewModel, collectionView: UICollectionView, services: ServicesContainer) {
+			self.viewModel = viewModel
+
+			super.init(collectionView: collectionView, services: services) {
+				switch $2 {
+				case .job(let job):
+					let cell: JobsListRecentJobCell = try $0.dequeueReusableCell(for: $1)
+					cell.configure(with: job)
+					return cell
+				}
 			}
 		}
-	}
 
-	// MARK: - Base Class
+		// MARK: - Base Class
 
-	override func makeCollectionViewLayout() -> UICollectionViewLayout {
-		UICollectionViewCompositionalLayout { [weak self] index, environment in
-			guard let sectionItem = self?.itemIdentifier(for: index) else { return nil }
-			let group = Self.layoutGroup(for: sectionItem, with: Self.layoutItem(), with: environment)
-			return Self.layoutSection(for: sectionItem, with: group)
+		override func makeCollectionViewLayout() -> UICollectionViewLayout {
+			UICollectionViewCompositionalLayout { [weak self] index, environment in
+				guard let sectionItem = self?.itemIdentifier(for: index) else { return nil }
+				let group = Self.layoutGroup(for: sectionItem, with: Self.layoutItem(), with: environment)
+				return Self.layoutSection(for: sectionItem, with: group)
+			}
 		}
-	}
 
-	override func configureCollectionView(_ collectionView: UICollectionView) {
-		super.configureCollectionView(collectionView)
+		override func configureCollectionView(_ collectionView: UICollectionView) {
+			super.configureCollectionView(collectionView)
 
-		collectionView.register(cellClass: JobsListRecentJobCell.self)
-	}
+			collectionView.register(cellClass: JobsListRecentJobCell.self)
+		}
 
-	override func bind() {
-		super.bind()
+		override func bind() {
+			super.bind()
 
-		viewModel.outputs.jobs
-			.subscribe(on: mappingQueue)
-			.map { JobCategoryJobsListSections(jobs: $0).snapshot }
-			.receive(on: snapshotQueue)
-			.sinkValue { [weak self] in self?.apply($0) }
-			.store(in: subscriptions)
+			guard let collectionView = collectionView else { return }
 
-		collectionView?.didSelectItemPublisher
-			.sinkValue { [weak self] in self?.handleSelection(ofItemAt: $0) }
-			.store(in: subscriptions)
-
-		collectionView?.willDisplayCellPublisher
-			.filter { [weak self] in self?.shouldTriggerNextPage(displayingCellAt: $1) ?? false }
-			.map { _ in () }
-			.subscribe(viewModel.inputs.showNextPage)
-			.store(in: subscriptions)
+			cancellable {
+				viewModel.output.jobs
+					.subscribe(on: mappingQueue)
+					.map { Sections(jobs: $0).snapshot }
+					.receive(on: snapshotQueue)
+					.sinkValue { [weak self] in self?.apply($0) }
+				collectionView.didSelectItemPublisher
+					.sinkValue { [weak self] in self?.handleSelection(ofItemAt: $0) }
+				collectionView.willDisplayCellPublisher
+					.filter { [weak self] in self?.shouldTriggerNextPage(displayingCellAt: $1) ?? false }
+					.map { _ in () }
+					.subscribe(viewModel.input.showNextPage)
+			}
+		}
 
 	}
 
@@ -64,7 +70,7 @@ final class JobCategoryJobsListDataSource: BaseCollectionViewDataSource<JobCateg
 
 // MARK: - Private Methods
 
-private extension JobCategoryJobsListDataSource {
+private extension JobCategoryJobsList.DataSource {
 
 	func shouldTriggerNextPage(displayingCellAt indexPath: IndexPath) -> Bool {
 		guard let collectionView = collectionView else { return false }
@@ -77,7 +83,7 @@ private extension JobCategoryJobsListDataSource {
 		case .none:
 			logger.log(error: CommonError.unexpectedItemIdentifier)
 		case .job(let job):
-			viewModel.inputs.showJobDetails.accept(job)
+			viewModel.input.showJobDetails.accept(job)
 		}
 	}
 
@@ -85,14 +91,14 @@ private extension JobCategoryJobsListDataSource {
 
 // MARK: - Private Methods - Layout
 
-private extension JobCategoryJobsListDataSource {
+private extension JobCategoryJobsList.DataSource {
 
 	static func layoutItem() -> NSCollectionLayoutItem {
 		let itemSize = NSCollectionLayoutSize(
 			widthDimension: .fractionalWidth(1),
 			heightDimension: .fractionalHeight(1)
 		)
-		return NSCollectionLayoutItem(layoutSize: itemSize)
+		return .init(layoutSize: itemSize)
 	}
 
 	static func layoutJobGroupWidthDimension(with environment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutDimension {
@@ -121,7 +127,7 @@ private extension JobCategoryJobsListDataSource {
 
 // MARK: - Constants
 
-private extension JobCategoryJobsListDataSource {
+private extension JobCategoryJobsList.DataSource {
 
 	enum Constant {
 

@@ -37,7 +37,7 @@ extension UITableView {
 
 // MARK: - Headers/Footers Register & Dequeue
 
-public extension UITableView {
+extension UITableView {
 
 	/// Registers a class for use in creating new table header or footer views.
 	/// - Parameter headerFooterClass: The class of a header/footer that you want to use

@@ -4,85 +4,93 @@ import CombineExtensions
 import UIKit
 import WebKit
 
-final class JobsListViewController: BaseCollectionViewController {
+extension JobsList {
 
-	// MARK: - Properties
+	final class ViewController: BaseCollectionViewController {
 
-	private let viewModel: JobsListViewModelType
-	private let searchResultsController: UIViewController
+		// MARK: - Typealiases
 
-	private lazy var dataSource = JobsListDataSource(viewModel: viewModel, collectionView: collectionView, services: services)
+		typealias ViewModel = JobsListViewModelType
 
-	// MARK: - Properties - Views
+		// MARK: - Properties
 
-	private lazy var activityIndicator = UIActivityIndicatorView(style: .large)
-	private lazy var refreshControl = UIRefreshControl()
+		private let viewModel: ViewModel
+		private let searchResultsController: UIViewController
 
-	// MARK: - Properties - Base Class
+		private lazy var dataSource = DataSource(viewModel: viewModel, collectionView: collectionView, services: services)
 
-	override var backgroundColor: UIColor? {
-		Color.JobsList.background
-	}
+		// MARK: - Properties - Views
 
-	override var navigationItemTitle: String? {
-		LocalizedString.NavigationTitle.jobsList
-	}
+		private lazy var activityIndicator = UIActivityIndicatorView(style: .large)
+		private lazy var refreshControl = UIRefreshControl()
 
-	// MARK: - Initialization
+		// MARK: - Properties - Base Class
 
-	init(services: ServicesContainer, viewModel: JobsListViewModelType, searchResultsController: UIViewController) {
-		self.viewModel = viewModel
-		self.searchResultsController = searchResultsController
-
-		super.init(services: services)
-	}
-
-	// MARK: - Base Class
-
-	override func bind() {
-		super.bind()
-
-		dataSource.bind()
-		viewModel.bind()
-
-		let isJobsEmpty = viewModel.outputs.jobs
-			.map { $0.isEmpty }
-			.removeDuplicates()
-			.receive(on: DispatchQueue.main)
-			.share(replay: 1)
-
-		subscriptions {
-			isJobsEmpty
-				.sinkValue { [weak activityIndicator] in
-					$0 ? activityIndicator?.startAnimating() : activityIndicator?.stopAnimating()
-				}
-			isJobsEmpty
-				.map { [weak searchResultsController] isEmpty -> UISearchController? in
-					guard !isEmpty else { return nil }
-					let searchController = UISearchController(searchResultsController: searchResultsController)
-					searchController.searchResultsUpdater = searchResultsController as? UISearchResultsUpdating
-					return searchController
-				}
-				.assign(to: \.searchController, on: navigationItem, ownership: .weak)
-			viewModel.outputs.jobsLoadingFinished
-				.receive(on: DispatchQueue.main)
-				.sinkValue { [weak refreshControl] in
-					refreshControl?.endRefreshing()
-				}
-			refreshControl.controlEventPublisher(for: .valueChanged)
-				.subscribe(viewModel.inputs.reloadData)
+		override var backgroundColor: UIColor? {
+			Color.JobsList.background
 		}
-	}
 
-	override func configureSubviews() {
-		super.configureSubviews()
+		override var navigationItemTitle: String? {
+			LocalizedString.NavigationTitle.jobsList
+		}
 
-		// Activity Indicator.
-		activityIndicator.hidesWhenStopped = true
-		collectionView.backgroundView = activityIndicator
+		// MARK: - Initialization
 
-		// Refresh Control.
-		collectionView.refreshControl = refreshControl
+		init(services: ServicesContainer, viewModel: ViewModel, searchResultsController: UIViewController) {
+			self.viewModel = viewModel
+			self.searchResultsController = searchResultsController
+
+			super.init(services: services)
+		}
+
+		// MARK: - Base Class
+
+		override func bind() {
+			super.bind()
+
+			dataSource.bind()
+			viewModel.bind()
+
+			let isJobsEmpty = viewModel.output.jobs
+				.map { $0.isEmpty }
+				.removeDuplicates()
+				.receive(on: DispatchQueue.main)
+				.share(replay: 1)
+
+			cancellable {
+				isJobsEmpty
+					.sinkValue { [weak activityIndicator] in
+						$0 ? activityIndicator?.startAnimating() : activityIndicator?.stopAnimating()
+					}
+				isJobsEmpty
+					.map { [weak searchResultsController] isEmpty -> UISearchController? in
+						guard !isEmpty else { return nil }
+						let searchController = UISearchController(searchResultsController: searchResultsController)
+						searchController.searchResultsUpdater = searchResultsController as? UISearchResultsUpdating
+						return searchController
+					}
+					.assign(to: \.searchController, on: navigationItem, ownership: .weak)
+				viewModel.output.jobsLoadingFinished
+					.receive(on: DispatchQueue.main)
+					.sinkValue { [weak refreshControl] in
+						refreshControl?.endRefreshing()
+					}
+				refreshControl.controlEventPublisher(for: .valueChanged)
+					.subscribe(viewModel.input.reloadData)
+			}
+		}
+
+		override func configureSubviews() {
+			super.configureSubviews()
+
+			// Activity Indicator.
+			activityIndicator.hidesWhenStopped = true
+			collectionView.backgroundView = activityIndicator
+
+			// Refresh Control.
+			collectionView.refreshControl = refreshControl
+		}
+
 	}
 
 }

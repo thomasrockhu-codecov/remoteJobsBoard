@@ -8,7 +8,7 @@ class BaseTableViewController: UITableViewController {
 
 	let services: ServicesContainer
 
-	let subscriptions = CombineCancellable()
+	let cancellable = CombineCancellable()
 
 	var navigationItemTitle: String? { nil }
 	var backgroundColor: UIColor? { .systemBackground }

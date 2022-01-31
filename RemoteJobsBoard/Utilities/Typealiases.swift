@@ -1,4 +1,4 @@
 import Combine
 import Foundation
 
-public typealias ErrorHandler = (Error) -> Void
+typealias ErrorHandler = (Error) -> Void

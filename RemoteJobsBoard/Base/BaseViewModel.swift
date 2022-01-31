@@ -15,7 +15,7 @@ class BaseViewModel<RouteModel: Route> {
 	let logger: LoggerServiceType
 	let router: Router
 
-	let subscriptions = CombineCancellable()
+	let cancellable = CombineCancellable()
 
 	lazy var errorHandler: ErrorHandler = { [weak self] in
 		self?.log(error: $0)

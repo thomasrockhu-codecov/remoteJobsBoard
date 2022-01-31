@@ -2,18 +2,28 @@ import Combine
 import CombineExtensions
 import Foundation
 
-protocol JobDetailsViewModelType: AnyObject {
+protocol JobDetailsViewModelType: BaseViewModelType {
 
-	var inputs: JobDetailViewModelTypeInputs { get }
-	var outputs: JobDetailViewModelTypeOutputs { get }
+	var input: JobDetailViewModelInput { get }
+	var output: JobDetailViewModelOutput { get }
 
-	func bind()
+}
+
+extension JobDetailsViewModelType where Self: JobDetailViewModelInput {
+
+	var input: JobDetailViewModelInput { self }
+
+}
+
+extension JobDetailsViewModelType where Self: JobDetailViewModelOutput {
+
+	var output: JobDetailViewModelOutput { self }
 
 }
 
 // MARK: - Inputs
 
-protocol JobDetailViewModelTypeInputs: AnyObject {
+protocol JobDetailViewModelInput: AnyObject {
 
 	typealias SelectedLinkSubject = PassthroughRelay<URL>
 	typealias SelectedPhoneNumberSubject = PassthroughRelay<String>
@@ -27,7 +37,7 @@ protocol JobDetailViewModelTypeInputs: AnyObject {
 
 // MARK: - Outputs
 
-protocol JobDetailViewModelTypeOutputs: AnyObject {
+protocol JobDetailViewModelOutput: AnyObject {
 
 	typealias JobSubject = AnyPublisher<Job, Never>
 

@@ -1,48 +1,51 @@
 import Combine
+import CombineExtensions
 import Foundation
 
-final class JobDetailsViewModel: BaseViewModel<RootCoordinator.RouteModel> {
+extension JobDetails {
 
-	// MARK: - Properties
+	final class ViewModel: BaseViewModel<RootCoordinator.RouteModel>, JobDetailsViewModelType, JobDetailViewModelInput {
 
-	private let outputsRelay: OutputsRelay
+		// MARK: - Properties
 
-	private let inputsRelay = InputsRelay()
+		private let jobRelay: CurrentValueRelay<Job>
 
-	// MARK: - Initialization
+		// MARK: - Properties - JobDetailViewModelInput
 
-	init(job: Job, router: Router, services: ServicesContainer) {
-		outputsRelay = OutputsRelay(job: job)
+		let selectedLink = SelectedLinkSubject()
+		let selectedPhoneNumber = SelectedPhoneNumberSubject()
+		let applyToJob = ApplyToJobSubject()
 
-		super.init(router: router, services: services)
-	}
+		// MARK: - Initialization
 
-	// MARK: - Base Class
+		init(job: Job, router: Router, services: ServicesContainer) {
+			jobRelay = CurrentValueRelay(job)
 
-	override func bindRoutes() {
-		super.bindRoutes()
+			super.init(router: router, services: services)
+		}
 
-		let selectedLink = inputs.selectedLink
-			.map { RouteModel.webPage($0) }
-		let selectedPhoneNumber = inputs.selectedPhoneNumber
-			.map { RouteModel.phoneNumber($0) }
-		let applyToJob = inputsRelay.applyToJob
-			.withLatestFrom(outputsRelay.job) {
-				RouteModel.webPage($1.url)
-			}
+		// MARK: - Base Class
 
-		Publishers.Merge3(selectedLink, selectedPhoneNumber, applyToJob)
+		override func bindRoutes() {
+			super.bindRoutes()
+
+			Publishers.Merge3(
+				input.selectedLink.map { RouteModel.webPage($0) },
+				input.selectedPhoneNumber.map { RouteModel.phoneNumber($0) },
+				applyToJob.withLatestFrom(jobRelay) { RouteModel.webPage($1.url) }
+			)
 			.sinkValue { [weak self] in self?.trigger($0) }
-			.store(in: subscriptions)
+			.store(in: cancellable)
+		}
+
 	}
 
 }
 
-// MARK: - JobsListViewModelType
+// MARK: - JobDetailViewModelOutput
 
-extension JobDetailsViewModel: JobDetailsViewModelType {
+extension JobDetails.ViewModel: JobDetailViewModelOutput {
 
-	var inputs: JobDetailViewModelTypeInputs { inputsRelay }
-	var outputs: JobDetailViewModelTypeOutputs { outputsRelay }
-
+	var job: JobSubject { jobRelay.eraseToAnyPublisher() }
+	
 }

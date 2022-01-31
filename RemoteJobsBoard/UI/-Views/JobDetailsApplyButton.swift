@@ -33,18 +33,17 @@ final class JobDetailsApplyButton: UIButton {
 private extension JobDetailsApplyButton {
 
 	func commonInit() {
-		setTitle(LocalizedString.JobDetails.applyButtonTitle, for: .normal)
-		tintColor = Color.tintColor
-		backgroundColor = Color.backgroundColor
-		layer.cornerRadius = Constant.cornerRadius
-		titleLabel?.font = .preferredFont(forTextStyle: .title3)
+		var attributedTitle = AttributedString(LocalizedString.JobDetails.applyButtonTitle)
+		attributedTitle.font = .preferredFont(forTextStyle: .title3)
+		attributedTitle.foregroundColor = Color.tintColor
 
-		contentEdgeInsets = UIEdgeInsets(
-			top: Constant.verticalContentEdgeInset,
-			left: Constant.horizontalContentEdgeInset,
-			bottom: Constant.verticalContentEdgeInset,
-			right: Constant.horizontalContentEdgeInset
-		)
+		var configuration = UIButton.Configuration.filled()
+		configuration.baseBackgroundColor = Color.backgroundColor
+		configuration.cornerStyle = .medium
+		configuration.attributedTitle = .init(attributedTitle)
+		configuration.contentInsets = .init(vertical: Constant.verticalInset, horizontal: Constant.horizontalInset)
+
+		self.configuration = configuration
 	}
 
 }
@@ -55,9 +54,8 @@ private extension JobDetailsApplyButton {
 
 	enum Constant {
 
-		static let cornerRadius: CGFloat = 8
-		static let horizontalContentEdgeInset: CGFloat = 16
-		static let verticalContentEdgeInset: CGFloat = 4
+		static let horizontalInset: CGFloat = 16
+		static let verticalInset: CGFloat = 4
 
 	}
 

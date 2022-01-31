@@ -4,9 +4,13 @@ import XCTest
 
 final class JobsListViewModelTests: BaseViewModelTest {
 
+	// MARK: - Typealiases
+
+	fileprivate typealias ViewModel = JobsList.ViewModel
+
 	// MARK: - Properties
 
-	private var viewModel: JobsListViewModel!
+	private var viewModel: ViewModel!
 	private var coordinator: MockCoordinator!
 
 	// MARK: - Base Class
@@ -15,7 +19,7 @@ final class JobsListViewModelTests: BaseViewModelTest {
 		super.setUp()
 
 		coordinator = MockCoordinator()
-		viewModel = JobsListViewModel(router: coordinator.weakRouter, services: services)
+		viewModel = ViewModel(router: coordinator.weakRouter, services: services)
 	}
 
 	// MARK: - Tests
@@ -32,7 +36,7 @@ final class JobsListViewModelTests: BaseViewModelTest {
 		]
 
 		var counter = 0
-		viewModel.outputs.jobs
+		viewModel.output.jobs
 			.sink {
 				switch counter {
 				case 0:
@@ -55,13 +59,13 @@ final class JobsListViewModelTests: BaseViewModelTest {
 		viewModel.bind()
 		wait(for: [expectations[0], expectations[1]], timeout: Constant.waitTimeout)
 
-		viewModel.inputs.showNextPage.accept()
+		viewModel.input.showNextPage.accept()
 		wait(for: [expectations[2]], timeout: Constant.waitTimeout)
 
-		viewModel.inputs.showNextPage.accept()
+		viewModel.input.showNextPage.accept()
 		wait(for: [expectations[3]], timeout: Constant.waitTimeout)
 
-		viewModel.inputs.reloadData.accept()
+		viewModel.input.reloadData.accept()
 		wait(for: [expectations[4]], timeout: Constant.waitTimeout)
 	}
 
@@ -80,7 +84,7 @@ final class JobsListViewModelTests: BaseViewModelTest {
 		]
 
 		var counter = 0
-		viewModel.searchResultsOutputs.searchResultJobs
+		viewModel.searchResultsOutput.searchResultJobs
 			.sink {
 				switch counter {
 				case 0, 4:
@@ -106,20 +110,20 @@ final class JobsListViewModelTests: BaseViewModelTest {
 		viewModel.bind()
 		wait(for: [expectations[0]], timeout: Constant.waitTimeout)
 
-		viewModel.searchResultsInputs.searchText.accept(Constant.searchText1)
+		viewModel.searchResultsInput.searchText.accept(Constant.searchText1)
 		wait(for: [expectations[1]], timeout: Constant.waitTimeout)
 
-		viewModel.searchResultsInputs.showNextSearchPage.accept()
+		viewModel.searchResultsInput.showNextSearchPage.accept()
 		wait(for: [expectations[2]], timeout: Constant.waitTimeout)
 
-		viewModel.searchResultsInputs.searchText.accept(Constant.searchText2)
+		viewModel.searchResultsInput.searchText.accept(Constant.searchText2)
 		wait(for: [expectations[3]], timeout: Constant.waitTimeout)
 
-		viewModel.searchResultsInputs.searchText.accept(Constant.searchText3)
+		viewModel.searchResultsInput.searchText.accept(Constant.searchText3)
 		wait(for: [expectations[4]], timeout: Constant.waitTimeout)
 
-		viewModel.searchResultsInputs.searchText.accept("")
-		viewModel.searchResultsInputs.searchText.accept(nil)
+		viewModel.searchResultsInput.searchText.accept("")
+		viewModel.searchResultsInput.searchText.accept(nil)
 
 		sleep(1)
 	}
@@ -145,7 +149,7 @@ final class JobsListViewModelTests: BaseViewModelTest {
 		XCTAssertEqual(coordinator.latestRoute, .initial)
 
 		let job = try getMockJSONFullJobs()[0]
-		viewModel.inputs.showJobDetails.accept(job)
+		viewModel.input.showJobDetails.accept(job)
 		wait(for: [showJobDetailsExpectation], timeout: Constant.waitTimeout)
 		XCTAssertEqual(coordinator.latestRoute, .showJobDetails(job))
 
@@ -170,7 +174,7 @@ final class JobsListViewModelTests: BaseViewModelTest {
 
 		XCTAssertEqual(coordinator.latestRoute, .initial)
 
-		viewModel.inputs.showCategoryJobs.accept(.softwareDevelopment)
+		viewModel.input.showCategoryJobs.accept(.softwareDevelopment)
 		wait(for: [showCategoryJobsExpectation], timeout: Constant.waitTimeout)
 
 		let jobs = try getMockJSONFullJobs().filter { $0.category == .softwareDevelopment }

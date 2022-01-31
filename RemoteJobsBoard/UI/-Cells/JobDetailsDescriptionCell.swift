@@ -66,9 +66,9 @@ extension JobDetailsDescriptionCell {
 	}
 
 	func bind(to viewModel: JobDetailsViewModelType) {
-		reusablesubscriptions {
-			selectedLink.subscribe(viewModel.inputs.selectedLink)
-			selectedPhoneNumber.subscribe(viewModel.inputs.selectedPhoneNumber)
+		reusableCancellable {
+			selectedLink.subscribe(viewModel.input.selectedLink)
+			selectedPhoneNumber.subscribe(viewModel.input.selectedPhoneNumber)
 		}
 	}
 

@@ -1,21 +1,31 @@
 import Combine
 import Foundation
 
-protocol JobCategoryJobsListViewModelType: AnyObject {
+protocol JobCategoryJobsListViewModelType: BaseViewModelType {
 
-	var inputs: JobCategoryJobsListViewModelTypeInputs { get }
-	var outputs: JobCategoryJobsListViewModelTypeOutputs { get }
+	var input: JobCategoryJobsListViewModelInput { get }
+	var output: JobCategoryJobsListViewModelOutput { get }
 
-	func bind()
+}
+
+extension JobCategoryJobsListViewModelType where Self: JobCategoryJobsListViewModelInput {
+
+	var input: JobCategoryJobsListViewModelInput { self }
+
+}
+
+extension JobCategoryJobsListViewModelType where Self: JobCategoryJobsListViewModelOutput {
+
+	var output: JobCategoryJobsListViewModelOutput { self }
 
 }
 
 // MARK: - Inputs
 
-protocol JobCategoryJobsListViewModelTypeInputs: AnyObject {
+protocol JobCategoryJobsListViewModelInput: AnyObject {
 
-	typealias ShowJobDetailsSubject = JobsListViewModelTypeInputs.ShowJobDetailsSubject
-	typealias NextPageSubject = JobsListViewModelTypeInputs.NextPageSubject
+	typealias ShowJobDetailsSubject = JobsListViewModelInput.ShowJobDetailsSubject
+	typealias NextPageSubject = JobsListViewModelInput.NextPageSubject
 
 	var showJobDetails: ShowJobDetailsSubject { get }
 	var showNextPage: NextPageSubject { get }
@@ -24,9 +34,9 @@ protocol JobCategoryJobsListViewModelTypeInputs: AnyObject {
 
 // MARK: - Outputs
 
-protocol JobCategoryJobsListViewModelTypeOutputs: AnyObject {
+protocol JobCategoryJobsListViewModelOutput: AnyObject {
 
-	typealias JobsSubject = JobsListViewModelTypeOutputs.JobsSubject
+	typealias JobsSubject = JobsListViewModelOutput.JobsSubject
 
 	var jobs: JobsSubject { get }
 	var categoryName: String { get }

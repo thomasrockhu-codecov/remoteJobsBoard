@@ -1,37 +1,41 @@
 import Foundation
 
-struct JobsListSections: DataSourceSections {
+extension JobsList {
 
-	// MARK: - Properties
+	struct Sections: DataSourceSections {
 
-	let sections: [Section]
+		// MARK: - Properties
 
-	// MARK: - Initialization
+		let sections: [Section]
 
-	init(categories: [Job.Category], jobs: [Job]) {
-		sections = [
-			Self.categoriesSection(categories: categories),
-			Self.jobsSection(jobs: jobs)
-		]
-	}
+		// MARK: - Initialization
 
-	// MARK: - Public Methods
+		init(categories: [Job.Category], jobs: [Job]) {
+			sections = [
+				Self.categoriesSection(categories: categories),
+				Self.jobsSection(jobs: jobs)
+			]
+		}
 
-	static func categoriesSection(categories: [Job.Category]) -> Section {
-		let items = categories.map { SectionItem.category($0) }
-		return (.categories, items)
-	}
+		// MARK: - Public Methods
 
-	static func jobsSection(jobs: [Job]) -> Section {
-		let items = jobs.map { SectionItem.job($0) }
-		return (.jobs, items)
+		static func categoriesSection(categories: [Job.Category]) -> Section {
+			let items = categories.map { SectionItem.category($0) }
+			return (.categories, items)
+		}
+
+		static func jobsSection(jobs: [Job]) -> Section {
+			let items = jobs.map { SectionItem.job($0) }
+			return (.jobs, items)
+		}
+
 	}
 
 }
 
 // MARK: - SectionModel
 
-extension JobsListSections {
+extension JobsList.Sections {
 
 	enum SectionModel: DataSourceSectionModel {
 
@@ -44,7 +48,7 @@ extension JobsListSections {
 
 // MARK: - SectionItem
 
-extension JobsListSections {
+extension JobsList.Sections {
 
 	enum SectionItem: DataSourceSectionItem {
 
@@ -66,7 +70,7 @@ extension JobsListSections {
 
 // MARK: - Constants
 
-extension JobsListSections {
+extension JobsList.Sections {
 
 	enum Constant {
 
