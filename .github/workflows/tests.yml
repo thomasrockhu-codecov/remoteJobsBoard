@@ -42,7 +42,7 @@ jobs:
     - name: Run poc
       run: |
         npm install
-        node ./generate-codecov-json.js --archive-path ./RemoteJobsBoard/
+        node ./generate-codecov-json.js --archive-path ./foo.xcresult/
 
     - name: Upload Coverage to CodeCov
       uses: codecov/codecov-action@v3
