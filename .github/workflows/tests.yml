@@ -28,17 +28,9 @@ jobs:
       with:
         xcode-version: '13.2'
 
-    - name: Xcodebuild Action
-      uses: sersoft-gmbh/xcodebuild-action@v1
-      with:
-        action: test
-        project: RemoteJobsBoard.xcodeproj
-        resultBundlePath: foo.xcresult
-        scheme: RemoteJobsBoard
-        sdk: ${{ matrix.sdk }}
-        destination: "${{ matrix.destination }}"
-        enable-code-coverage: true
-        use-xcpretty: true
+    - name: Run xcodebuild
+      run: |
+        xcodebuild -project RemoteJobsBoard.xcodeproj -scheme RemoteJobsBoard -destination "${{ matrix.destination }}" -resultBundlePath foo.xcresult -enableCodeCoverage YES -sdk ${{ matrix.sdk }} test
 
     - name: Run poc
       run: |
