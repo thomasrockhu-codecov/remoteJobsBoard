@@ -40,7 +40,9 @@ jobs:
         use-xcpretty: true
 
     - name: Run poc
-      run: node ./generate-codecov-json.js
+      run: |
+        npm install
+        node ./generate-codecov-json.js
 
     - name: Upload Coverage to CodeCov
       uses: codecov/codecov-action@v3
