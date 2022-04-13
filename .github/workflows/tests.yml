@@ -33,6 +33,7 @@ jobs:
       with:
         action: test
         project: RemoteJobsBoard.xcodeproj
+        resultBundlePath: foo.xcresult
         scheme: RemoteJobsBoard
         sdk: ${{ matrix.sdk }}
         destination: "${{ matrix.destination }}"
