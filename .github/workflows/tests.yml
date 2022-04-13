@@ -39,5 +39,8 @@ jobs:
         enable-code-coverage: true
         use-xcpretty: true
 
+    - name: Run poc
+      run: node ./generate-codecov-json.js
+
     - name: Upload Coverage to CodeCov
       uses: codecov/codecov-action@v3
