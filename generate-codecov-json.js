@@ -6,10 +6,13 @@ const { log } = console
 
 const archivePath = argv['archive-path']
 const prefix = argv.prefix
+console.log('prefix')
+console.log(prefix)
 
 const report = { coverage: {} }
 
 getFileList(archivePath).forEach(file => {
+  console.log(`Converting ${file}...`)
   const coverageInfo = getCoverageInfo(file)
   const coverageJson = convertCoverage(coverageInfo)
   const repoFilePath = file.replace(prefix, '')
